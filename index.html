@@ -126,6 +126,17 @@ body{background:var(--bg1);font-family:'Lexend',sans-serif;font-weight:700;color
 <script>
 var PARS={10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:5};
 var FIRST_HOLE=10,LAST_HOLE=18;
+function startGPS(cb){
+  if(!navigator.geolocation){cb(null,'GPS not supported');return;}
+  if(_gpsPos){cb(_gpsPos,null);return;}
+  navigator.geolocation.getCurrentPosition(
+    function(pos){_gpsPos={lat:pos.coords.latitude,lng:pos.coords.longitude};cb(_gpsPos,null);},
+    function(err){cb(null,err.message||'GPS unavailable');},
+    {enableHighAccuracy:true,timeout:8000,maximumAge:10000}
+  );
+}
+
+
 function syncCourse(){
   if(S&&S.course&&S.course.pars){
     var nine=S.course.nine||'back';
@@ -232,8 +243,51 @@ syncCourse();
 function sid(id){return String(id);}
 function wolfFor(h){
   if(h<=FIRST_HOLE)return null;
-  var id=S.wolfOrder[(h-FIRST_HOLE-1)%S.wolfOrder.length];
-  return id!=null?sid(id):null;
+  var is5=S.players.length===5;
+  var gameHole=h-FIRST_HOLE; // 1-indexed game hole (hole 11 = gameHole 1)
+
+  if(is5){
+    // 5-player Wolf rules:
+    // Game holes 1-5: strict rotation — each player wolves exactly once in prelim order
+    // Game holes 6+: merit-based — best scorer on prior hole is Wolf
+    if(gameHole<=5){
+      // Strict rotation — use prelim order index directly
+      var id=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
+      return id!=null?sid(id):null;
+    } else {
+      // Merit-based: best scorer on prior hole becomes Wolf
+      var prevHole=h-1;
+      var prevData=S.holes[prevHole];
+      if(prevData&&prevData.scores){
+        var scores=prevData.scores;
+        var best=null;var bestScore=99;
+        S.wolfOrder.forEach(function(pid){
+          var sc=scores[sid(pid)];
+          if(sc&&sc>0&&sc<bestScore){bestScore=sc;best=pid;}
+        });
+        if(best!=null)return sid(best);
+      }
+      // Fallback to rotation if prior hole not yet scored
+      var id2=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
+      return id2!=null?sid(id2):null;
+    }
+  } else {
+    // 4-player: always merit-based after prelim
+    var prevHole2=h-1;
+    var prevData2=S.holes[prevHole2];
+    if(prevData2&&prevData2.scores){
+      var scores2=prevData2.scores;
+      var best2=null;var bestScore2=99;
+      S.wolfOrder.forEach(function(pid){
+        var sc=scores2[sid(pid)];
+        if(sc&&sc>0&&sc<bestScore2){bestScore2=sc;best2=pid;}
+      });
+      if(best2!=null)return sid(best2);
+    }
+    // Fallback to rotation
+    var id3=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
+    return id3!=null?sid(id3):null;
+  }
 }
 function pById(id){return S.players.filter(function(p){return sid(p.id)===sid(id);})[0]||null;}
 function pIdx(id){for(var i=0;i<S.players.length;i++)if(sid(S.players[i].id)===sid(id))return i;return 0;}
@@ -699,7 +753,7 @@ function renderSetup(app){
     {name:'Congressional Country Club (Blue)',city:'Bethesda, MD',pars:{1:4,2:4,3:3,4:4,5:5,6:4,7:4,8:3,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
     {name:'Riviera Country Club',city:'Pacific Palisades, CA',pars:{1:5,2:4,3:4,4:3,5:4,6:4,7:4,8:4,9:4,10:4,11:4,12:4,13:3,14:4,15:4,16:3,17:5,18:4}},
     {name:'Bel-Air Country Club',city:'Los Angeles, CA',pars:{1:4,2:4,3:4,4:4,5:3,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:4,15:4,16:3,17:5,18:4}},
-    {name:'Los Lagos Golf Course',city:'Costa Mesa, CA',pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:5,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:5}},
+    {name:'Los Lagos Golf Course',city:'Costa Mesa, CA',pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:5,8:4,9:5,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5}},
     {name:'Pelican Hill Golf Club (Ocean North)',city:'Newport Coast, CA',pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:3,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:4,16:4,17:3,18:4}},
     {name:'Pelican Hill Golf Club (Ocean South)',city:'Newport Coast, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:3,8:4,9:4,10:4,11:4,12:4,13:3,14:5,15:4,16:3,17:4,18:4}},
     {name:'Newport Beach Country Club',city:'Newport Beach, CA',pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
