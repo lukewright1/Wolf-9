@@ -51,31 +51,51 @@ input,button,select,textarea{font-family:inherit;font-weight:inherit;}
 }
 body{background:var(--bg1);font-family:'Lexend',sans-serif;font-weight:700;color:var(--tx0);min-height:100vh;}
 .app-shell{max-width:430px;margin:0 auto;padding:0;}
-.app{padding:16px 16px 40px;}
+.app{padding:0 0 40px;}
+.app-body{padding:14px 14px 0;}
 .header{text-align:center;position:relative;margin-bottom:18px;padding-top:8px;}
 .header h1{font-size:26px;font-weight:700;letter-spacing:-0.5px;margin:0 0 6px;}
-.card{background:var(--bg0);border-radius:var(--r2);padding:14px;margin-bottom:12px;border:0.5px solid var(--bdr);}
-.card-flush{background:var(--bg0);border-radius:var(--r2);overflow:hidden;margin-bottom:12px;border:0.5px solid var(--bdr);}
+.app-header{background:linear-gradient(180deg,#1354A0 0%,#0d3d7a 100%);padding:16px 16px 26px;}
+[data-theme=dark] .app-header{background:linear-gradient(180deg,#0d2a42 0%,#081a2a 100%);}
+.app-header-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.app-header-logo{font-size:32px;line-height:1;}
+.app-header-title{font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.5px;margin-top:2px;}
+.app-header-course{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.15);border-radius:20px;padding:4px 11px;margin-top:6px;}
+.app-header-course span{font-size:12px;font-weight:700;color:rgba(255,255,255,0.92);}
+.app-header-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
+.app-hdr-btn{background:rgba(255,255,255,0.15);border:none;color:rgba(255,255,255,0.9);font-size:12px;font-weight:700;padding:5px 11px;border-radius:20px;cursor:pointer;font-family:inherit;}
+.app-hdr-btn.danger{color:rgba(255,140,140,0.95);}
+.app-content{background:var(--bg1);border-radius:20px 20px 0 0;margin-top:-12px;padding:14px 14px 0;}
+.card{background:var(--bg0);border-radius:var(--r3);padding:14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.card-flush{background:var(--bg0);border-radius:var(--r3);overflow:hidden;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+[data-theme=dark] .card,[data-theme=dark] .card-flush{box-shadow:none;border:0.5px solid var(--bdr);}
 .section-title{font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:0.7px;margin:0 0 8px;}
-.btn-primary{width:100%;height:50px;background:var(--bl);color:#fff;border:none;border-radius:var(--r3);font-size:17px;font-weight:700;cursor:pointer;margin-top:12px;}
-.btn-confirm{width:100%;height:50px;background:var(--bl);color:#fff;border:none;border-radius:var(--r3);font-size:17px;font-weight:700;cursor:pointer;margin-bottom:12px;}
-.btn-confirm:disabled{background:var(--bg2);color:var(--tx2);}
+.btn-primary{width:100%;height:50px;background:var(--bl);color:#fff;border:none;border-radius:var(--r3);font-size:17px;font-weight:700;cursor:pointer;margin-top:12px;box-shadow:0 4px 12px rgba(19,84,160,0.25);}
+.btn-confirm{width:100%;height:50px;background:var(--bl);color:#fff;border:none;border-radius:var(--r3);font-size:17px;font-weight:700;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 12px rgba(19,84,160,0.25);}
+.btn-confirm:disabled{background:var(--bg2);color:var(--tx2);box-shadow:none;}
 .btn-back{background:none;border:none;color:var(--bl);font-size:14px;cursor:pointer;padding:0;font-weight:700;}
-.btn-nav{width:40px;height:40px;background:var(--bg0);border:0.5px solid var(--bdr);border-radius:10px;font-size:18px;cursor:pointer;color:var(--tx0);display:flex;align-items:center;justify-content:center;}
-.btn-nav:disabled{opacity:0.3;}
-.hole-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.hole-nav-hdr{background:linear-gradient(180deg,#1354A0 0%,#0d3d7a 100%);padding:14px 14px 24px;}
+[data-theme=dark] .hole-nav-hdr{background:linear-gradient(180deg,#0d2a42 0%,#081a2a 100%);}
+.hole-nav{display:flex;align-items:center;justify-content:space-between;}
 .hole-title{text-align:center;flex:1;}
-.hole-title h2{font-size:22px;font-weight:700;}
-.hole-title p{font-size:12px;color:var(--tx2);margin-top:2px;}
+.hole-title h2{font-size:24px;font-weight:700;color:#fff;}
+.hole-title p{font-size:12px;color:rgba(255,255,255,0.65);margin-top:2px;}
+.btn-nav{width:38px;height:38px;background:rgba(255,255,255,0.15);border:none;border-radius:10px;font-size:18px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;}
+.btn-nav:disabled{opacity:0.3;}
+.wolf-pill{display:flex;align-items:center;gap:10px;background:var(--bg0);border-radius:var(--r3);padding:10px 14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+[data-theme=dark] .wolf-pill{box-shadow:none;border:0.5px solid var(--bdr);}
+.wolf-pill-info{flex:1;}
+.wolf-pill-label{font-size:11px;color:var(--tx2);font-weight:700;}
+.wolf-pill-name{font-size:16px;font-weight:700;color:var(--tx0);}
 .wolf-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .wolf-badge{background:var(--bl);color:#fff;border-radius:20px;padding:6px 14px;font-size:14px;font-weight:700;}
 .btn-mulligan{background:transparent;border:1.5px solid var(--am3);color:var(--am3);border-radius:20px;padding:5px 12px;font-size:13px;font-weight:700;cursor:pointer;}
 .btn-mulligan.used{background:var(--am2);color:var(--am);border-color:var(--am);}
-.mode-pills{display:flex;gap:0;margin-bottom:14px;background:var(--bg1);border-radius:10px;padding:3px;}
-.mode-pill{flex:1;height:34px;border:none;border-radius:8px;background:transparent;color:var(--tx1);font-size:13px;font-weight:700;cursor:pointer;}
-.mode-pill.active{background:var(--bg0);color:var(--tx0);box-shadow:0 1px 4px rgba(0,0,0,0.12);}
+.mode-pills{display:flex;gap:0;margin-bottom:14px;background:var(--bg2);border-radius:12px;padding:3px;}
+.mode-pill{flex:1;height:36px;border:none;border-radius:10px;background:transparent;color:var(--tx1);font-size:13px;font-weight:700;cursor:pointer;}
+.mode-pill.active{background:var(--bg0);color:var(--tx0);box-shadow:0 1px 4px rgba(0,0,0,0.1);}
 .partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
-.btn-partner{height:44px;background:var(--bg0);border:1.5px solid var(--bdr);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;color:var(--tx0);}
+.btn-partner{height:44px;background:var(--bg0);border:1.5px solid var(--bdr);border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;color:var(--tx0);}
 .btn-partner.selected{background:var(--bl2);border-color:var(--bl);color:var(--bl);}
 .prelim-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .prelim-row:last-child{margin-bottom:0;}
@@ -86,15 +106,15 @@ body{background:var(--bg1);font-family:'Lexend',sans-serif;font-weight:700;color
 .player-input{width:100%;height:40px;padding:0 30px 0 12px;font-size:15px;font-weight:700;border:0.5px solid var(--bdm);border-radius:var(--r1);background:var(--bg1);color:var(--tx0);outline:none;-webkit-appearance:none;}
 .player-input:focus{border-color:var(--bl);}
 .dd-arrow{position:absolute;right:0;top:0;bottom:0;width:36px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--tx2);cursor:pointer;}
-.dropdown{position:absolute;top:44px;left:0;right:0;background:var(--bg0);border:0.5px solid var(--bdm);border-radius:var(--r1);z-index:100;box-shadow:0 4px 16px rgba(0,0,0,0.12);overflow:hidden;}
+.dropdown{position:absolute;top:44px;left:0;right:0;background:var(--bg0);border:0.5px solid var(--bdm);border-radius:var(--r2);z-index:100;box-shadow:0 4px 16px rgba(0,0,0,0.12);overflow:hidden;}
 .dd-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:0.5px solid var(--bdr);font-size:14px;font-weight:700;cursor:pointer;}
 .dd-item:last-child{border-bottom:none;}
-.dd-del{background:none;border:none;color:var(--rd3);font-size:16px;cursor:pointer;padding:0 2px;font-weight:700;}
+.dd-del{background:rgba(224,96,96,0.12);border:none;color:var(--rd3);font-size:14px;cursor:pointer;padding:0;font-weight:700;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
 .player-row{display:flex;align-items:center;gap:8px;padding:8px 0;}
-.player-row-wrap{position:relative;overflow:hidden;border-radius:var(--r1);margin-bottom:10px;}
+.player-row-wrap{position:relative;overflow:hidden;border-radius:var(--r2);margin-bottom:10px;}
 .player-row-wrap:last-of-type{margin-bottom:0;}
-.delete-reveal{position:absolute;right:0;top:0;bottom:0;width:80px;background:var(--rd);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;border-radius:0 var(--r1) var(--r1) 0;}
-.player-row-inner{transition:transform 0.2s ease;background:var(--bg0);border-radius:var(--r1);display:flex;align-items:center;gap:8px;padding:8px 0;}
+.delete-reveal{position:absolute;right:0;top:0;bottom:0;width:80px;background:var(--rd);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;border-radius:0 var(--r2) var(--r2) 0;}
+.player-row-inner{transition:transform 0.2s ease;background:var(--bg0);border-radius:var(--r2);display:flex;align-items:center;gap:8px;padding:8px 0;}
 .player-row-inner.swiped{transform:translateX(-80px);}
 .role-tag{font-size:10px;padding:2px 6px;border-radius:10px;flex-shrink:0;font-weight:700;}
 .role-wolf{background:var(--bl);color:#fff;}
@@ -104,7 +124,7 @@ body{background:var(--bg1);font-family:'Lexend',sans-serif;font-weight:700;color
 .eagle-tag{font-size:10px;padding:2px 6px;border-radius:10px;background:#e8f5e9;color:#1b5e20;border:0.5px solid #1b5e20;}
 .bogey-tag{font-size:10px;padding:2px 6px;border-radius:10px;background:var(--am2);color:var(--am);border:0.5px solid var(--am);}
 .double-tag{font-size:10px;padding:2px 6px;border-radius:10px;background:var(--rd2);color:var(--rd);border:0.5px solid var(--rd3);}
-.tab-bar{display:flex;background:var(--bg1);border-radius:12px;padding:3px;margin-bottom:18px;gap:2px;}
+.tab-bar{display:flex;background:var(--bg2);border-radius:12px;padding:3px;margin-bottom:14px;gap:2px;}
 .tab-btn{flex:1;height:36px;border:none;border-radius:9px;background:transparent;color:var(--tx1);font-size:13px;font-weight:700;cursor:pointer;}
 .tab-btn.active{background:var(--bg0);color:var(--tx0);box-shadow:0 1px 4px rgba(0,0,0,0.1);}
 .sb-table{width:100%;border-collapse:collapse;font-size:13px;}
@@ -116,7 +136,7 @@ body{background:var(--bg1);font-family:'Lexend',sans-serif;font-weight:700;color
 .history-row:last-child{border-bottom:none;}
 .round-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:0.5px solid var(--bdr);cursor:pointer;}
 .round-row:last-child{border-bottom:none;}
-.final-block{background:var(--gr);color:#fff;border-radius:var(--r2);padding:20px;text-align:center;margin-bottom:14px;}
+.final-block{background:var(--gr);color:#fff;border-radius:var(--r3);padding:20px;text-align:center;margin-bottom:14px;}
 .final-block h2{font-size:22px;font-weight:700;margin-bottom:4px;}
 .info-box{background:var(--am2);border:0.5px solid var(--am3);border-radius:var(--r2);padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--am);}
 </style>
@@ -461,55 +481,68 @@ function render(){
   var app=document.getElementById('app');
   app.innerHTML='';
 
-  // Header
-  var hdr=document.createElement('div');hdr.className='header';
-  var cogBtn=document.createElement('button');
-  cogBtn.onclick=function(){S._prevScreen=S.screen;S.screen='settings';render();};
-  cogBtn.style.cssText='position:absolute;top:16px;right:0;background:none;border:none;cursor:pointer;font-size:22px;line-height:1;padding:4px;';
-  cogBtn.textContent='\u2699\uFE0F';
-  var h1=document.createElement('h1');h1.textContent='Back 9 Wolf';
+  // ── Gradient header
+  var appHdr=document.createElement('div');appHdr.className='app-header';
+  var appHdrTop=document.createElement('div');appHdrTop.className='app-header-top';
+
+  // Left: logo + title + course pill
+  var brandDiv=document.createElement('div');
   var logoWrap=document.createElement('div');
-  logoWrap.style.cssText='display:flex;justify-content:center;margin-bottom:6px;cursor:pointer;';
+  logoWrap.style.cssText='cursor:pointer;';
   logoWrap.onclick=function(){document.getElementById('logo-file').click();};
   if(S.customLogo){
     var lImg=document.createElement('img');
-    lImg.src=S.customLogo;lImg.style.cssText='width:72px;height:80px;object-fit:contain;border-radius:8px;';
+    lImg.src=S.customLogo;lImg.style.cssText='width:40px;height:40px;object-fit:contain;border-radius:8px;';
     logoWrap.appendChild(lImg);
   } else {
-    var lDiv=document.createElement('div');lDiv.style.cssText='font-size:72px;line-height:1;user-select:none;';
-    lDiv.textContent='\uD83D\uDC3A';logoWrap.appendChild(lDiv);
+    var lDiv=document.createElement('div');lDiv.className='app-header-logo';lDiv.textContent='\uD83D\uDC3A';
+    logoWrap.appendChild(lDiv);
   }
   var logoFile=document.createElement('input');
   logoFile.type='file';logoFile.id='logo-file';logoFile.accept='image/*';logoFile.style.display='none';
   logoFile.onchange=handleLogoUpload;
-  var logoTap=document.createElement('p');
-  logoTap.style.cssText='font-size:11px;color:var(--tx2);margin:-4px 0 4px;cursor:pointer;';
-  logoTap.textContent=S.customLogo?'Tap logo to change':'Tap logo to customize';
-  logoTap.onclick=function(){document.getElementById('logo-file').click();};
-  var subSubs={setup:'Set up your game',results:'Final results',history:'Past rounds',settings:'Settings',roundSummary:'Round recap'};
-  var subSubs2={prelim:'Hole '+FIRST_HOLE+' \u2014 establish wolf order'};
-  var subText=subSubs[S.screen]||subSubs2[S.screen]||(S.screen==='game'?'Hole '+S.currentHole+' \u2014 Par '+PARS[S.currentHole]:'');
-  var subP=document.createElement('p');subP.style.cssText='margin:0;font-size:13px;color:var(--tx1);';subP.textContent=subText;
-  hdr.appendChild(cogBtn);hdr.appendChild(h1);hdr.appendChild(logoWrap);hdr.appendChild(logoFile);hdr.appendChild(logoTap);hdr.appendChild(subP);
-  app.appendChild(hdr);
+  var titleDiv=document.createElement('div');titleDiv.className='app-header-title';titleDiv.textContent='Back 9 Wolf';
+  brandDiv.appendChild(logoWrap);brandDiv.appendChild(logoFile);brandDiv.appendChild(titleDiv);
 
-  // Tab bar
+  // Course pill (show on setup/game/prelim)
+  if(S.course&&['setup','game','prelim'].indexOf(S.screen)>=0){
+    var cPill=document.createElement('div');cPill.className='app-header-course';
+    var nineLabel=S.course.nine==='front'?'Front 9':S.course.nine==='back'?'Back 9':'All 18';
+    cPill.innerHTML='<span>\u26F3 '+(S.course.name||'Select course')+' \u00B7 '+nineLabel+'</span>';
+    brandDiv.appendChild(cPill);
+  }
+
+  // Right: cog + reset buttons
+  var actDiv=document.createElement('div');actDiv.className='app-header-actions';
+  var cogBtn=document.createElement('button');cogBtn.className='app-hdr-btn';
+  cogBtn.textContent='\u2699\uFE0F Settings';
+  cogBtn.onclick=function(){S._prevScreen=S.screen;S.screen='settings';render();};
+  var rstBtn=document.createElement('button');rstBtn.className='app-hdr-btn danger';
+  rstBtn.textContent='\u21BA Reset';
+  rstBtn.onclick=function(){doReset();};
+  actDiv.appendChild(cogBtn);actDiv.appendChild(rstBtn);
+
+  appHdrTop.appendChild(brandDiv);appHdrTop.appendChild(actDiv);
+  appHdr.appendChild(appHdrTop);
+  app.appendChild(appHdr);
+
+  // ── Content area with rounded top corners
+  var appContent=document.createElement('div');appContent.className='app-content';
+
+  // Tab bar (no reset, no cog)
   if(['setup','history','settings','results'].indexOf(S.screen)>=0){
     var tb=document.createElement('div');tb.className='tab-bar';
-    [['setup','\uD83C\uDFCC\uFE0F Game'],['history','\uD83D\uDCCB History'],['settings','\u2699\uFE0F Settings']].forEach(function(pair){
+    [['setup','\uD83C\uDFCC\uFE0F Game'],['history','\uD83D\uDCCB History'],['settings','Settings']].forEach(function(pair){
       var btn=document.createElement('button');btn.className='tab-btn'+(S.screen===pair[0]?' active':'');
       btn.textContent=pair[1];
       btn.onclick=function(){S.screen=pair[0];render();};
       tb.appendChild(btn);
     });
-    var rstTab=document.createElement('button');
-    rstTab.className='tab-btn';
-    rstTab.style.cssText='flex:1;height:36px;border:none;border-radius:9px;background:transparent;color:var(--rd);font-size:13px;font-weight:700;cursor:pointer;';
-    rstTab.textContent='\u21BA Reset';
-    rstTab.onclick=function(){doReset();};
-    tb.appendChild(rstTab);
-    app.appendChild(tb);
+    appContent.appendChild(tb);
   }
+  app.appendChild(appContent);
+  // From here on, render functions should append to appContent
+  app=appContent;
 
   if(S.screen==='setup')renderSetup(app);
   else if(S.screen==='prelim')renderPrelim(app);
@@ -1542,28 +1575,41 @@ function renderGame(app){
   var forcedDone=deriveForcedWolf();
   var isConfirmed=!!hole.confirmed;
 
-  // Nav
+  // Nav — in gradient header (appended to shell app, not content div)
+  var gameHdrEl=document.createElement('div');gameHdrEl.className='hole-nav-hdr';
   var nav=document.createElement('div');nav.className='hole-nav';
   var prev=document.createElement('button');prev.className='btn-nav';prev.textContent='\u2039';
   prev.onclick=function(){if(S.currentHole<=FIRST_HOLE+1){S.screen='prelim';render();}else{S.currentHole--;render();}};
   var tDiv=document.createElement('div');tDiv.className='hole-title';
-  var confSpan=isConfirmed?' \u00B7 <span style="color:var(--gr);font-size:11px">\u2713 Confirmed</span>':'';
+  var confSpan=isConfirmed?' \u00B7 <span style="color:rgba(255,255,255,0.7);font-size:11px">\u2713 done</span>':'';
   tDiv.innerHTML='<h2>Hole '+S.currentHole+'</h2><p>Par '+PARS[S.currentHole]+' \u00B7 '+(S.course?S.course.name:'Los Lagos')+confSpan+'</p>';
   var maxConf=Math.max.apply(null,[FIRST_HOLE].concat(Object.keys(S.holes).filter(function(h){return S.holes[h].confirmed;}).map(Number)));
   var nxt=document.createElement('button');nxt.className='btn-nav';nxt.textContent='\u203A';
   nxt.disabled=S.currentHole>=LAST_HOLE||(S.currentHole>maxConf&&!isConfirmed);
   nxt.onclick=function(){S.currentHole++;render();};
-  nav.appendChild(prev);nav.appendChild(tDiv);nav.appendChild(nxt);app.appendChild(nav);
+  nav.appendChild(prev);nav.appendChild(tDiv);nav.appendChild(nxt);
+  gameHdrEl.appendChild(nav);
+  // Insert before the app-content div (which is the last child of the shell)
+  var shell=document.getElementById('app');
+  shell.insertBefore(gameHdrEl,appContent);
 
-  // Wolf badge + mulligan
+  // Wolf pill card
   if(wolfP){
-    var wr=document.createElement('div');wr.className='wolf-row';
-    var wb=document.createElement('div');wb.className='wolf-badge';wb.innerHTML='Wolf: <strong>'+wolfP.name+'</strong>';
+    var wr=document.createElement('div');wr.className='wolf-pill';
+    // Avatar
+    var pI2=pIdx(wolfId);
+    var wAv=mkAv(wolfP.name,pI2,36);wAv.style.flexShrink='0';wr.appendChild(wAv);
+    // Info
+    var wInfo=document.createElement('div');wInfo.className='wolf-pill-info';
+    var wLbl=document.createElement('div');wLbl.className='wolf-pill-label';wLbl.textContent='\uD83D\uDC3A Wolf';
+    var wName=document.createElement('div');wName.className='wolf-pill-name';
+    var wb=document.createElement('span');wb.textContent=wolfP.name;
     var mb=document.createElement('button');
     mb.className='btn-mulligan'+(S.mulliganUsed[wolfId]?' used':'');
     mb.textContent=S.mulliganUsed[wolfId]?'Mulligan used':'Use mulligan';
     mb.onclick=function(){if(!S.mulliganUsed[wolfId]){S.mulliganUsed[wolfId]=true;render();}};
-    wr.appendChild(wb);wr.appendChild(mb);app.appendChild(wr);
+    wName.appendChild(wb);wInfo.appendChild(wLbl);wInfo.appendChild(wName);
+    wr.appendChild(wInfo);wr.appendChild(mb);app.appendChild(wr);
   }
 
   // Wolf decision
@@ -2283,6 +2329,34 @@ function renderSettings(app){
   };
   addPlCard.appendChild(addPlBtn);
   app.appendChild(addPlCard);
+
+  // Version history
+  var verLbl=document.createElement('p');verLbl.className='section-title';verLbl.style.marginTop='4px';verLbl.textContent='Version history';app.appendChild(verLbl);
+  var verCard=document.createElement('div');verCard.className='card-flush';
+  var versions=[
+    {v:'v2.6.0',date:'Apr 2026',notes:'Full visual redesign: blue gradient header showing course and nine, wolf displayed in pill card with avatar, cards use shadow instead of hairline borders, settings and reset moved out of tab bar into header, circular delete buttons.'},
+    {v:'v2.5.0',date:'Apr 2026',notes:'5-player Wolf rotation (first 5 holes by order, then merit-based). Wolf override tap. Los Lagos pars corrected (H17 par 3, H9 par 5). 338 courses in database including full CA, NV, AZ, UT. Live course search via Golf Course API. Front/back/all 18 selector.'},
+    {v:'v2.4.0',date:'Apr 2026',notes:'Course search with 200+ built-in US courses. Dynamic hole range from course selection. Par labels update per course. Wolf order now merit-based (best scorer on prior hole).'},
+    {v:'v2.3.0',date:'Apr 2026',notes:'Prelim tie detection with tap-to-rank UI. Auto-advance score inputs. Player photo crop modal. Saved players edit panel with color, photo, name rename. Add player form in Settings.'},
+    {v:'v2.2.0',date:'Mar 2026',notes:'History share button. Remove from game button in saved players. Settlement text left-aligned in share. Medal emojis removed from share scores. Stroke totals added to share text.'},
+    {v:'v2.1.0',date:'Mar 2026',notes:'Reset button in tab bar. Dark/light mode toggle. Custom app logo upload. iOS home screen icon generation. Dropdown arrow now tappable showing all saved players.'},
+    {v:'v2.0.0',date:'Mar 2026',notes:'Full rewrite. Player profiles with color and photo. Crop modal for photos. Saved players with persistent profiles. Share Results via native share sheet. Round history with recap view.'},
+    {v:'v1.0.0',date:'Feb 2026',notes:'Initial release. Back 9 Wolf scoring for Los Lagos. 4-player support. Wolf rotation, partner/lone/forced modes. Settlement calculation. Basic history.'}
+  ];
+  versions.forEach(function(ver,vi){
+    var row=document.createElement('div');
+    row.style.cssText='padding:10px 14px;'+(vi<versions.length-1?'border-bottom:0.5px solid var(--bdr);':'');
+    var top=document.createElement('div');top.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:4px;';
+    var badge=document.createElement('span');
+    badge.style.cssText='font-size:12px;font-weight:700;background:var(--bl);color:#fff;padding:2px 8px;border-radius:10px;flex-shrink:0;';
+    badge.textContent=ver.v;
+    var date=document.createElement('span');date.style.cssText='font-size:12px;color:var(--tx2);font-weight:700;';date.textContent=ver.date;
+    top.appendChild(badge);top.appendChild(date);
+    var notes=document.createElement('p');notes.style.cssText='font-size:12px;color:var(--tx1);line-height:1.5;';notes.textContent=ver.notes;
+    row.appendChild(top);row.appendChild(notes);
+    verCard.appendChild(row);
+  });
+  app.appendChild(verCard);
 }
 
 function generateIcon(){
