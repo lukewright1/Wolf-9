@@ -595,13 +595,15 @@ function deriveForcedWolf(){
 function mustBeForced(holeNum){
   if(S.players.length!==4)return false;
   var wId=wolfFor(holeNum);if(!wId)return false;
-  var wolfHoles=[];
-  for(var h=FIRST_HOLE+1;h<=LAST_HOLE;h++)if(wolfFor(h)===wId)wolfHoles.push(h);
-  if(wolfHoles.indexOf(holeNum)!==1)return false;
-  var first=wolfHoles[0];
-  var fh=S.holes[first];
-  var wentLone=fh&&(fh.mode==='lone'||fh.mode==='forced');
-  return !wentLone;
+  // Only force if player has been wolf on a prior hole and never went lone
+  var priorWolfHoles=[];
+  for(var h=FIRST_HOLE+1;h<holeNum;h++){if(wolfFor(h)===wId)priorWolfHoles.push(h);}
+  if(priorWolfHoles.length===0)return false;
+  for(var i=0;i<priorWolfHoles.length;i++){
+    var ph=S.holes[priorWolfHoles[i]];
+    if(ph&&(ph.mode==='lone'||ph.mode==='forced'))return false;
+  }
+  return true;
 }
 
 function playerHoleResultFor(pid,holeNum){
@@ -980,7 +982,7 @@ function renderSetup(app){
     {name:'Congressional Country Club (Blue)',city:'Bethesda, MD',pars:{1:4,2:4,3:3,4:4,5:5,6:4,7:4,8:3,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
     {name:'Riviera Country Club',city:'Pacific Palisades, CA',pars:{1:5,2:4,3:4,4:3,5:4,6:4,7:4,8:4,9:4,10:4,11:4,12:4,13:3,14:4,15:4,16:3,17:5,18:4}},
     {name:'Bel-Air Country Club',city:'Los Angeles, CA',pars:{1:4,2:4,3:4,4:4,5:3,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:4,15:4,16:3,17:5,18:4}},
-    {name:'Los Lagos Golf Course',city:'Costa Mesa, CA',pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:5,8:4,9:5,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5}},
+    {name:'Los Lagos Golf Course',city:'Costa Mesa, CA',pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5}},
     {name:'Pelican Hill Golf Club (Ocean North)',city:'Newport Coast, CA',pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:3,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:4,16:4,17:3,18:4}},
     {name:'Pelican Hill Golf Club (Ocean South)',city:'Newport Coast, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:3,8:4,9:4,10:4,11:4,12:4,13:3,14:5,15:4,16:3,17:4,18:4}},
     {name:'Newport Beach Country Club',city:'Newport Beach, CA',pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
@@ -2370,6 +2372,33 @@ function renderSettings(app){
     var backBtn=document.createElement('button');backBtn.className='btn-back';backBtn.textContent='\u2190 Back to game';
     backBtn.onclick=function(){var dest=S._prevScreen||'game';S.screen=dest;render();};
     backRow.appendChild(backBtn);app.appendChild(backRow);
+    if(S.course&&S.course.name){
+      var reloadLbl=document.createElement('p');reloadLbl.className='section-title';reloadLbl.textContent='Course';app.appendChild(reloadLbl);
+      var reloadCard=document.createElement('div');reloadCard.className='card';
+      var reloadRow=document.createElement('div');reloadRow.style.cssText='display:flex;align-items:center;justify-content:space-between;';
+      var reloadInfo=document.createElement('div');
+      var reloadName=document.createElement('div');reloadName.style.cssText='font-size:15px;font-weight:700;';reloadName.textContent=S.course.name;
+      var reloadSub=document.createElement('div');reloadSub.style.cssText='font-size:12px;color:var(--tx2);margin-top:2px;';reloadSub.textContent='Tap to reload pars from database';
+      reloadInfo.appendChild(reloadName);reloadInfo.appendChild(reloadSub);
+      var reloadBtn=document.createElement('button');
+      reloadBtn.style.cssText='height:34px;padding:0 14px;background:var(--bl2);color:var(--bl);border:1.5px solid var(--bl);border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;';
+      reloadBtn.textContent='Reload pars';
+      reloadBtn.onclick=function(){
+        var match=null;
+        for(var i=0;i<COURSE_DB.length;i++){if(COURSE_DB[i].name===S.course.name){match=COURSE_DB[i];break;}}
+        if(match){
+          S.course.pars=match.pars;
+          syncCourse();
+          showToast('\u2713 Pars reloaded');
+          S.screen=S._prevScreen||'game';
+          render();
+        } else {
+          showToast('Course not found in database');
+        }
+      };
+      reloadRow.appendChild(reloadInfo);reloadRow.appendChild(reloadBtn);
+      reloadCard.appendChild(reloadRow);app.appendChild(reloadCard);
+    }
   }
 
   // Theme
