@@ -838,8 +838,9 @@ function renderSetup(app){
   if(S.players.length<5){
     var addBtn=document.createElement('button');
     addBtn.style.cssText='width:100%;height:40px;background:transparent;border:1.5px dashed var(--bdm);border-radius:var(--r1);color:var(--bl);font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;';
-    var ordinals=['','2nd','3rd','4th','5th'];
-    addBtn.textContent='+ Add '+(ordinals[S.players.length+1]||String(S.players.length+1)+'th')+' player';
+    var ordinals=['','1st','2nd','3rd','4th','5th'];
+    var nextNum=S.players.length+1;
+    addBtn.textContent='+ Add '+(ordinals[nextNum]||String(nextNum)+'th')+' player';
     addBtn.onclick=function(){var ni=S.players.length;S.players.push({name:'',id:String(Date.now()),color:PCOLS[ni%PCOLS.length],photo:null,phone:''});render();};
     card.appendChild(addBtn);
   }
@@ -1783,9 +1784,9 @@ function renderGame(app){
   nxt.onclick=function(){S.currentHole++;render();};
   nav.appendChild(prev);nav.appendChild(tDiv);nav.appendChild(nxt);
   gameHdrEl.appendChild(nav);
-  // Insert before the app-content div (which is the last child of the shell)
   var shell=document.getElementById('app');
-  shell.insertBefore(gameHdrEl,appContent);
+  var appContentEl=shell.querySelector('.app-content');
+  if(appContentEl){shell.insertBefore(gameHdrEl,appContentEl);}else{shell.appendChild(gameHdrEl);}
 
   // Wolf pill card
   if(wolfP){
@@ -2573,33 +2574,14 @@ function renderSettings(app){
   addPlCard.appendChild(addPlBtn);
   app.appendChild(addPlCard);
 
-  // Version history
-  var verLbl=document.createElement('p');verLbl.className='section-title';verLbl.style.marginTop='4px';verLbl.textContent='Version history';app.appendChild(verLbl);
-  var verCard=document.createElement('div');verCard.className='card-flush';
-  var versions=[
-    {v:'v2.6.0',date:'Apr 2026',notes:'Full visual redesign: blue gradient header showing course and nine, wolf displayed in pill card with avatar, cards use shadow instead of hairline borders, settings and reset moved out of tab bar into header, circular delete buttons.'},
-    {v:'v2.5.0',date:'Apr 2026',notes:'5-player Wolf rotation (first 5 holes by order, then merit-based). Wolf override tap. Los Lagos pars corrected (H17 par 3, H9 par 5). 338 courses in database including full CA, NV, AZ, UT. Live course search via Golf Course API. Front/back/all 18 selector.'},
-    {v:'v2.4.0',date:'Apr 2026',notes:'Course search with 200+ built-in US courses. Dynamic hole range from course selection. Par labels update per course. Wolf order now merit-based (best scorer on prior hole).'},
-    {v:'v2.3.0',date:'Apr 2026',notes:'Prelim tie detection with tap-to-rank UI. Auto-advance score inputs. Player photo crop modal. Saved players edit panel with color, photo, name rename. Add player form in Settings.'},
-    {v:'v2.2.0',date:'Mar 2026',notes:'History share button. Remove from game button in saved players. Settlement text left-aligned in share. Medal emojis removed from share scores. Stroke totals added to share text.'},
-    {v:'v2.1.0',date:'Mar 2026',notes:'Reset button in tab bar. Dark/light mode toggle. Custom app logo upload. iOS home screen icon generation. Dropdown arrow now tappable showing all saved players.'},
-    {v:'v2.0.0',date:'Mar 2026',notes:'Full rewrite. Player profiles with color and photo. Crop modal for photos. Saved players with persistent profiles. Share Results via native share sheet. Round history with recap view.'},
-    {v:'v1.0.0',date:'Feb 2026',notes:'Initial release. Back 9 Wolf scoring for Los Lagos. 4-player support. Wolf rotation, partner/lone/forced modes. Settlement calculation. Basic history.'}
-  ];
-  versions.forEach(function(ver,vi){
-    var row=document.createElement('div');
-    row.style.cssText='padding:10px 14px;'+(vi<versions.length-1?'border-bottom:0.5px solid var(--bdr);':'');
-    var top=document.createElement('div');top.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:4px;';
-    var badge=document.createElement('span');
-    badge.style.cssText='font-size:12px;font-weight:700;background:var(--bl);color:#fff;padding:2px 8px;border-radius:10px;flex-shrink:0;';
-    badge.textContent=ver.v;
-    var date=document.createElement('span');date.style.cssText='font-size:12px;color:var(--tx2);font-weight:700;';date.textContent=ver.date;
-    top.appendChild(badge);top.appendChild(date);
-    var notes=document.createElement('p');notes.style.cssText='font-size:12px;color:var(--tx1);line-height:1.5;';notes.textContent=ver.notes;
-    row.appendChild(top);row.appendChild(notes);
-    verCard.appendChild(row);
-  });
-  app.appendChild(verCard);
+  // Version
+  var verRow=document.createElement('div');
+  verRow.style.cssText='display:flex;align-items:center;justify-content:center;padding:16px 0 4px;gap:8px;';
+  var verBadge=document.createElement('span');
+  verBadge.style.cssText='font-size:12px;font-weight:700;background:var(--bg2);color:var(--tx2);padding:3px 10px;border-radius:10px;';
+  verBadge.textContent='v2.6.0 · Apr 2026';
+  verRow.appendChild(verBadge);
+  app.appendChild(verRow);
 }
 
 function generateIcon(){
