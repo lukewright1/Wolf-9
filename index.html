@@ -139,10 +139,53 @@ body{background:var(--bg1);font-family:'Lexend',sans-serif;font-weight:700;color
 .final-block{background:var(--gr);color:#fff;border-radius:var(--r3);padding:20px;text-align:center;margin-bottom:14px;}
 .final-block h2{font-size:22px;font-weight:700;margin-bottom:4px;}
 .info-box{background:var(--am2);border:0.5px solid var(--am3);border-radius:var(--r2);padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--am);}
+.landscape-scorecard{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:var(--bg1);overflow:auto;padding:12px;}
+@media(orientation:landscape){.landscape-scorecard{display:block;}.portrait-only{display:none!important;}}
+.lsc-table{width:100%;border-collapse:collapse;font-size:12px;}
+.lsc-table th{background:var(--bl);color:#fff;padding:6px 8px;text-align:center;font-size:11px;font-weight:700;white-space:nowrap;}
+.lsc-table th:first-child{text-align:left;min-width:70px;}
+.lsc-table td{padding:5px 8px;text-align:center;border-bottom:0.5px solid var(--bdr);font-weight:700;font-size:12px;}
+.lsc-table td:first-child{text-align:left;font-size:12px;}
+.lsc-table tr:nth-child(even){background:var(--bg0);}
+.lsc-table tr:nth-child(odd){background:var(--bg1);}
+.lsc-par-row td{background:var(--bg2)!important;color:var(--tx2);font-size:10px;font-weight:700;}
+.lsc-total{background:var(--bl2)!important;color:var(--bl);font-weight:700;}
+.lsc-pts-row td{background:var(--bg0)!important;}
+.lsc-eagle{background:#1b5e20;color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;}
+.lsc-birdie{background:var(--rd);color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;}
+.lsc-bogey{background:var(--am2);color:var(--am);border-radius:3px;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;}
+.lsc-double{background:var(--rd2);color:var(--rd);border-radius:3px;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;}
 </style>
 </head>
 <body>
 <div class="app-shell"><div class="app" id="app"></div></div>
+<script>
+window.addEventListener('orientationchange',function(){
+  setTimeout(function(){
+    var ls=document.getElementById('landscape-sc');
+    var isLandscape=window.innerWidth>window.innerHeight;
+    if(isLandscape){
+      if(!ls&&typeof renderLandscapeScorecard==='function'&&typeof S!=='undefined'&&S.screen==='game'){
+        renderLandscapeScorecard();
+      }
+    } else {
+      if(ls)ls.remove();
+    }
+  },200);
+});
+window.addEventListener('resize',function(){
+  var ls=document.getElementById('landscape-sc');
+  var isLandscape=window.innerWidth>window.innerHeight;
+  if(isLandscape){
+    if(typeof renderLandscapeScorecard==='function'&&typeof S!=='undefined'&&S&&S.screen==='game'){
+      if(ls)ls.remove();
+      renderLandscapeScorecard();
+    }
+  } else {
+    if(ls)ls.remove();
+  }
+});
+</script>
 <script>
 var PARS={10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:5};
 var FIRST_HOLE=10,LAST_HOLE=18;
@@ -157,6 +200,154 @@ function startGPS(cb){
 }
 
 
+function renderLandscapeScorecard(){
+  var existing=document.getElementById('landscape-sc');
+  if(existing)existing.remove();
+  var el=document.createElement('div');el.className='landscape-scorecard';el.id='landscape-sc';
+
+  // Close hint
+  var hint=document.createElement('div');
+  hint.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
+  var title=document.createElement('span');title.style.cssText='font-size:13px;font-weight:700;color:var(--tx0);';
+  title.textContent=(S.course?S.course.name:'')+(S.course?' · ':'')+(FIRST_HOLE+'–'+LAST_HOLE);
+  hint.appendChild(title);
+  el.appendChild(hint);
+
+  // Get confirmed holes and par info
+  var allHoles=[];
+  for(var h=FIRST_HOLE;h<=LAST_HOLE;h++)allHoles.push(h);
+  var dp=derivePoints();var pts=dp.pts;
+
+  // Per-hole points delta (what each player earned on each confirmed hole)
+  var holePoints={};
+  S.players.forEach(function(p){holePoints[p.id]={};});
+  var runningPts={};
+  S.players.forEach(function(p){runningPts[p.id]=0;});
+  for(var h2=FIRST_HOLE+1;h2<=LAST_HOLE;h2++){
+    var hole=S.holes[h2];
+    if(!hole||!hole.confirmed)continue;
+    var wId=wolfFor(h2);
+    var earned={};S.players.forEach(function(p){earned[p.id]=0;});
+    if(hole.winner==='wolf_team'&&hole.mode==='partner'){
+      S.players.forEach(function(p){if(sid(p.id)===sid(wId)||sid(p.id)===sid(hole.partner))earned[p.id]=1;});
+    } else if(hole.winner==='wolf'&&(hole.mode==='lone'||hole.mode==='forced')){
+      S.players.forEach(function(p){if(sid(p.id)===sid(wId))earned[p.id]=3;});
+    } else if(hole.winner==='others'&&hole.mode==='partner'){
+      S.players.forEach(function(p){if(sid(p.id)!==sid(wId)&&sid(p.id)!==sid(hole.partner))earned[p.id]=1;});
+    } else if(hole.winner==='others'&&(hole.mode==='lone'||hole.mode==='forced')){
+      S.players.forEach(function(p){if(sid(p.id)!==sid(wId))earned[p.id]=1;});
+    }
+    S.players.forEach(function(p){holePoints[p.id][h2]=earned[p.id];});
+  }
+
+  // Build table
+  var tbl=document.createElement('table');tbl.className='lsc-table';
+
+  // Header row: Hole numbers
+  var thead=document.createElement('thead');
+  var hdrRow=document.createElement('tr');
+  var th0=document.createElement('th');th0.textContent='Player';hdrRow.appendChild(th0);
+  allHoles.forEach(function(h){
+    var th=document.createElement('th');th.textContent=h;
+    if(h===S.currentHole)th.style.background='#0d3d7a';
+    hdrRow.appendChild(th);
+  });
+  var thTot=document.createElement('th');thTot.textContent='Score';hdrRow.appendChild(thTot);
+  var thPts=document.createElement('th');thPts.textContent='Pts';hdrRow.appendChild(thPts);
+  thead.appendChild(hdrRow);tbl.appendChild(thead);
+
+  var tbody=document.createElement('tbody');
+
+  // Par row
+  var parRow=document.createElement('tr');parRow.className='lsc-par-row';
+  var parLbl=document.createElement('td');parLbl.textContent='Par';parRow.appendChild(parLbl);
+  var totalPar=0;
+  allHoles.forEach(function(h){
+    var td=document.createElement('td');td.textContent=PARS[h]||'-';
+    totalPar+=(PARS[h]||0);parRow.appendChild(td);
+  });
+  var parTotTd=document.createElement('td');parTotTd.textContent=totalPar;parRow.appendChild(parTotTd);
+  var parPtsTd=document.createElement('td');parPtsTd.textContent='';parRow.appendChild(parPtsTd);
+  tbody.appendChild(parRow);
+
+  // Player rows
+  S.players.forEach(function(p,pi){
+    var row=document.createElement('tr');
+    // Name cell with color dot
+    var nameTd=document.createElement('td');
+    nameTd.style.cssText='display:flex;align-items:center;gap:5px;';
+    var dot=document.createElement('span');dot.style.cssText='width:8px;height:8px;border-radius:50%;background:'+(p.color||PCOLS[pi%PCOLS.length])+';flex-shrink:0;display:inline-block;';
+    var nm=document.createElement('span');nm.textContent=p.name;nm.style.overflow='hidden';nm.style.textOverflow='ellipsis';nm.style.whiteSpace='nowrap';nm.style.maxWidth='60px';
+    nameTd.appendChild(dot);nameTd.appendChild(nm);row.appendChild(nameTd);
+
+    var totalStrokes=0;var totalVsPar=0;
+    allHoles.forEach(function(h){
+      var td=document.createElement('td');
+      var score=(S.holes[h]&&S.holes[h].scores)?S.holes[h].scores[sid(p.id)]:null;
+      if(h===FIRST_HOLE){score=(S.holes[h]&&S.holes[h].scores)?S.holes[h].scores[sid(p.id)]:null;}
+      var par=PARS[h]||4;
+      if(score&&score>0){
+        totalStrokes+=score;totalVsPar+=(score-par);
+        var diff=score-par;
+        var inner=document.createElement('span');inner.textContent=score;
+        if(diff<=-2){inner.className='lsc-eagle';}
+        else if(diff===-1){inner.className='lsc-birdie';}
+        else if(diff===1){inner.className='lsc-bogey';}
+        else if(diff>=2){inner.className='lsc-double';}
+        td.appendChild(inner);
+        // Show points earned
+        if(h>FIRST_HOLE&&holePoints[p.id][h]>0){
+          var ptSpan=document.createElement('sup');
+          ptSpan.style.cssText='color:var(--bl);font-size:9px;margin-left:1px;font-weight:700;';
+          ptSpan.textContent='+'+holePoints[p.id][h];
+          td.appendChild(ptSpan);
+        }
+      } else if(h===S.currentHole){
+        td.innerHTML='<span style="color:var(--bl);font-size:10px;">←</span>';
+      } else {
+        td.textContent='-';td.style.color='var(--tx2)';
+      }
+      if(h===S.currentHole)td.style.background='rgba(19,84,160,0.08)';
+      row.appendChild(td);
+    });
+
+    // Total score
+    var totTd=document.createElement('td');totTd.className='lsc-total';
+    if(totalStrokes>0){
+      var vsParStr=totalVsPar===0?'E':totalVsPar>0?'+'+totalVsPar:''+totalVsPar;
+      totTd.textContent=totalStrokes+' ('+vsParStr+')';
+    } else {totTd.textContent='-';}
+    row.appendChild(totTd);
+
+    // Total points
+    var ptsTd=document.createElement('td');ptsTd.className='lsc-total';
+    var curPts=pts[p.id]||0;
+    ptsTd.style.color=curPts>0?'var(--gr)':curPts<0?'var(--rd)':'var(--tx2)';
+    ptsTd.textContent=curPts>0?'+'+curPts:String(curPts);
+    row.appendChild(ptsTd);
+
+    tbody.appendChild(row);
+  });
+  tbl.appendChild(tbody);
+  el.appendChild(tbl);
+
+  var rotateTip=document.createElement('p');
+  rotateTip.style.cssText='font-size:10px;color:var(--tx2);margin-top:8px;text-align:center;';
+  rotateTip.textContent='Rotate to portrait to continue scoring';
+  el.appendChild(rotateTip);
+
+  document.body.appendChild(el);
+}
+
+function haptic(style){
+  // style: 'light','medium','heavy','success','warning','error'
+  try{
+    if(window.navigator&&window.navigator.vibrate){
+      var pat=style==='heavy'?[30]:style==='medium'?[20]:style==='success'?[10,40,10]:[10];
+      window.navigator.vibrate(pat);
+    }
+  }catch(e){}
+}
 function syncCourse(){
   if(S&&S.course&&S.course.pars){
     var nine=S.course.nine||'back';
@@ -263,8 +454,9 @@ syncCourse();
 function sid(id){return String(id);}
 function wolfFor(h){
   if(h<=FIRST_HOLE)return null;
+  if(S.holes[h]&&S.holes[h].wolfOverride)return sid(S.holes[h].wolfOverride);
   var is5=S.players.length===5;
-  var gameHole=h-FIRST_HOLE; // 1-indexed game hole (hole 11 = gameHole 1)
+  var gameHole=h-FIRST_HOLE;
 
   if(is5){
     // 5-player Wolf rules:
@@ -646,7 +838,8 @@ function renderSetup(app){
   if(S.players.length<5){
     var addBtn=document.createElement('button');
     addBtn.style.cssText='width:100%;height:40px;background:transparent;border:1.5px dashed var(--bdm);border-radius:var(--r1);color:var(--bl);font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;';
-    addBtn.textContent='+ Add 5th player';
+    var ordinals=['','2nd','3rd','4th','5th'];
+    addBtn.textContent='+ Add '+(ordinals[S.players.length+1]||String(S.players.length+1)+'th')+' player';
     addBtn.onclick=function(){var ni=S.players.length;S.players.push({name:'',id:String(Date.now()),color:PCOLS[ni%PCOLS.length],photo:null,phone:''});render();};
     card.appendChild(addBtn);
   }
@@ -800,6 +993,7 @@ function renderSetup(app){
     {name:'San Juan Hills Golf Club',city:'San Juan Capistrano, CA',pars:{1:4,2:3,3:5,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
     {name:'Tijeras Creek Golf Club',city:'Rancho Santa Margarita, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:4,7:3,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:4,17:3,16:4,18:4}},
     {name:'Coto de Caza Golf & Racquet Club (South)',city:'Coto de Caza, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:5,9:4,10:4,11:3,12:4,13:4,14:5,15:4,16:3,17:4,18:4}},
+    {name:'Coto de Caza Golf & Racquet Club (North)',city:'Coto de Caza, CA',pars:{1:5,2:4,3:5,4:3,5:4,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:5,18:4}},
     {name:'Dove Canyon Golf Club',city:'Rancho Santa Margarita, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:5}},
     {name:'Robinson Ranch Golf Club (Mountain)',city:'Santa Clarita, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
     {name:'Calabasas Golf & Country Club',city:'Calabasas, CA',pars:{1:4,2:4,3:5,4:3,5:4,6:4,7:3,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
@@ -1608,7 +1802,56 @@ function renderGame(app){
     mb.className='btn-mulligan'+(S.mulliganUsed[wolfId]?' used':'');
     mb.textContent=S.mulliganUsed[wolfId]?'Mulligan used':'Use mulligan';
     mb.onclick=function(){if(!S.mulliganUsed[wolfId]){S.mulliganUsed[wolfId]=true;render();}};
-    wName.appendChild(wb);wInfo.appendChild(wLbl);wInfo.appendChild(wName);
+    var wChg=document.createElement('button');
+    wChg.style.cssText='background:none;border:none;color:var(--tx2);font-size:11px;font-weight:700;cursor:pointer;padding:2px 6px;text-decoration:underline;margin-left:6px;';
+    wChg.textContent='change';
+    wChg.onclick=function(){
+      var ex=document.getElementById('wcp');if(ex){ex.remove();return;}
+      var pnl=document.createElement('div');pnl.id='wcp';
+      pnl.style.cssText='position:absolute;top:36px;left:0;background:var(--bg0);border:0.5px solid var(--bdm);border-radius:var(--r2);padding:8px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.18);min-width:170px;';
+      var pLbl=document.createElement('div');
+      pLbl.style.cssText='font-size:10px;color:var(--tx2);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 6px 6px;';
+      pLbl.textContent='Wolf \u2014 Hole '+S.currentHole;
+      pnl.appendChild(pLbl);
+      var hasOvr=!!(S.holes[S.currentHole]&&S.holes[S.currentHole].wolfOverride);
+      if(hasOvr){
+        var oLbl=document.createElement('div');
+        oLbl.style.cssText='font-size:10px;color:var(--am3);padding:0 6px 6px;font-weight:700;';
+        oLbl.textContent='\u26A0 Manually set';
+        pnl.appendChild(oLbl);
+      }
+      S.players.forEach(function(p,pi){
+        var isCur=sid(p.id)===sid(wolfId);
+        var btn=document.createElement('button');
+        btn.style.cssText='display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;border:none;background:'+(isCur?'var(--bl2)':'transparent')+';border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;font-size:14px;color:'+(isCur?'var(--bl)':'var(--tx0)')+';';
+        btn.appendChild(mkAv(p.name,pi,24));
+        var nm=document.createElement('span');nm.textContent=p.name+(isCur?' \u2713':'');
+        btn.appendChild(nm);
+        btn.onclick=function(pid,pnm){return function(){
+          if(!S.holes[S.currentHole])S.holes[S.currentHole]={};
+          S.holes[S.currentHole].wolfOverride=pid;
+          recalcHoleResult(S.currentHole);
+          pnl.remove();
+          showToast('\uD83D\uDC3A Wolf \u2192 '+pnm);
+          render();
+        };}(p.id,p.name);
+        pnl.appendChild(btn);
+      });
+      if(hasOvr){
+        var clrBtn=document.createElement('button');
+        clrBtn.style.cssText='width:100%;padding:7px 10px;border:none;border-top:0.5px solid var(--bdr);background:transparent;cursor:pointer;font-family:inherit;font-weight:700;font-size:12px;color:var(--tx2);text-align:left;margin-top:4px;';
+        clrBtn.textContent='\u21BA Reset to automatic';
+        clrBtn.onclick=function(){
+          if(S.holes[S.currentHole])delete S.holes[S.currentHole].wolfOverride;
+          pnl.remove();render();
+        };
+        pnl.appendChild(clrBtn);
+      }
+      wName.style.position='relative';
+      wName.appendChild(pnl);
+    };
+    wName.appendChild(wb);wName.appendChild(wChg);
+    wInfo.appendChild(wLbl);wInfo.appendChild(wName);
     wr.appendChild(wInfo);wr.appendChild(mb);app.appendChild(wr);
   }
 
@@ -1809,7 +2052,7 @@ function renderGame(app){
   if(hole.confirmed){cb2.textContent=S.currentHole===LAST_HOLE?'\u2713 Done \u2014 view results':'\u2713 Confirmed \u2014 next hole \u203A';cb2.style.background='var(--gr)';}
   else{cb2.textContent=S.currentHole===LAST_HOLE?'Finish game':'Confirm hole';}
   cb2.disabled=!canConfirm;
-  cb2.onclick=function(){
+  cb2.onclick=function(){haptic('success');
     S.holes[S.currentHole].confirmed=true;
     if(S.currentHole===LAST_HOLE){
       var dp2=derivePoints();
