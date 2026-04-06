@@ -505,6 +505,16 @@ function wolfFor(h){
       return id!=null?sid(id):null;
     } else {
       // Merit-based: best scorer on prior hole becomes Wolf
+      // BUT no player can be Wolf more than twice total in the round
+      // Count how many times each player has been Wolf so far
+      // Only count wolf appearances during the merit phase (game holes 6+)
+      var meritStart=FIRST_HOLE+5; // first merit hole
+      var wolfCounts={};
+      S.wolfOrder.forEach(function(pid){wolfCounts[sid(pid)]=0;});
+      for(var hh=meritStart;hh<h;hh++){
+        var hw=wolfFor(hh);
+        if(hw&&wolfCounts[hw]!==undefined)wolfCounts[hw]++;
+      }
       var prevHole=h-1;
       var prevData=S.holes[prevHole];
       if(prevData&&prevData.scores){
@@ -512,11 +522,17 @@ function wolfFor(h){
         var best=null;var bestScore=99;
         S.wolfOrder.forEach(function(pid){
           var sc=scores[sid(pid)];
+          // Skip players who have already wolfed twice
+          if((wolfCounts[sid(pid)]||0)>=2)return;
           if(sc&&sc>0&&sc<bestScore){bestScore=sc;best=pid;}
         });
         if(best!=null)return sid(best);
       }
-      // Fallback to rotation if prior hole not yet scored
+      // Fallback: pick eligible player from rotation
+      for(var fi=0;fi<S.wolfOrder.length;fi++){
+        var fpid=S.wolfOrder[(gameHole-1+fi)%S.wolfOrder.length];
+        if((wolfCounts[sid(fpid)]||0)<2)return sid(fpid);
+      }
       var id2=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
       return id2!=null?sid(id2):null;
     }
@@ -524,9 +540,6 @@ function wolfFor(h){
     // 4-player: strict sequential rotation through prelim order, cycling every 4 holes
     var id4=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
     return id4!=null?sid(id4):null;
-    // Fallback to rotation
-    var id3=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
-    return id3!=null?sid(id3):null;
   }
 }
 function pById(id){return S.players.filter(function(p){return sid(p.id)===sid(id);})[0]||null;}
@@ -775,8 +788,11 @@ function render(){
   // Tab bar (no reset, no cog)
   if(['setup','history','settings','results'].indexOf(S.screen)>=0){
     var tb=document.createElement('div');tb.className='tab-bar';
-    [['setup','\uD83C\uDFCC\uFE0F Game'],['history','\uD83D\uDCCB History'],['settings','Settings']].forEach(function(pair){
-      var btn=document.createElement('button');btn.className='tab-btn'+(S.screen===pair[0]?' active':'');
+    var gameInProgress=S.wolfOrder&&S.wolfOrder.length>0&&Object.keys(S.holes).length>0;
+    var gameTabScreen=gameInProgress?'game':'setup';
+    [[gameTabScreen,'\uD83C\uDFCC\uFE0F Game'],['history','\uD83D\uDCCB History'],['settings','Settings']].forEach(function(pair){
+      var isActive=(S.screen===pair[0])||(pair[0]===gameTabScreen&&(S.screen==='game'||S.screen==='setup'||S.screen==='prelim'));
+      var btn=document.createElement('button');btn.className='tab-btn'+(isActive?' active':'');
       btn.textContent=pair[1];
       btn.onclick=function(){S.screen=pair[0];render();};
       tb.appendChild(btn);
@@ -2676,7 +2692,7 @@ function renderSettings(app){
   verRow.style.cssText='display:flex;align-items:center;justify-content:center;padding:16px 0 4px;gap:8px;';
   var verBadge=document.createElement('span');
   verBadge.style.cssText='font-size:12px;font-weight:700;background:var(--bg2);color:var(--tx2);padding:3px 10px;border-radius:10px;';
-  verBadge.textContent='v2.7.1 · Apr 2026';
+  verBadge.textContent='v2.7.3 · Apr 2026';
   verRow.appendChild(verBadge);
   app.appendChild(verRow);
 }
