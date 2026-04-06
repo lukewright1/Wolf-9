@@ -569,10 +569,16 @@ function calcWinner(holeNum){
   if(!allScored)return null;
   var wId=wolfFor(holeNum);
   if(hole.mode==='partner'&&hole.partner){
-    var wolfBest=Math.min(scores[sid(wId)]||99,scores[sid(hole.partner)]||99);
+    var wolfScores=[scores[sid(wId)]||99,scores[sid(hole.partner)]||99].sort(function(a,b){return a-b;});
     var otherPlayers=S.players.filter(function(p){return sid(p.id)!==sid(wId)&&sid(p.id)!==sid(hole.partner);});
-    var otherBest=Math.min.apply(null,otherPlayers.map(function(p){return scores[sid(p.id)]||99;}));
-    return wolfBest<otherBest?'wolf_team':otherBest<wolfBest?'others':'tie';
+    var otherScores=otherPlayers.map(function(p){return scores[sid(p.id)]||99;}).sort(function(a,b){return a-b;});
+    if(wolfScores[0]<otherScores[0])return 'wolf_team';
+    if(otherScores[0]<wolfScores[0])return 'others';
+    var wolfSecond=wolfScores[1]||99;
+    var otherSecond=otherScores[1]||99;
+    if(wolfSecond<otherSecond)return 'wolf_team';
+    if(otherSecond<wolfSecond)return 'others';
+    return 'tie';
   }
   if(hole.mode==='lone'||hole.mode==='forced'){
     var wolfScore=scores[sid(wId)]||99;
@@ -2692,7 +2698,7 @@ function renderSettings(app){
   verRow.style.cssText='display:flex;align-items:center;justify-content:center;padding:16px 0 4px;gap:8px;';
   var verBadge=document.createElement('span');
   verBadge.style.cssText='font-size:12px;font-weight:700;background:var(--bg2);color:var(--tx2);padding:3px 10px;border-radius:10px;';
-  verBadge.textContent='v2.7.3 · Apr 2026';
+  verBadge.textContent='v2.7.4 · Apr 2026';
   verRow.appendChild(verBadge);
   app.appendChild(verRow);
 }
