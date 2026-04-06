@@ -482,10 +482,10 @@ var S=_saved||{
     {name:'',id:'3',color:PCOLS[3],photo:null,phone:''}
   ],
   prelimScores:{},prelimHoled:{},wolfOrder:[],
-  currentHole:FIRST_HOLE,holes:{},mulliganUsed:{},customLogo:null,course:{name:'Los Lagos',city:'Costa Mesa, CA',pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:5,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:5},nine:'back'}
+  currentHole:FIRST_HOLE,holes:{},mulliganUsed:{},customLogo:null,course:{name:'Los Lagos',city:'Costa Mesa, CA',pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5},nine:'back'}
 };
 S.customLogo=loadLogo()||S.customLogo||null;
-if(!S.course)S.course={name:'Los Lagos',city:'Costa Mesa, CA',pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:5,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:5},nine:'back'};
+if(!S.course)S.course={name:'Los Lagos',city:'Costa Mesa, CA',pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5},nine:'back'};
 syncCourse();
 
 function sid(id){return String(id);}
@@ -978,7 +978,7 @@ function renderSetup(app){
     pb.style.cssText='flex:1;height:34px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;background:'+(nine===pair[0]?'var(--bg0)':'transparent')+';color:'+(nine===pair[0]?'var(--tx0)':'var(--tx1)')+';box-shadow:'+(nine===pair[0]?'0 1px 4px rgba(0,0,0,0.12)':'none')+';';
     pb.textContent=pair[1];
     pb.onclick=function(nv){return function(){
-      if(!S.course)S.course={name:'Los Lagos',city:'Costa Mesa, CA',pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:5,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:5},nine:'back'};
+      if(!S.course)S.course={name:'Los Lagos',city:'Costa Mesa, CA',pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5},nine:'back'};
       S.course.nine=nv;syncCourse();render();
     };}(pair[0]);
     ninePills.appendChild(pb);
@@ -2698,7 +2698,7 @@ function renderSettings(app){
   verRow.style.cssText='display:flex;align-items:center;justify-content:center;padding:16px 0 4px;gap:8px;';
   var verBadge=document.createElement('span');
   verBadge.style.cssText='font-size:12px;font-weight:700;background:var(--bg2);color:var(--tx2);padding:3px 10px;border-radius:10px;';
-  verBadge.textContent='v2.7.4 · Apr 2026';
+  verBadge.textContent='v2.7.5 · Apr 2026';
   verRow.appendChild(verBadge);
   app.appendChild(verRow);
 }
