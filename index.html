@@ -165,7 +165,7 @@ window.addEventListener('orientationchange',function(){
     var ls=document.getElementById('landscape-sc');
     var isLandscape=window.innerWidth>window.innerHeight;
     if(isLandscape){
-      if(!ls&&typeof renderLandscapeScorecard==='function'&&typeof S!=='undefined'&&S.screen==='game'){
+      if(!ls&&typeof renderLandscapeScorecard==='function'&&typeof S!=='undefined'&&(S.screen==='game'||S.screen==='results'||S.screen==='roundSummary')){
         renderLandscapeScorecard();
       }
     } else {
@@ -177,7 +177,7 @@ window.addEventListener('resize',function(){
   var ls=document.getElementById('landscape-sc');
   var isLandscape=window.innerWidth>window.innerHeight;
   if(isLandscape){
-    if(typeof renderLandscapeScorecard==='function'&&typeof S!=='undefined'&&S&&S.screen==='game'){
+    if(typeof renderLandscapeScorecard==='function'&&typeof S!=='undefined'&&S&&(S.screen==='game'||S.screen==='results'||S.screen==='roundSummary')){
       if(ls)ls.remove();
       renderLandscapeScorecard();
     }
@@ -200,29 +200,39 @@ function startGPS(cb){
 }
 
 
-function renderLandscapeScorecard(){
+function renderLandscapeScorecard(forceShow){
   var existing=document.getElementById('landscape-sc');
   if(existing)existing.remove();
   var el=document.createElement('div');el.className='landscape-scorecard';el.id='landscape-sc';
 
-  // Close hint
-  var hint=document.createElement('div');
-  hint.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
-  var title=document.createElement('span');title.style.cssText='font-size:13px;font-weight:700;color:var(--tx0);';
-  title.textContent=(S.course?S.course.name:'')+(S.course?' · ':'')+(FIRST_HOLE+'–'+LAST_HOLE);
-  hint.appendChild(title);
-  el.appendChild(hint);
+  // If forceShow (button tap), show even in portrait by overriding display
+  if(forceShow){el.style.display='block';}
 
-  // Get confirmed holes and par info
+  // Header bar
+  var hdr=document.createElement('div');
+  hdr.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;';
+  var title=document.createElement('span');title.style.cssText='font-size:13px;font-weight:700;color:var(--tx0);';
+  title.textContent=(S.course?S.course.name:'')+(S.course?' \u00B7 ':'')+FIRST_HOLE+'\u2013'+LAST_HOLE;
+  var closeBtn=document.createElement('button');
+  closeBtn.style.cssText='background:var(--bg2);border:none;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--tx1);font-family:inherit;flex-shrink:0;';
+  closeBtn.textContent='\u2715 Close';
+  closeBtn.onclick=function(){el.remove();};
+  hdr.appendChild(title);hdr.appendChild(closeBtn);
+  el.appendChild(hdr);
+
+  // Tip
+  var tip=document.createElement('p');
+  tip.style.cssText='font-size:10px;color:var(--tx2);margin-bottom:8px;';
+  tip.textContent='Tap any score to edit \u00B7 rotate to portrait to return to game';
+  el.appendChild(tip);
+
+  // Collect data
   var allHoles=[];
   for(var h=FIRST_HOLE;h<=LAST_HOLE;h++)allHoles.push(h);
   var dp=derivePoints();var pts=dp.pts;
 
-  // Per-hole points delta (what each player earned on each confirmed hole)
   var holePoints={};
   S.players.forEach(function(p){holePoints[p.id]={};});
-  var runningPts={};
-  S.players.forEach(function(p){runningPts[p.id]=0;});
   for(var h2=FIRST_HOLE+1;h2<=LAST_HOLE;h2++){
     var hole=S.holes[h2];
     if(!hole||!hole.confirmed)continue;
@@ -242,14 +252,12 @@ function renderLandscapeScorecard(){
 
   // Build table
   var tbl=document.createElement('table');tbl.className='lsc-table';
-
-  // Header row: Hole numbers
   var thead=document.createElement('thead');
   var hdrRow=document.createElement('tr');
   var th0=document.createElement('th');th0.textContent='Player';hdrRow.appendChild(th0);
   allHoles.forEach(function(h){
     var th=document.createElement('th');th.textContent=h;
-    if(h===S.currentHole)th.style.background='#0d3d7a';
+    if(h===S.currentHole&&S.screen==='game')th.style.background='#0d3d7a';
     hdrRow.appendChild(th);
   });
   var thTot=document.createElement('th');thTot.textContent='Score';hdrRow.appendChild(thTot);
@@ -267,59 +275,95 @@ function renderLandscapeScorecard(){
     totalPar+=(PARS[h]||0);parRow.appendChild(td);
   });
   var parTotTd=document.createElement('td');parTotTd.textContent=totalPar;parRow.appendChild(parTotTd);
-  var parPtsTd=document.createElement('td');parPtsTd.textContent='';parRow.appendChild(parPtsTd);
   tbody.appendChild(parRow);
 
   // Player rows
   S.players.forEach(function(p,pi){
     var row=document.createElement('tr');
-    // Name cell with color dot
     var nameTd=document.createElement('td');
     nameTd.style.cssText='display:flex;align-items:center;gap:5px;';
     var dot=document.createElement('span');dot.style.cssText='width:8px;height:8px;border-radius:50%;background:'+(p.color||PCOLS[pi%PCOLS.length])+';flex-shrink:0;display:inline-block;';
-    var nm=document.createElement('span');nm.textContent=p.name;nm.style.overflow='hidden';nm.style.textOverflow='ellipsis';nm.style.whiteSpace='nowrap';nm.style.maxWidth='60px';
+    var nm=document.createElement('span');nm.textContent=p.name;nm.style.cssText='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60px;';
     nameTd.appendChild(dot);nameTd.appendChild(nm);row.appendChild(nameTd);
 
     var totalStrokes=0;var totalVsPar=0;
     allHoles.forEach(function(h){
       var td=document.createElement('td');
+      td.style.cssText='cursor:pointer;';
       var score=(S.holes[h]&&S.holes[h].scores)?S.holes[h].scores[sid(p.id)]:null;
-      if(h===FIRST_HOLE){score=(S.holes[h]&&S.holes[h].scores)?S.holes[h].scores[sid(p.id)]:null;}
       var par=PARS[h]||4;
       if(score&&score>0){
         totalStrokes+=score;totalVsPar+=(score-par);
         var diff=score-par;
         var inner=document.createElement('span');inner.textContent=score;
-        if(diff<=-2){inner.className='lsc-eagle';}
-        else if(diff===-1){inner.className='lsc-birdie';}
-        else if(diff===1){inner.className='lsc-bogey';}
-        else if(diff>=2){inner.className='lsc-double';}
+        if(diff<=-2)inner.className='lsc-eagle';
+        else if(diff===-1)inner.className='lsc-birdie';
+        else if(diff===1)inner.className='lsc-bogey';
+        else if(diff>=2)inner.className='lsc-double';
         td.appendChild(inner);
-        // Show points earned
         if(h>FIRST_HOLE&&holePoints[p.id][h]>0){
           var ptSpan=document.createElement('sup');
           ptSpan.style.cssText='color:var(--bl);font-size:9px;margin-left:1px;font-weight:700;';
           ptSpan.textContent='+'+holePoints[p.id][h];
           td.appendChild(ptSpan);
         }
-      } else if(h===S.currentHole){
-        td.innerHTML='<span style="color:var(--bl);font-size:10px;">←</span>';
+      } else if(h===S.currentHole&&S.screen==='game'){
+        td.innerHTML='<span style="color:var(--bl);font-size:10px;">\u2190</span>';
       } else {
         td.textContent='-';td.style.color='var(--tx2)';
       }
-      if(h===S.currentHole)td.style.background='rgba(19,84,160,0.08)';
+      if(h===S.currentHole&&S.screen==='game')td.style.background='rgba(19,84,160,0.08)';
+
+      // Tap to edit score
+      td.onclick=function(hh,pp){return function(){
+        // Show inline edit popover
+        var pop=document.getElementById('lsc-edit-pop');if(pop)pop.remove();
+        var popEl=document.createElement('div');popEl.id='lsc-edit-pop';
+        popEl.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg0);border:1.5px solid var(--bdm);border-radius:16px;padding:16px;z-index:9100;box-shadow:0 8px 32px rgba(0,0,0,0.3);text-align:center;min-width:200px;';
+        var popTitle=document.createElement('div');
+        popTitle.style.cssText='font-size:13px;font-weight:700;color:var(--tx2);margin-bottom:10px;';
+        popTitle.textContent='Hole '+hh+' (Par '+par+') \u00B7 '+pp.name;
+        var curScore=(S.holes[hh]&&S.holes[hh].scores)?S.holes[hh].scores[sid(pp.id)]:null;
+        var inp=document.createElement('input');
+        inp.type='number';inp.min=1;inp.max=15;inp.inputMode='numeric';inp.pattern='[0-9]*';
+        inp.value=curScore||'';inp.placeholder='Score';
+        inp.style.cssText='width:80px;height:48px;font-size:28px;font-weight:700;text-align:center;border:1.5px solid var(--bdm);border-radius:10px;background:var(--bg1);color:var(--tx0);margin-bottom:12px;display:block;margin:0 auto 12px;';
+        var btnRow=document.createElement('div');btnRow.style.cssText='display:flex;gap:8px;justify-content:center;';
+        var cancelBtn=document.createElement('button');
+        cancelBtn.style.cssText='flex:1;height:38px;border:1.5px solid var(--bdr);border-radius:10px;background:transparent;color:var(--tx1);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;';
+        cancelBtn.textContent='Cancel';cancelBtn.onclick=function(){popEl.remove();};
+        var saveBtn=document.createElement('button');
+        saveBtn.style.cssText='flex:1;height:38px;border:none;border-radius:10px;background:var(--bl);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;';
+        saveBtn.textContent='Save';
+        saveBtn.onclick=function(){
+          var v=parseInt(inp.value);
+          if(!v||v<1||v>15){popEl.remove();return;}
+          if(!S.holes[hh])S.holes[hh]={scores:{}};
+          if(!S.holes[hh].scores)S.holes[hh].scores={};
+          S.holes[hh].scores[sid(pp.id)]=v;
+          recalcHoleResult(hh);
+          saveState();
+          popEl.remove();
+          // Re-render scorecard in place
+          renderLandscapeScorecard(forceShow);
+        };
+        popEl.appendChild(popTitle);popEl.appendChild(inp);
+        btnRow.appendChild(cancelBtn);btnRow.appendChild(saveBtn);
+        popEl.appendChild(btnRow);
+        document.body.appendChild(popEl);
+        setTimeout(function(){inp.focus();inp.select();},100);
+      };}(h,p);
+
       row.appendChild(td);
     });
 
-    // Total score
     var totTd=document.createElement('td');totTd.className='lsc-total';
     if(totalStrokes>0){
       var vsParStr=totalVsPar===0?'E':totalVsPar>0?'+'+totalVsPar:''+totalVsPar;
       totTd.textContent=totalStrokes+' ('+vsParStr+')';
-    } else {totTd.textContent='-';}
+    } else totTd.textContent='-';
     row.appendChild(totTd);
 
-    // Total points
     var ptsTd=document.createElement('td');ptsTd.className='lsc-total';
     var curPts=pts[p.id]||0;
     ptsTd.style.color=curPts>0?'var(--gr)':curPts<0?'var(--rd)':'var(--tx2)';
@@ -328,14 +372,7 @@ function renderLandscapeScorecard(){
 
     tbody.appendChild(row);
   });
-  tbl.appendChild(tbody);
-  el.appendChild(tbl);
-
-  var rotateTip=document.createElement('p');
-  rotateTip.style.cssText='font-size:10px;color:var(--tx2);margin-top:8px;text-align:center;';
-  rotateTip.textContent='Rotate to portrait to continue scoring';
-  el.appendChild(rotateTip);
-
+  tbl.appendChild(tbody);el.appendChild(tbl);
   document.body.appendChild(el);
 }
 
@@ -2099,10 +2136,14 @@ function renderResults(app){
   var winner=sorted[0];
   var topPts=pts[winner.id]||0;
 
-  var backRow=document.createElement('div');backRow.style.marginBottom='12px';
+  var backRow=document.createElement('div');backRow.style.cssText='margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;';
   var backBtn=document.createElement('button');backBtn.className='btn-back';backBtn.textContent='\u2190 Edit holes';
   backBtn.onclick=function(){S.screen='game';S.currentHole=LAST_HOLE;render();};
-  backRow.appendChild(backBtn);app.appendChild(backRow);
+  var scBtn=document.createElement('button');
+  scBtn.style.cssText='background:var(--bl2);color:var(--bl);border:1.5px solid var(--bl);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;';
+  scBtn.textContent='\uD83D\uDCCB Scorecard';
+  scBtn.onclick=function(){renderLandscapeScorecard(true);};
+  backRow.appendChild(backBtn);backRow.appendChild(scBtn);app.appendChild(backRow);
 
   var fin=document.createElement('div');fin.className='final-block';
   fin.innerHTML='<div style="font-size:44px;margin-bottom:10px">\uD83C\uDFC6</div><h2>'+winner.name+' wins!</h2><p>'+topPts+' points</p>';
@@ -2385,15 +2426,30 @@ function renderSettings(app){
       reloadBtn.textContent='Reload pars';
       reloadBtn.onclick=function(){
         var match=null;
-        for(var i=0;i<COURSE_DB.length;i++){if(COURSE_DB[i].name===S.course.name){match=COURSE_DB[i];break;}}
+        var cname=(S.course.name||''). toLowerCase();
+        // Exact match first, then fuzzy
+        for(var i=0;i<COURSE_DB.length;i++){
+          if(COURSE_DB[i].name===S.course.name){match=COURSE_DB[i];break;}
+        }
+        if(!match){
+          for(var j=0;j<COURSE_DB.length;j++){
+            if(COURSE_DB[j].name.toLowerCase().indexOf(cname.slice(0,10))>=0){
+              match=COURSE_DB[j];break;
+            }
+          }
+        }
+        // Hardcoded Los Lagos fallback
+        if(!match&&cname.indexOf('los lagos')>=0){
+          match={pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5}};
+        }
         if(match){
           S.course.pars=match.pars;
           syncCourse();
-          showToast('\u2713 Pars reloaded');
+          showToast('\u2713 Pars reloaded from database');
           S.screen=S._prevScreen||'game';
           render();
         } else {
-          showToast('Course not found in database');
+          showToast('Course not found — check course name');
         }
       };
       reloadRow.appendChild(reloadInfo);reloadRow.appendChild(reloadBtn);
@@ -2608,7 +2664,7 @@ function renderSettings(app){
   verRow.style.cssText='display:flex;align-items:center;justify-content:center;padding:16px 0 4px;gap:8px;';
   var verBadge=document.createElement('span');
   verBadge.style.cssText='font-size:12px;font-weight:700;background:var(--bg2);color:var(--tx2);padding:3px 10px;border-radius:10px;';
-  verBadge.textContent='v2.6.0 · Apr 2026';
+  verBadge.textContent='v2.7.0 · Apr 2026';
   verRow.appendChild(verBadge);
   app.appendChild(verRow);
 }
