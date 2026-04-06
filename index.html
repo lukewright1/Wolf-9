@@ -521,18 +521,9 @@ function wolfFor(h){
       return id2!=null?sid(id2):null;
     }
   } else {
-    // 4-player: always merit-based after prelim
-    var prevHole2=h-1;
-    var prevData2=S.holes[prevHole2];
-    if(prevData2&&prevData2.scores){
-      var scores2=prevData2.scores;
-      var best2=null;var bestScore2=99;
-      S.wolfOrder.forEach(function(pid){
-        var sc=scores2[sid(pid)];
-        if(sc&&sc>0&&sc<bestScore2){bestScore2=sc;best2=pid;}
-      });
-      if(best2!=null)return sid(best2);
-    }
+    // 4-player: strict sequential rotation through prelim order, cycling every 4 holes
+    var id4=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
+    return id4!=null?sid(id4):null;
     // Fallback to rotation
     var id3=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
     return id3!=null?sid(id3):null;
@@ -2685,7 +2676,7 @@ function renderSettings(app){
   verRow.style.cssText='display:flex;align-items:center;justify-content:center;padding:16px 0 4px;gap:8px;';
   var verBadge=document.createElement('span');
   verBadge.style.cssText='font-size:12px;font-weight:700;background:var(--bg2);color:var(--tx2);padding:3px 10px;border-radius:10px;';
-  verBadge.textContent='v2.7.0 · Apr 2026';
+  verBadge.textContent='v2.7.1 · Apr 2026';
   verRow.appendChild(verBadge);
   app.appendChild(verRow);
 }
