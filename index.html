@@ -682,13 +682,34 @@ function handleLogoUpload(e){
 }
 
 function doReset(){
-  clearState();
-  S={screen:'setup',
-    players:S.players.map(function(p){return{name:p.name,id:p.id,color:p.color,photo:p.photo,phone:p.phone||''};}),
-    prelimScores:{},prelimHoled:{},wolfOrder:[],
-    currentHole:FIRST_HOLE,holes:{},mulliganUsed:{},customLogo:S.customLogo};
-  render();
-  showToast('\u2713 Round reset \u2014 starting fresh');
+  var ov=document.createElement('div');
+  ov.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;';
+  var box=document.createElement('div');
+  box.style.cssText='background:var(--bg0);border-radius:20px;padding:24px;max-width:300px;width:100%;text-align:center;';
+  var icon=document.createElement('div');icon.style.cssText='font-size:36px;margin-bottom:12px;';icon.textContent='\u21BA';
+  var title=document.createElement('div');title.style.cssText='font-size:18px;font-weight:700;color:var(--tx0);margin-bottom:8px;';title.textContent='Reset round?';
+  var msg=document.createElement('div');msg.style.cssText='font-size:14px;color:var(--tx2);margin-bottom:20px;line-height:1.5;';msg.textContent='All scores and Wolf decisions will be cleared. Players are kept.';
+  var btnRow=document.createElement('div');btnRow.style.cssText='display:flex;gap:10px;';
+  var cancelBtn=document.createElement('button');
+  cancelBtn.style.cssText='flex:1;height:46px;border:1.5px solid var(--bdr);border-radius:14px;background:transparent;color:var(--tx1);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;';
+  cancelBtn.textContent='Cancel';
+  cancelBtn.onclick=function(){ov.remove();};
+  var confirmBtn=document.createElement('button');
+  confirmBtn.style.cssText='flex:1;height:46px;border:none;border-radius:14px;background:var(--rd);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;';
+  confirmBtn.textContent='Reset';
+  confirmBtn.onclick=function(){
+    ov.remove();
+    clearState();
+    S={screen:'setup',
+      players:S.players.map(function(p){return{name:p.name,id:p.id,color:p.color,photo:p.photo,phone:p.phone||''};}),
+      prelimScores:{},prelimHoled:{},wolfOrder:[],
+      currentHole:FIRST_HOLE,holes:{},mulliganUsed:{},customLogo:S.customLogo};
+    render();
+    showToast('\u2713 Round reset \u2014 starting fresh');
+  };
+  btnRow.appendChild(cancelBtn);btnRow.appendChild(confirmBtn);
+  box.appendChild(icon);box.appendChild(title);box.appendChild(msg);box.appendChild(btnRow);
+  ov.appendChild(box);document.body.appendChild(ov);
 }
 
 function renderFooter(app){
