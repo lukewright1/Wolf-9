@@ -1,0 +1,2790 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
+<title>Back 9 Wolf</title>
+<link id="ati" rel="apple-touch-icon" href="">
+<link id="fav" rel="icon" type="image/png" href="">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Back 9 Wolf">
+<meta name="theme-color" content="#1354A0">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+input,button,select,textarea{font-family:inherit;font-weight:inherit;}
+:root{
+  --bg0:#fff;--bg1:#f0f0ee;--bg2:#e4e2de;
+  --tx0:#111;--tx1:#555;--tx2:#909088;
+  --bl:#1354A0;--bl2:#dceaf8;--gr:#2d5e0a;--gr2:#d4edba;
+  --am:#7a3d00;--am2:#fde8b8;--am3:#d4860e;
+  --rd:#8f1f1f;--rd2:#fad4d4;--rd3:#e06060;
+  --bdr:rgba(0,0,0,0.15);--bdm:rgba(0,0,0,0.28);
+  --r1:8px;--r2:12px;--r3:16px;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme=light]){
+    --bg0:#1c1c1a;--bg1:#272724;--bg2:#303030;
+    --tx0:#f0ede8;--tx1:#9a9a96;--tx2:#66665e;
+    --bl:#4a90d9;--bl2:#0d2a42;--gr:#8dc44a;--gr2:#182d06;
+    --am:#f0c060;--am2:#2a1800;--am3:#c07a10;
+    --rd:#e06060;--rd2:#2a0a0a;--rd3:#e06060;
+    --bdr:rgba(255,255,255,0.1);--bdm:rgba(255,255,255,0.2);
+  }
+}
+[data-theme=dark]{
+  --bg0:#1c1c1a;--bg1:#272724;--bg2:#303030;
+  --tx0:#f0ede8;--tx1:#9a9a96;--tx2:#66665e;
+  --bl:#4a90d9;--bl2:#0d2a42;--gr:#8dc44a;--gr2:#182d06;
+  --am:#f0c060;--am2:#2a1800;--am3:#c07a10;
+  --rd:#e06060;--rd2:#2a0a0a;--rd3:#e06060;
+  --bdr:rgba(255,255,255,0.1);--bdm:rgba(255,255,255,0.2);
+}
+[data-theme=light]{
+  --bg0:#fff;--bg1:#f0f0ee;--bg2:#e4e2de;
+  --tx0:#111;--tx1:#555;--tx2:#909088;
+  --bl:#1354A0;--bl2:#dceaf8;--gr:#2d5e0a;--gr2:#d4edba;
+  --am:#7a3d00;--am2:#fde8b8;--am3:#d4860e;
+  --rd:#8f1f1f;--rd2:#fad4d4;--rd3:#e06060;
+  --bdr:rgba(0,0,0,0.15);--bdm:rgba(0,0,0,0.28);
+}
+body{background:var(--bg1);font-family:'Lexend',sans-serif;font-weight:700;color:var(--tx0);min-height:100vh;}
+.app-shell{max-width:430px;margin:0 auto;padding:0;}
+.app{padding:0 0 40px;}
+.app-body{padding:14px 14px 0;}
+.header{text-align:center;position:relative;margin-bottom:18px;padding-top:8px;}
+.header h1{font-size:26px;font-weight:700;letter-spacing:-0.5px;margin:0 0 6px;}
+.app-header{background:linear-gradient(180deg,#1354A0 0%,#0d3d7a 100%);padding:16px 16px 26px;}
+[data-theme=dark] .app-header{background:linear-gradient(180deg,#0d2a42 0%,#081a2a 100%);}
+.app-header-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.app-header-logo{font-size:32px;line-height:1;}
+.app-header-title{font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.5px;margin-top:2px;}
+.app-header-course{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.15);border-radius:20px;padding:4px 11px;margin-top:6px;}
+.app-header-course span{font-size:12px;font-weight:700;color:rgba(255,255,255,0.92);}
+.app-header-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
+.app-hdr-btn{background:rgba(255,255,255,0.15);border:none;color:rgba(255,255,255,0.9);font-size:12px;font-weight:700;padding:5px 11px;border-radius:20px;cursor:pointer;font-family:inherit;}
+.app-hdr-btn.danger{color:rgba(255,140,140,0.95);}
+.app-content{background:var(--bg1);border-radius:20px 20px 0 0;margin-top:-12px;padding:14px 14px 0;}
+.card{background:var(--bg0);border-radius:var(--r3);padding:14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.card-flush{background:var(--bg0);border-radius:var(--r3);overflow:hidden;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+[data-theme=dark] .card,[data-theme=dark] .card-flush{box-shadow:none;border:0.5px solid var(--bdr);}
+.section-title{font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:0.7px;margin:0 0 8px;}
+.btn-primary{width:100%;height:50px;background:var(--bl);color:#fff;border:none;border-radius:var(--r3);font-size:17px;font-weight:700;cursor:pointer;margin-top:12px;box-shadow:0 4px 12px rgba(19,84,160,0.25);}
+.btn-confirm{width:100%;height:50px;background:var(--bl);color:#fff;border:none;border-radius:var(--r3);font-size:17px;font-weight:700;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 12px rgba(19,84,160,0.25);}
+.btn-confirm:disabled{background:var(--bg2);color:var(--tx2);box-shadow:none;}
+.btn-back{background:none;border:none;color:var(--bl);font-size:14px;cursor:pointer;padding:0;font-weight:700;}
+.hole-nav-hdr{background:linear-gradient(180deg,#1354A0 0%,#0d3d7a 100%);padding:14px 14px 24px;}
+[data-theme=dark] .hole-nav-hdr{background:linear-gradient(180deg,#0d2a42 0%,#081a2a 100%);}
+.hole-nav{display:flex;align-items:center;justify-content:space-between;}
+.hole-title{text-align:center;flex:1;}
+.hole-title h2{font-size:24px;font-weight:700;color:#fff;}
+.hole-title p{font-size:12px;color:rgba(255,255,255,0.65);margin-top:2px;}
+.btn-nav{width:38px;height:38px;background:rgba(255,255,255,0.15);border:none;border-radius:10px;font-size:18px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;}
+.btn-nav:disabled{opacity:0.3;}
+.wolf-pill{display:flex;align-items:center;gap:10px;background:var(--bg0);border-radius:var(--r3);padding:10px 14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+[data-theme=dark] .wolf-pill{box-shadow:none;border:0.5px solid var(--bdr);}
+.wolf-pill-info{flex:1;}
+.wolf-pill-label{font-size:11px;color:var(--tx2);font-weight:700;}
+.wolf-pill-name{font-size:16px;font-weight:700;color:var(--tx0);}
+.wolf-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.wolf-badge{background:var(--bl);color:#fff;border-radius:20px;padding:6px 14px;font-size:14px;font-weight:700;}
+.btn-mulligan{background:transparent;border:1.5px solid var(--am3);color:var(--am3);border-radius:20px;padding:5px 12px;font-size:13px;font-weight:700;cursor:pointer;}
+.btn-mulligan.used{background:var(--am2);color:var(--am);border-color:var(--am);}
+.mode-pills{display:flex;gap:0;margin-bottom:14px;background:var(--bg2);border-radius:12px;padding:3px;}
+.mode-pill{flex:1;height:36px;border:none;border-radius:10px;background:transparent;color:var(--tx1);font-size:13px;font-weight:700;cursor:pointer;}
+.mode-pill.active{background:var(--bg0);color:var(--tx0);box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+.partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.btn-partner{height:44px;background:var(--bg0);border:1.5px solid var(--bdr);border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;color:var(--tx0);}
+.btn-partner.selected{background:var(--bl2);border-color:var(--bl);color:var(--bl);}
+.prelim-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.prelim-row:last-child{margin-bottom:0;}
+.score-input{width:54px;height:40px;text-align:center;font-size:18px;font-weight:700;border:0.5px solid var(--bdm);border-radius:var(--r1);background:var(--bg1);color:var(--tx0);outline:none;-webkit-appearance:none;}
+.score-input:focus{border-color:var(--bl);}
+.prelim-score-input{width:64px;height:56px;font-size:26px;border-width:1.5px;border-radius:10px;}
+.player-input-wrap{flex:1;position:relative;}
+.player-input{width:100%;height:40px;padding:0 30px 0 12px;font-size:15px;font-weight:700;border:0.5px solid var(--bdm);border-radius:var(--r1);background:var(--bg1);color:var(--tx0);outline:none;-webkit-appearance:none;}
+.player-input:focus{border-color:var(--bl);}
+.dd-arrow{position:absolute;right:0;top:0;bottom:0;width:36px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--tx2);cursor:pointer;}
+.dropdown{position:absolute;top:44px;left:0;right:0;background:var(--bg0);border:0.5px solid var(--bdm);border-radius:var(--r2);z-index:100;box-shadow:0 4px 16px rgba(0,0,0,0.12);overflow:hidden;}
+.dd-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:0.5px solid var(--bdr);font-size:14px;font-weight:700;cursor:pointer;}
+.dd-item:last-child{border-bottom:none;}
+.dd-del{background:rgba(224,96,96,0.12);border:none;color:var(--rd3);font-size:14px;cursor:pointer;padding:0;font-weight:700;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.player-row{display:flex;align-items:center;gap:8px;padding:8px 0;}
+.player-row-wrap{position:relative;overflow:hidden;border-radius:var(--r2);margin-bottom:10px;}
+.player-row-wrap:last-of-type{margin-bottom:0;}
+.delete-reveal{position:absolute;right:0;top:0;bottom:0;width:80px;background:var(--rd);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;border-radius:0 var(--r2) var(--r2) 0;}
+.player-row-inner{transition:transform 0.2s ease;background:var(--bg0);border-radius:var(--r2);display:flex;align-items:center;gap:8px;padding:8px 0;}
+.player-row-inner.swiped{transform:translateX(-80px);}
+.role-tag{font-size:10px;padding:2px 6px;border-radius:10px;flex-shrink:0;font-weight:700;}
+.role-wolf{background:var(--bl);color:#fff;}
+.role-cowolf{background:var(--bl2);color:var(--bl);}
+.par-tag{font-size:10px;padding:2px 6px;border-radius:10px;background:var(--bg1);color:var(--tx1);border:0.5px solid var(--bdr);}
+.birdie-tag{font-size:10px;padding:2px 6px;border-radius:10px;background:var(--gr2);color:var(--gr);border:0.5px solid var(--gr);}
+.eagle-tag{font-size:10px;padding:2px 6px;border-radius:10px;background:#e8f5e9;color:#1b5e20;border:0.5px solid #1b5e20;}
+.bogey-tag{font-size:10px;padding:2px 6px;border-radius:10px;background:var(--am2);color:var(--am);border:0.5px solid var(--am);}
+.double-tag{font-size:10px;padding:2px 6px;border-radius:10px;background:var(--rd2);color:var(--rd);border:0.5px solid var(--rd3);}
+.tab-bar{display:flex;background:var(--bg2);border-radius:12px;padding:3px;margin-bottom:14px;gap:2px;}
+.tab-btn{flex:1;height:36px;border:none;border-radius:9px;background:transparent;color:var(--tx1);font-size:13px;font-weight:700;cursor:pointer;}
+.tab-btn.active{background:var(--bg0);color:var(--tx0);box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+.sb-table{width:100%;border-collapse:collapse;font-size:13px;}
+.sb-table th{font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:0.5px solid var(--bdr);}
+.sb-table td{padding:10px 12px;border-bottom:0.5px solid var(--bdr);}
+.sb-table tr:last-child td{border-bottom:none;}
+.sb-pts{text-align:right;font-size:16px;font-weight:700;color:var(--bl);}
+.history-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:0.5px solid var(--bdr);cursor:pointer;}
+.history-row:last-child{border-bottom:none;}
+.round-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:0.5px solid var(--bdr);cursor:pointer;}
+.round-row:last-child{border-bottom:none;}
+.final-block{background:var(--gr);color:#fff;border-radius:var(--r3);padding:20px;text-align:center;margin-bottom:14px;}
+.final-block h2{font-size:22px;font-weight:700;margin-bottom:4px;}
+.info-box{background:var(--am2);border:0.5px solid var(--am3);border-radius:var(--r2);padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--am);}
+.landscape-scorecard{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:var(--bg1);overflow:auto;padding:12px;}
+@media(orientation:landscape){.landscape-scorecard{display:block;}.portrait-only{display:none!important;}}
+.lsc-table{width:100%;border-collapse:collapse;font-size:12px;}
+.lsc-table th{background:var(--bl);color:#fff;padding:6px 8px;text-align:center;font-size:11px;font-weight:700;white-space:nowrap;}
+.lsc-table th:first-child{text-align:left;min-width:70px;}
+.lsc-table td{padding:5px 8px;text-align:center;border-bottom:0.5px solid var(--bdr);font-weight:700;font-size:12px;}
+.lsc-table td:first-child{text-align:left;font-size:12px;}
+.lsc-table tr:nth-child(even){background:var(--bg0);}
+.lsc-table tr:nth-child(odd){background:var(--bg1);}
+.lsc-par-row td{background:var(--bg2)!important;color:var(--tx2);font-size:10px;font-weight:700;}
+.lsc-total{background:var(--bl2)!important;color:var(--bl);font-weight:700;}
+.lsc-pts-row td{background:var(--bg0)!important;}
+.lsc-eagle{background:#1b5e20;color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;}
+.lsc-birdie{background:var(--rd);color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;}
+.lsc-bogey{background:var(--am2);color:var(--am);border-radius:3px;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;}
+.lsc-double{background:var(--rd2);color:var(--rd);border-radius:3px;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;}
+</style>
+</head>
+<body>
+<div class="app-shell"><div class="app" id="app"></div></div>
+<script>
+window.addEventListener('orientationchange',function(){
+  setTimeout(function(){
+    var ls=document.getElementById('landscape-sc');
+    var isLandscape=window.innerWidth>window.innerHeight;
+    if(isLandscape){
+      var histRd=(S.screen==='roundSummary'&&S._historyRound)?S._historyRound.round:null;
+      if(!ls&&typeof renderLandscapeScorecard==='function'&&typeof S!=='undefined'&&(S.screen==='game'||S.screen==='results'||S.screen==='roundSummary')){
+        renderLandscapeScorecard(false,histRd);
+      }
+    } else {
+      if(ls)ls.remove();
+    }
+  },200);
+});
+window.addEventListener('resize',function(){
+  var ls=document.getElementById('landscape-sc');
+  var isLandscape=window.innerWidth>window.innerHeight;
+  if(isLandscape){
+    var histRd2=(S&&S.screen==='roundSummary'&&S._historyRound)?S._historyRound.round:null;
+    if(typeof renderLandscapeScorecard==='function'&&typeof S!=='undefined'&&S&&(S.screen==='game'||S.screen==='results'||S.screen==='roundSummary')){
+      if(ls)ls.remove();
+      renderLandscapeScorecard(false,histRd2);
+    }
+  } else {
+    if(ls)ls.remove();
+  }
+});
+</script>
+<script>
+var PARS={10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:5};
+var FIRST_HOLE=10,LAST_HOLE=18;
+function startGPS(cb){
+  if(!navigator.geolocation){cb(null,'GPS not supported');return;}
+  if(_gpsPos){cb(_gpsPos,null);return;}
+  navigator.geolocation.getCurrentPosition(
+    function(pos){_gpsPos={lat:pos.coords.latitude,lng:pos.coords.longitude};cb(_gpsPos,null);},
+    function(err){cb(null,err.message||'GPS unavailable');},
+    {enableHighAccuracy:true,timeout:8000,maximumAge:10000}
+  );
+}
+
+function renderLandscapeScorecard(forceShow,histRound){
+var existing=document.getElementById(‘landscape-sc’);
+if(existing)existing.remove();
+var el=document.createElement(‘div’);el.className=‘landscape-scorecard’;el.id=‘landscape-sc’;
+
+// If forceShow (button tap), show even in portrait by overriding display
+if(forceShow){el.style.display=‘block’;}
+
+// Use historical round data if provided, otherwise use live game
+var scPlayers=histRound?histRound.players:S.players;
+var scHoles=histRound?histRound.holes:S.holes;
+var scWolfOrder=histRound?histRound.wolfOrder:S.wolfOrder;
+var scFirst=histRound?histRound.firstHole:FIRST_HOLE;
+var scLast=histRound?histRound.lastHole:LAST_HOLE;
+var scCourseName=histRound?(histRound.course||‘Unknown’):(S.course?S.course.name:’’);
+// Build pars from current PARS or reconstruct from course name
+var scPars={};
+if(histRound){
+// Find course in DB for pars
+var dbMatch=null;
+for(var di=0;di<COURSE_DB.length;di++){if(COURSE_DB[di].name===scCourseName){dbMatch=COURSE_DB[di];break;}}
+if(dbMatch){for(var ph=scFirst;ph<=scLast;ph++)scPars[ph]=dbMatch.pars[ph]||4;}
+else{for(var ph2=scFirst;ph2<=scLast;ph2++)scPars[ph2]=4;}
+} else {
+scPars=PARS;
+}
+
+// Header bar
+var hdr=document.createElement(‘div’);
+hdr.style.cssText=‘display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;’;
+var title=document.createElement(‘span’);title.style.cssText=‘font-size:13px;font-weight:700;color:var(–tx0);’;
+title.textContent=scCourseName+’ \u00B7 ‘+scFirst+’\u2013’+scLast;
+var closeBtn=document.createElement(‘button’);
+closeBtn.style.cssText=‘background:var(–bg2);border:none;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(–tx1);font-family:inherit;flex-shrink:0;’;
+closeBtn.textContent=’\u2715 Close’;
+closeBtn.onclick=function(){el.remove();};
+hdr.appendChild(title);hdr.appendChild(closeBtn);
+el.appendChild(hdr);
+
+// Tip
+var tip=document.createElement(‘p’);
+tip.style.cssText=‘font-size:10px;color:var(–tx2);margin-bottom:8px;’;
+tip.textContent=‘Tap any score to edit \u00B7 rotate to portrait to return to game’;
+el.appendChild(tip);
+
+// Collect data
+var allHoles=[];
+for(var h=scFirst;h<=scLast;h++)allHoles.push(h);
+// Points from history or live
+var pts={};
+if(histRound){scPlayers.forEach(function(p){pts[String(p.id)]=histRound.pts[String(p.id)]||0;});}
+else{var dp=derivePoints();pts=dp.pts;}
+
+var holePoints={};
+scPlayers.forEach(function(p){holePoints[p.id]={};});
+for(var h2=scFirst+1;h2<=scLast;h2++){
+var hole=scHoles[h2];
+if(!hole||!hole.confirmed)continue;
+var wId=histRound?scWolfOrder[(h2-scFirst-1)%scWolfOrder.length]:wolfFor(h2);
+var earned={};scPlayers.forEach(function(p){earned[p.id]=0;});
+if(hole.winner===‘wolf_team’&&hole.mode===‘partner’){
+scPlayers.forEach(function(p){if(sid(p.id)===sid(wId)||sid(p.id)===sid(hole.partner))earned[p.id]=1;});
+} else if(hole.winner===‘wolf’&&(hole.mode===‘lone’||hole.mode===‘forced’)){
+scPlayers.forEach(function(p){if(sid(p.id)===sid(wId))earned[p.id]=3;});
+} else if(hole.winner===‘others’&&hole.mode===‘partner’){
+scPlayers.forEach(function(p){if(sid(p.id)!==sid(wId)&&sid(p.id)!==sid(hole.partner))earned[p.id]=1;});
+} else if(hole.winner===‘others’&&(hole.mode===‘lone’||hole.mode===‘forced’)){
+scPlayers.forEach(function(p){if(sid(p.id)!==sid(wId))earned[p.id]=1;});
+}
+scPlayers.forEach(function(p){holePoints[p.id][h2]=earned[p.id];});
+}
+
+// Build table
+var tbl=document.createElement(‘table’);tbl.className=‘lsc-table’;
+var thead=document.createElement(‘thead’);
+var hdrRow=document.createElement(‘tr’);
+var th0=document.createElement(‘th’);th0.textContent=‘Player’;hdrRow.appendChild(th0);
+allHoles.forEach(function(h){
+var th=document.createElement(‘th’);th.textContent=h;
+if(!histRound&&h===S.currentHole&&S.screen===‘game’)th.style.background=’#0d3d7a’;
+hdrRow.appendChild(th);
+});
+var thTot=document.createElement(‘th’);thTot.textContent=‘Score’;hdrRow.appendChild(thTot);
+var thPts=document.createElement(‘th’);thPts.textContent=‘Pts’;hdrRow.appendChild(thPts);
+thead.appendChild(hdrRow);tbl.appendChild(thead);
+
+var tbody=document.createElement(‘tbody’);
+
+// Par row
+var parRow=document.createElement(‘tr’);parRow.className=‘lsc-par-row’;
+var parLbl=document.createElement(‘td’);parLbl.textContent=‘Par’;parRow.appendChild(parLbl);
+var totalPar=0;
+allHoles.forEach(function(h){
+var td=document.createElement(‘td’);td.textContent=scPars[h]||’-’;
+totalPar+=(scPars[h]||0);parRow.appendChild(td);
+});
+var parTotTd=document.createElement(‘td’);parTotTd.textContent=totalPar;parRow.appendChild(parTotTd);
+tbody.appendChild(parRow);
+
+// Player rows
+scPlayers.forEach(function(p,pi){
+var row=document.createElement(‘tr’);
+var nameTd=document.createElement(‘td’);
+nameTd.style.cssText=‘display:flex;align-items:center;gap:5px;’;
+var dot=document.createElement(‘span’);dot.style.cssText=‘width:8px;height:8px;border-radius:50%;background:’+(p.color||PCOLS[pi%PCOLS.length])+’;flex-shrink:0;display:inline-block;’;
+var nm=document.createElement(‘span’);nm.textContent=p.name;nm.style.cssText=‘overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60px;’;
+nameTd.appendChild(dot);nameTd.appendChild(nm);row.appendChild(nameTd);
+
+```
+var totalStrokes=0;var totalVsPar=0;
+allHoles.forEach(function(h){
+  var td=document.createElement('td');
+  td.style.cssText='cursor:pointer;';
+  var score=(scHoles[h]&&scHoles[h].scores)?scHoles[h].scores[sid(p.id)]:null;
+  var par=scPars[h]||4;
+  if(score&&score>0){
+    totalStrokes+=score;totalVsPar+=(score-par);
+    var diff=score-par;
+    var inner=document.createElement('span');inner.textContent=score;
+    if(diff<=-2)inner.className='lsc-eagle';
+    else if(diff===-1)inner.className='lsc-birdie';
+    else if(diff===1)inner.className='lsc-bogey';
+    else if(diff>=2)inner.className='lsc-double';
+    td.appendChild(inner);
+    if(h>FIRST_HOLE&&holePoints[p.id][h]>0){
+      var ptSpan=document.createElement('sup');
+      ptSpan.style.cssText='color:var(--bl);font-size:9px;margin-left:1px;font-weight:700;';
+      ptSpan.textContent='+'+holePoints[p.id][h];
+      td.appendChild(ptSpan);
+    }
+  } else if(!histRound&&h===S.currentHole&&S.screen==='game'){
+    td.innerHTML='<span style="color:var(--bl);font-size:10px;">\u2190</span>';
+  } else {
+    td.textContent='-';td.style.color='var(--tx2)';
+  }
+  if(!histRound&&h===S.currentHole&&S.screen==='game')td.style.background='rgba(19,84,160,0.08)';
+
+  // Tap to edit score (disabled in history view)
+  if(!histRound)td.onclick=function(hh,pp){return function(){
+    // Show inline edit popover
+    var pop=document.getElementById('lsc-edit-pop');if(pop)pop.remove();
+    var popEl=document.createElement('div');popEl.id='lsc-edit-pop';
+    popEl.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg0);border:1.5px solid var(--bdm);border-radius:16px;padding:16px;z-index:9100;box-shadow:0 8px 32px rgba(0,0,0,0.3);text-align:center;min-width:200px;';
+    var popTitle=document.createElement('div');
+    popTitle.style.cssText='font-size:13px;font-weight:700;color:var(--tx2);margin-bottom:10px;';
+    popTitle.textContent='Hole '+hh+' (Par '+par+') \u00B7 '+pp.name;
+    var curScore=(S.holes[hh]&&S.holes[hh].scores)?S.holes[hh].scores[sid(pp.id)]:null;
+    var inp=document.createElement('input');
+    inp.type='number';inp.min=1;inp.max=15;inp.inputMode='numeric';inp.pattern='[0-9]*';
+    inp.value=curScore||'';inp.placeholder='Score';
+    inp.style.cssText='width:80px;height:48px;font-size:28px;font-weight:700;text-align:center;border:1.5px solid var(--bdm);border-radius:10px;background:var(--bg1);color:var(--tx0);margin-bottom:12px;display:block;margin:0 auto 12px;';
+    var btnRow=document.createElement('div');btnRow.style.cssText='display:flex;gap:8px;justify-content:center;';
+    var cancelBtn=document.createElement('button');
+    cancelBtn.style.cssText='flex:1;height:38px;border:1.5px solid var(--bdr);border-radius:10px;background:transparent;color:var(--tx1);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;';
+    cancelBtn.textContent='Cancel';cancelBtn.onclick=function(){popEl.remove();};
+    var saveBtn=document.createElement('button');
+    saveBtn.style.cssText='flex:1;height:38px;border:none;border-radius:10px;background:var(--bl);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;';
+    saveBtn.textContent='Save';
+    saveBtn.onclick=function(){
+      var v=parseInt(inp.value);
+      if(!v||v<1||v>15){popEl.remove();return;}
+      if(!S.holes[hh])S.holes[hh]={scores:{}};
+      if(!S.holes[hh].scores)S.holes[hh].scores={};
+      S.holes[hh].scores[sid(pp.id)]=v;
+      recalcHoleResult(hh);
+      saveState();
+      popEl.remove();
+      // Re-render scorecard in place
+      renderLandscapeScorecard(forceShow,histRound);
+    };
+    popEl.appendChild(popTitle);popEl.appendChild(inp);
+    btnRow.appendChild(cancelBtn);btnRow.appendChild(saveBtn);
+    popEl.appendChild(btnRow);
+    document.body.appendChild(popEl);
+    setTimeout(function(){inp.focus();inp.select();},100);
+  };}(h,p);
+
+  row.appendChild(td);
+});
+
+var totTd=document.createElement('td');totTd.className='lsc-total';
+if(totalStrokes>0){
+  var vsParStr=totalVsPar===0?'E':totalVsPar>0?'+'+totalVsPar:''+totalVsPar;
+  totTd.textContent=totalStrokes+' ('+vsParStr+')';
+} else totTd.textContent='-';
+row.appendChild(totTd);
+
+var ptsTd=document.createElement('td');ptsTd.className='lsc-total';
+var curPts=pts[p.id]||0;
+ptsTd.style.color=curPts>0?'var(--gr)':curPts<0?'var(--rd)':'var(--tx2)';
+ptsTd.textContent=curPts>0?'+'+curPts:String(curPts);
+row.appendChild(ptsTd);
+
+tbody.appendChild(row);
+```
+
+});
+tbl.appendChild(tbody);el.appendChild(tbl);
+document.body.appendChild(el);
+}
+
+function haptic(style){
+// style: ‘light’,‘medium’,‘heavy’,‘success’,‘warning’,‘error’
+try{
+if(window.navigator&&window.navigator.vibrate){
+var pat=style===‘heavy’?[30]:style===‘medium’?[20]:style===‘success’?[10,40,10]:[10];
+window.navigator.vibrate(pat);
+}
+}catch(e){}
+}
+function syncCourse(){
+if(S&&S.course&&S.course.pars){
+var nine=S.course.nine||‘back’;
+var allPars=S.course.pars;
+var allHoles=Object.keys(allPars).map(Number).sort(function(a,b){return a-b;});
+if(nine===‘front’){
+var frontHoles=allHoles.filter(function(h){return h<=9;});
+if(!frontHoles.length)frontHoles=allHoles.slice(0,9);
+FIRST_HOLE=frontHoles[0];LAST_HOLE=frontHoles[frontHoles.length-1];
+} else if(nine===‘back’){
+var backHoles=allHoles.filter(function(h){return h>=10;});
+if(!backHoles.length)backHoles=allHoles.slice(9);
+FIRST_HOLE=backHoles[0];LAST_HOLE=backHoles[backHoles.length-1];
+} else {
+FIRST_HOLE=allHoles[0];LAST_HOLE=allHoles[allHoles.length-1];
+}
+PARS={};allHoles.forEach(function(h){PARS[h]=allPars[h];});
+}
+}
+var PCOLS=[’#1354A0’,’#2d5e0a’,’#8f1f1f’,’#7a3d00’,’#2e2880’];
+var PLCOLS=[’#dceaf8’,’#d4edba’,’#fad4d4’,’#fde8b8’,’#e8e6fe’];
+var PTCOLS=[’#0a3570’,’#1a4a06’,’#5a1010’,’#4a2500’,’#1e1860’];
+
+function applyTheme(t){
+document.documentElement.setAttribute(‘data-theme’,t);
+try{localStorage.setItem(‘wolf_theme’,t);}catch(e){}
+}
+(function(){
+try{var t=localStorage.getItem(‘wolf_theme’);if(t)applyTheme(t);}catch(e){}
+})();
+
+function parLabel(score,h){
+var par=PARS[h];
+if(!score||!par)return null;
+var d=score-par;
+if(d<=-2)return{text:‘Eagle!’,cls:‘eagle-tag’};
+if(d===-1)return{text:‘Birdie!’,cls:‘birdie-tag’};
+if(d===0)return{text:‘Par’,cls:‘par-tag’};
+if(d===1)return{text:‘Bogey’,cls:‘bogey-tag’};
+if(d===2)return{text:‘Double’,cls:‘double-tag’};
+return{text:’+’+d,cls:‘double-tag’};
+}
+function isBirdie(s,h){return s>0&&PARS[h]>0&&s<=PARS[h]-1;}
+
+function loadRoster(){try{return JSON.parse(localStorage.getItem(‘wolf_roster’)||’[]’);}catch(e){return[];}}
+function saveRoster(r){try{localStorage.setItem(‘wolf_roster’,JSON.stringify(r));}catch(e){}}
+var roster=loadRoster();
+function addToRoster(n){n=n.trim();if(!n||roster.indexOf(n)>=0)return;roster.push(n);saveRoster(roster);}
+function removeFromRoster(n){roster=roster.filter(function(r){return r!==n;});saveRoster(roster);}
+
+function loadProfiles(){try{return JSON.parse(localStorage.getItem(‘wolf_profiles’)||’{}’);}catch(e){return {};}}
+function saveProfiles(){
+var profiles={};
+S.players.forEach(function(p){
+if(p.name.trim()){profiles[p.name.trim()]={color:p.color,photo:p.photo};}
+});
+try{localStorage.setItem(‘wolf_profiles’,JSON.stringify(profiles));}catch(e){}
+}
+function savePlayerPhone(name,phone){
+var profiles=loadProfiles();
+if(profiles[name])profiles[name].phone=phone;
+else profiles[name]={phone:phone};
+try{localStorage.setItem(‘wolf_profiles’,JSON.stringify(profiles));}catch(e){}
+}
+function saveLogo(logo){try{if(logo)localStorage.setItem(‘wolf_logo’,logo);else localStorage.removeItem(‘wolf_logo’);}catch(e){}}
+function loadLogo(){try{return localStorage.getItem(‘wolf_logo’)||null;}catch(e){return null;}}
+
+function loadRounds(){try{return JSON.parse(localStorage.getItem(‘wolf_rounds’)||’[]’);}catch(e){return[];}}
+function saveRound(rd){
+var rounds=loadRounds();
+rounds.unshift(rd);
+if(rounds.length>20)rounds.length=20;
+try{localStorage.setItem(‘wolf_rounds’,JSON.stringify(rounds));}catch(e){}
+}
+function deleteRound(idx){
+var rounds=loadRounds();rounds.splice(idx,1);
+try{localStorage.setItem(‘wolf_rounds’,JSON.stringify(rounds));}catch(e){}
+}
+
+function saveState(){try{localStorage.setItem(‘wolf_current’,JSON.stringify(S));}catch(e){}}
+function loadState(){try{var r=localStorage.getItem(‘wolf_current’);return r?JSON.parse(r):null;}catch(e){return null;}}
+function clearState(){try{localStorage.removeItem(‘wolf_current’);}catch(e){}}
+
+var _saved=loadState();
+if(_saved&&_saved.players){
+_saved.players.forEach(function(p){p.id=String(p.id);});
+if(_saved.wolfOrder)_saved.wolfOrder=_saved.wolfOrder.map(function(id){return String(id);});
+}
+var S=_saved||{
+screen:‘setup’,
+players:[
+{name:’’,id:‘0’,color:PCOLS[0],photo:null,phone:’’},
+{name:’’,id:‘1’,color:PCOLS[1],photo:null,phone:’’},
+{name:’’,id:‘2’,color:PCOLS[2],photo:null,phone:’’},
+{name:’’,id:‘3’,color:PCOLS[3],photo:null,phone:’’}
+],
+prelimScores:{},prelimHoled:{},wolfOrder:[],
+currentHole:FIRST_HOLE,holes:{},mulliganUsed:{},customLogo:null,course:{name:‘Los Lagos’,city:‘Costa Mesa, CA’,pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5},nine:‘back’}
+};
+S.customLogo=loadLogo()||S.customLogo||null;
+if(!S.course)S.course={name:‘Los Lagos’,city:‘Costa Mesa, CA’,pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5},nine:‘back’};
+syncCourse();
+
+function sid(id){return String(id);}
+function wolfFor(h){
+if(h<=FIRST_HOLE)return null;
+if(S.holes[h]&&S.holes[h].wolfOverride)return sid(S.holes[h].wolfOverride);
+var is5=S.players.length===5;
+var gameHole=h-FIRST_HOLE;
+
+if(is5){
+// 5-player Wolf rules:
+// Game holes 1-5: strict rotation — each player wolves exactly once in prelim order
+// Game holes 6+: merit-based — best scorer on prior hole is Wolf
+if(gameHole<=5){
+// Strict rotation — use prelim order index directly
+var id=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
+return id!=null?sid(id):null;
+} else {
+// Merit-based: best scorer on prior hole becomes Wolf
+// BUT no player can be Wolf more than twice total in the round
+// Count how many times each player has been Wolf so far
+// Only count wolf appearances during the merit phase (game holes 6+)
+var meritStart=FIRST_HOLE+5; // first merit hole
+var wolfCounts={};
+S.wolfOrder.forEach(function(pid){wolfCounts[sid(pid)]=0;});
+for(var hh=meritStart;hh<h;hh++){
+var hw=wolfFor(hh);
+if(hw&&wolfCounts[hw]!==undefined)wolfCounts[hw]++;
+}
+var prevHole=h-1;
+var prevData=S.holes[prevHole];
+if(prevData&&prevData.scores){
+var scores=prevData.scores;
+var best=null;var bestScore=99;
+S.wolfOrder.forEach(function(pid){
+var sc=scores[sid(pid)];
+// Skip players who have already wolfed twice
+if((wolfCounts[sid(pid)]||0)>=2)return;
+if(sc&&sc>0&&sc<bestScore){bestScore=sc;best=pid;}
+});
+if(best!=null)return sid(best);
+}
+// Fallback: pick eligible player from rotation
+for(var fi=0;fi<S.wolfOrder.length;fi++){
+var fpid=S.wolfOrder[(gameHole-1+fi)%S.wolfOrder.length];
+if((wolfCounts[sid(fpid)]||0)<2)return sid(fpid);
+}
+var id2=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
+return id2!=null?sid(id2):null;
+}
+} else {
+// 4-player: strict sequential rotation through prelim order, cycling every 4 holes
+var id4=S.wolfOrder[(gameHole-1)%S.wolfOrder.length];
+return id4!=null?sid(id4):null;
+}
+}
+function pById(id){return S.players.filter(function(p){return sid(p.id)===sid(id);})[0]||null;}
+function pIdx(id){for(var i=0;i<S.players.length;i++)if(sid(S.players[i].id)===sid(id))return i;return 0;}
+
+function mkAv(name,i,size){
+var el=document.createElement(‘div’);
+var p=S.players[i];
+el.style.cssText=‘width:’+size+‘px;height:’+size+‘px;border-radius:50%;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:’+(size*0.42)+‘px;font-weight:700;color:#fff;background:’+(p&&p.color?p.color:PCOLS[i%PCOLS.length])+’;’;
+if(p&&p.photo){
+var img=document.createElement(‘img’);
+img.src=p.photo;img.style.cssText=‘width:100%;height:100%;object-fit:cover;’;
+el.appendChild(img);
+} else {
+el.textContent=(name||’’).charAt(0).toUpperCase()||String(i+1);
+}
+return el;
+}
+
+function calcWinner(holeNum){
+var hole=S.holes[holeNum];
+if(!hole||!hole.mode)return null;
+var rawScores=hole.scores||{};
+var scores={};
+Object.keys(rawScores).forEach(function(k){scores[sid(k)]=rawScores[k];});
+var allScored=S.players.every(function(p){return (scores[sid(p.id)]||0)>0;});
+if(!allScored)return null;
+var wId=wolfFor(holeNum);
+if(hole.mode===‘partner’&&hole.partner){
+var wolfScores=[scores[sid(wId)]||99,scores[sid(hole.partner)]||99].sort(function(a,b){return a-b;});
+var otherPlayers=S.players.filter(function(p){return sid(p.id)!==sid(wId)&&sid(p.id)!==sid(hole.partner);});
+var otherScores=otherPlayers.map(function(p){return scores[sid(p.id)]||99;}).sort(function(a,b){return a-b;});
+if(wolfScores[0]<otherScores[0])return ‘wolf_team’;
+if(otherScores[0]<wolfScores[0])return ‘others’;
+var wolfSecond=wolfScores[1]||99;
+var otherSecond=otherScores[1]||99;
+if(wolfSecond<otherSecond)return ‘wolf_team’;
+if(otherSecond<wolfSecond)return ‘others’;
+return ‘tie’;
+}
+if(hole.mode===‘lone’||hole.mode===‘forced’){
+var wolfScore=scores[sid(wId)]||99;
+var others=S.players.filter(function(p){return sid(p.id)!==sid(wId);});
+var ob=Math.min.apply(null,others.map(function(p){return scores[sid(p.id)]||99;}));
+return wolfScore<ob?‘wolf’:ob<wolfScore?‘others’:‘tie’;
+}
+return null;
+}
+
+function recalcHoleResult(holeNum){
+var hole=S.holes[holeNum];
+if(!hole||!hole.mode)return;
+if(hole.manualOverride){
+var hash=JSON.stringify(hole.scores||{});
+if(hash===hole.overrideScoreHash)return;
+S.holes[holeNum].manualOverride=false;
+S.holes[holeNum].overrideScoreHash=null;
+}
+var w=calcWinner(holeNum);
+if(w!==null)S.holes[holeNum].winner=w;
+}
+
+function derivePoints(){
+var pts={};var birdies={};
+S.players.forEach(function(p){pts[p.id]=0;birdies[p.id]=false;});
+for(var h=FIRST_HOLE+1;h<=LAST_HOLE;h++){
+var hole=S.holes[h];
+if(!hole||!hole.confirmed)continue;
+var wId=wolfFor(h);
+if(hole.winner===‘wolf_team’&&hole.mode===‘partner’){
+S.players.forEach(function(p){if(sid(p.id)===sid(wId)||sid(p.id)===sid(hole.partner))pts[p.id]=(pts[p.id]||0)+1;});
+} else if(hole.winner===‘wolf’&&(hole.mode===‘lone’||hole.mode===‘forced’)){
+S.players.forEach(function(p){if(sid(p.id)===sid(wId))pts[p.id]=(pts[p.id]||0)+3;});
+} else if(hole.winner===‘others’&&hole.mode===‘partner’){
+S.players.forEach(function(p){if(sid(p.id)!==sid(wId)&&sid(p.id)!==sid(hole.partner))pts[p.id]=(pts[p.id]||0)+1;});
+} else if(hole.winner===‘others’&&(hole.mode===‘lone’||hole.mode===‘forced’)){
+S.players.forEach(function(p){if(sid(p.id)!==sid(wId))pts[p.id]=(pts[p.id]||0)+1;});
+}
+if(h<LAST_HOLE&&hole.scores){
+S.players.forEach(function(p){if(isBirdie((hole.scores||{})[p.id],h))birdies[p.id]=true;});
+}
+}
+if(S.holes[FIRST_HOLE]&&S.holes[FIRST_HOLE].scores){
+S.players.forEach(function(p){if(isBirdie((S.holes[FIRST_HOLE].scores||{})[p.id],FIRST_HOLE))birdies[p.id]=true;});
+}
+return{pts:pts,birdies:birdies};
+}
+
+function deriveForcedWolf(){
+var done={};
+S.players.forEach(function(p){done[p.id]=false;});
+for(var h=FIRST_HOLE+1;h<=LAST_HOLE;h++){
+var hole=S.holes[h];
+if(!hole||!hole.confirmed)continue;
+if(hole.mode===‘forced’||hole.mode===‘lone’){var wId=wolfFor(h);done[wId]=true;}
+}
+return done;
+}
+
+function mustBeForced(holeNum){
+if(S.players.length!==4)return false;
+var wId=wolfFor(holeNum);if(!wId)return false;
+// Only force if player has been wolf on a prior hole and never went lone
+var priorWolfHoles=[];
+for(var h=FIRST_HOLE+1;h<holeNum;h++){if(wolfFor(h)===wId)priorWolfHoles.push(h);}
+if(priorWolfHoles.length===0)return false;
+for(var i=0;i<priorWolfHoles.length;i++){
+var ph=S.holes[priorWolfHoles[i]];
+if(ph&&(ph.mode===‘lone’||ph.mode===‘forced’))return false;
+}
+return true;
+}
+
+function playerHoleResultFor(pid,holeNum){
+var hNow=S.holes[holeNum]||{};
+if(!hNow.winner)return null;
+var wId=wolfFor(holeNum);
+var isWT=sid(pid)===sid(wId)||(hNow.mode===‘partner’&&sid(pid)===sid(hNow.partner));
+if(hNow.winner===‘tie’)return{text:‘Tie’,cls:‘tie’};
+if(hNow.mode===‘partner’){
+if(hNow.winner===‘wolf_team’)return isWT?{text:‘Win’,cls:‘win’}:{text:‘Loss’,cls:‘loss’};
+if(hNow.winner===‘others’)return isWT?{text:‘Loss’,cls:‘loss’}:{text:‘Win’,cls:‘win’};
+}
+if(hNow.mode===‘lone’||hNow.mode===‘forced’){
+if(hNow.winner===‘wolf’)return sid(pid)===sid(wId)?{text:‘Win +3’,cls:‘win’}:{text:‘Loss’,cls:‘loss’};
+if(hNow.winner===‘others’)return sid(pid)===sid(wId)?{text:‘Loss’,cls:‘loss’}:{text:‘Win’,cls:‘win’};
+}
+return null;
+}
+
+function badgeStyle(cls){
+if(cls===‘win’)return ‘font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;background:#2d5e0a;color:#fff;’;
+if(cls===‘tie’)return ‘font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;background:#7a3d00;color:#fff;’;
+return ‘font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;background:var(–rd2);border:1px solid var(–rd3);color:var(–rd);’;
+}
+
+function showToast(msg){
+var t=document.createElement(‘div’);
+t.style.cssText=‘position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2d5e0a;color:#fff;font-family:inherit;font-weight:700;font-size:14px;padding:10px 20px;border-radius:20px;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2);transition:opacity 0.4s;’;
+t.textContent=msg;
+document.body.appendChild(t);
+setTimeout(function(){t.style.opacity=‘0’;setTimeout(function(){t.remove&&t.remove();},400);},2000);
+}
+
+function handleLogoUpload(e){
+var file=e.target.files[0];if(!file)return;
+var reader=new FileReader();
+reader.onload=function(ev){S.customLogo=ev.target.result;saveLogo(S.customLogo);render();};
+reader.readAsDataURL(file);
+}
+
+function doReset(){
+var ov=document.createElement(‘div’);
+ov.style.cssText=‘position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;’;
+var box=document.createElement(‘div’);
+box.style.cssText=‘background:var(–bg0);border-radius:20px;padding:24px;max-width:300px;width:100%;text-align:center;’;
+var icon=document.createElement(‘div’);icon.style.cssText=‘font-size:36px;margin-bottom:12px;’;icon.textContent=’\u21BA’;
+var title=document.createElement(‘div’);title.style.cssText=‘font-size:18px;font-weight:700;color:var(–tx0);margin-bottom:8px;’;title.textContent=‘Reset round?’;
+var msg=document.createElement(‘div’);msg.style.cssText=‘font-size:14px;color:var(–tx2);margin-bottom:20px;line-height:1.5;’;msg.textContent=‘All scores and Wolf decisions will be cleared. Players are kept.’;
+var btnRow=document.createElement(‘div’);btnRow.style.cssText=‘display:flex;gap:10px;’;
+var cancelBtn=document.createElement(‘button’);
+cancelBtn.style.cssText=‘flex:1;height:46px;border:1.5px solid var(–bdr);border-radius:14px;background:transparent;color:var(–tx1);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;’;
+cancelBtn.textContent=‘Cancel’;
+cancelBtn.onclick=function(){ov.remove();};
+var confirmBtn=document.createElement(‘button’);
+confirmBtn.style.cssText=‘flex:1;height:46px;border:none;border-radius:14px;background:var(–rd);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;’;
+confirmBtn.textContent=‘Reset’;
+confirmBtn.onclick=function(){
+ov.remove();
+clearState();
+S={screen:‘setup’,
+players:S.players.map(function(p){return{name:p.name,id:p.id,color:p.color,photo:p.photo,phone:p.phone||’’};}),
+prelimScores:{},prelimHoled:{},wolfOrder:[],
+currentHole:FIRST_HOLE,holes:{},mulliganUsed:{},customLogo:S.customLogo};
+render();
+showToast(’\u2713 Round reset \u2014 starting fresh’);
+};
+btnRow.appendChild(cancelBtn);btnRow.appendChild(confirmBtn);
+box.appendChild(icon);box.appendChild(title);box.appendChild(msg);box.appendChild(btnRow);
+ov.appendChild(box);document.body.appendChild(ov);
+}
+
+function renderFooter(app){
+var bar=document.createElement(‘div’);
+bar.style.cssText=‘display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:12px;border-top:0.5px solid var(–bdr);’;
+var sb=document.createElement(‘button’);
+sb.style.cssText=‘background:none;border:none;color:var(–bl);font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;padding:4px 0;’;
+sb.textContent=’\u2699\uFE0F Settings’;
+sb.onclick=function(){S._prevScreen=S.screen;S.screen=‘settings’;render();};
+var rb=document.createElement(‘button’);
+rb.style.cssText=‘background:none;border:none;color:var(–rd);font-size:14px;font-weight:700;cursor:pointer;padding:4px 0;’;
+rb.textContent=’\u21BA Reset round’;
+rb.onclick=function(){doReset();};
+bar.appendChild(sb);bar.appendChild(rb);app.appendChild(bar);
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render(){
+syncCourse();
+saveState();
+var app=document.getElementById(‘app’);
+app.innerHTML=’’;
+
+// ── Gradient header
+var appHdr=document.createElement(‘div’);appHdr.className=‘app-header’;
+var appHdrTop=document.createElement(‘div’);appHdrTop.className=‘app-header-top’;
+
+// Left: logo + title + course pill
+var brandDiv=document.createElement(‘div’);
+var logoWrap=document.createElement(‘div’);
+logoWrap.style.cssText=‘cursor:pointer;’;
+logoWrap.onclick=function(){document.getElementById(‘logo-file’).click();};
+if(S.customLogo){
+var lImg=document.createElement(‘img’);
+lImg.src=S.customLogo;lImg.style.cssText=‘width:40px;height:40px;object-fit:contain;border-radius:8px;’;
+logoWrap.appendChild(lImg);
+} else {
+var lDiv=document.createElement(‘div’);lDiv.className=‘app-header-logo’;lDiv.textContent=’\uD83D\uDC3A’;
+logoWrap.appendChild(lDiv);
+}
+var logoFile=document.createElement(‘input’);
+logoFile.type=‘file’;logoFile.id=‘logo-file’;logoFile.accept=‘image/*’;logoFile.style.display=‘none’;
+logoFile.onchange=handleLogoUpload;
+var titleDiv=document.createElement(‘div’);titleDiv.className=‘app-header-title’;titleDiv.textContent=‘Back 9 Wolf’;
+brandDiv.appendChild(logoWrap);brandDiv.appendChild(logoFile);brandDiv.appendChild(titleDiv);
+
+// Course pill (show on setup/game/prelim)
+if(S.course&&[‘setup’,‘game’,‘prelim’].indexOf(S.screen)>=0){
+var cPill=document.createElement(‘div’);cPill.className=‘app-header-course’;
+var nineLabel=S.course.nine===‘front’?‘Front 9’:S.course.nine===‘back’?‘Back 9’:‘All 18’;
+cPill.innerHTML=’<span>\u26F3 ‘+(S.course.name||‘Select course’)+’ \u00B7 ‘+nineLabel+’</span>’;
+brandDiv.appendChild(cPill);
+}
+
+// Right: cog + reset buttons
+var actDiv=document.createElement(‘div’);actDiv.className=‘app-header-actions’;
+var cogBtn=document.createElement(‘button’);cogBtn.className=‘app-hdr-btn’;
+cogBtn.textContent=’\u2699\uFE0F Settings’;
+cogBtn.onclick=function(){S._prevScreen=S.screen;S.screen=‘settings’;render();};
+var rstBtn=document.createElement(‘button’);rstBtn.className=‘app-hdr-btn danger’;
+rstBtn.textContent=’\u21BA Reset’;
+rstBtn.onclick=function(){doReset();};
+actDiv.appendChild(cogBtn);actDiv.appendChild(rstBtn);
+
+appHdrTop.appendChild(brandDiv);appHdrTop.appendChild(actDiv);
+appHdr.appendChild(appHdrTop);
+app.appendChild(appHdr);
+
+// ── Content area with rounded top corners
+var appContent=document.createElement(‘div’);appContent.className=‘app-content’;
+
+// Tab bar (no reset, no cog)
+if([‘setup’,‘history’,‘settings’,‘results’].indexOf(S.screen)>=0){
+var tb=document.createElement(‘div’);tb.className=‘tab-bar’;
+var gameInProgress=S.wolfOrder&&S.wolfOrder.length>0&&Object.keys(S.holes).length>0;
+var gameTabScreen=gameInProgress?‘game’:‘setup’;
+[[gameTabScreen,’\uD83C\uDFCC\uFE0F Game’],[‘history’,’\uD83D\uDCCB History’],[‘settings’,‘Settings’]].forEach(function(pair){
+var isActive=(S.screen===pair[0])||(pair[0]===gameTabScreen&&(S.screen===‘game’||S.screen===‘setup’||S.screen===‘prelim’));
+var btn=document.createElement(‘button’);btn.className=‘tab-btn’+(isActive?’ active’:’’);
+btn.textContent=pair[1];
+btn.onclick=function(){S.screen=pair[0];render();};
+tb.appendChild(btn);
+});
+appContent.appendChild(tb);
+}
+app.appendChild(appContent);
+// From here on, render functions should append to appContent
+app=appContent;
+
+if(S.screen===‘setup’)renderSetup(app);
+else if(S.screen===‘prelim’)renderPrelim(app);
+else if(S.screen===‘game’)renderGame(app);
+else if(S.screen===‘results’)renderResults(app);
+else if(S.screen===‘history’)renderHistory(app);
+else if(S.screen===‘roundSummary’)renderRoundSummary(app);
+else if(S.screen===‘settings’)renderSettings(app);
+}
+
+// ── SETUP ─────────────────────────────────────────────────────────────────────
+function renderSetup(app){
+var sec=document.createElement(‘div’);
+var lbl=document.createElement(‘p’);lbl.className=‘section-title’;lbl.textContent=‘Players’;
+sec.appendChild(lbl);
+var card=document.createElement(‘div’);card.className=‘card’;
+
+function checkStart(){var sb=document.getElementById(‘start-btn’);if(sb)sb.disabled=!S.players.every(function(p){return p.name.trim().length>0;});}
+
+function closeDropdowns(){document.querySelectorAll(’.dropdown’).forEach(function(d){d.remove();});}
+
+function showDropdown(i,wrap,inp,av,val){
+closeDropdowns();
+// Show all roster names matching val; if val empty show all
+var matches=val.trim()
+? roster.filter(function(n){return n.toLowerCase().indexOf(val.toLowerCase())>=0;})
+: roster.slice();
+if(!matches.length)return;
+var dd=document.createElement(‘div’);dd.className=‘dropdown’;
+matches.forEach(function(name){
+// Mark if this name is already used in another slot
+var usedInOther=S.players.some(function(p,pi){return pi!==i&&p.name===name;});
+var item=document.createElement(‘div’);item.className=‘dd-item’;
+if(usedInOther)item.style.opacity=‘0.45’;
+var ns=document.createElement(‘span’);ns.style.cssText=‘flex:1;’;ns.textContent=name+(usedInOther?’ (in use)’:’’);
+// Show saved avatar in dropdown
+var prDd=loadProfiles()[name]||{};
+var avDd=document.createElement(‘div’);
+avDd.style.cssText=‘width:24px;height:24px;border-radius:50%;background:’+(prDd.color||’#1354A0’)+’;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;overflow:hidden;margin-right:6px;’;
+if(prDd.photo){var ddImg=document.createElement(‘img’);ddImg.src=prDd.photo;ddImg.style.cssText=‘width:100%;height:100%;object-fit:cover;’;avDd.appendChild(ddImg);}
+else{avDd.textContent=name.charAt(0).toUpperCase();}
+var del=document.createElement(‘button’);del.className=‘dd-del’;del.textContent=’\u00D7’;
+del.onclick=function(e){e.stopPropagation();removeFromRoster(name);item.remove();};
+item.appendChild(avDd);item.appendChild(ns);item.appendChild(del);
+item.onclick=function(iCopy,nameCopy){return function(e){
+if(e.target===del)return;
+S.players[iCopy].name=nameCopy;inp.value=nameCopy;
+var prof=loadProfiles()[nameCopy.trim()];
+if(prof){
+if(prof.color)S.players[iCopy].color=prof.color;
+if(prof.photo)S.players[iCopy].photo=prof.photo;
+}
+// Update avatar immediately
+if(S.players[iCopy].photo){
+av.innerHTML=’’;var img2=document.createElement(‘img’);img2.src=S.players[iCopy].photo;img2.style.cssText=‘width:100%;height:100%;object-fit:cover;border-radius:50%;’;av.appendChild(img2);
+} else {
+av.innerHTML=’’;av.style.background=S.players[iCopy].color||’#1354A0’;
+av.textContent=nameCopy.charAt(0).toUpperCase();
+}
+closeDropdowns();checkStart();
+};}(i,name);
+dd.appendChild(item);
+});
+wrap.appendChild(dd);
+}
+
+S.players.forEach(function(p,i){
+var row=document.createElement(‘div’);
+row.style.cssText=‘display:flex;align-items:center;gap:8px;padding:10px 0;’+(i<S.players.length-1?‘border-bottom:0.5px solid var(–bdr);’:’’);
+var avWrap=document.createElement(‘div’);avWrap.style.cssText=‘position:relative;flex-shrink:0;cursor:pointer;’;
+var av=mkAv(p.name,i,36);
+var editBadge=document.createElement(‘div’);
+editBadge.style.cssText=‘position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;background:var(–bl);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;border:1.5px solid var(–bg0);pointer-events:none;’;
+editBadge.textContent=’\u270F’;
+avWrap.appendChild(av);avWrap.appendChild(editBadge);
+avWrap.onclick=function(ic){return function(){showColorPanel(ic,av,card);};}(i);
+var wrap=document.createElement(‘div’);wrap.className=‘player-input-wrap’;
+var inp=document.createElement(‘input’);inp.className=‘player-input’;inp.type=‘text’;inp.placeholder=‘Player ‘+(i+1);inp.value=p.name;
+inp.oninput=function(ic){return function(e){
+S.players[ic].name=e.target.value;
+var prof=loadProfiles()[e.target.value.trim()];
+if(prof){if(prof.color)S.players[ic].color=prof.color;if(prof.photo)S.players[ic].photo=prof.photo;if(prof.phone)S.players[ic].phone=prof.phone;}
+if(!S.players[ic].photo)av.textContent=e.target.value?e.target.value.charAt(0).toUpperCase():String(ic+1);
+else{av.innerHTML=’’;var img3=document.createElement(‘img’);img3.src=S.players[ic].photo;img3.style.cssText=‘width:100%;height:100%;object-fit:cover;border-radius:50%;’;av.appendChild(img3);}
+showDropdown(ic,wrap,inp,av,e.target.value);checkStart();
+};}(i);
+var arr=document.createElement(‘span’);arr.className=‘dd-arrow’;arr.textContent=’\u25BE’;
+arr.onclick=function(ic){return function(e){e.stopPropagation();inp.focus();showDropdown(ic,wrap,inp,av,inp.value||’’);};}(i);
+wrap.appendChild(inp);wrap.appendChild(arr);
+row.appendChild(avWrap);row.appendChild(wrap);
+if(S.players.length>1){
+var xb=document.createElement(‘button’);
+xb.style.cssText=‘background:none;border:none;color:var(–rd3);font-size:20px;cursor:pointer;font-weight:700;padding:0 4px;flex-shrink:0;line-height:1;’;
+xb.textContent=’\u00D7’;
+xb.onclick=function(ic){return function(){S.players.splice(ic,1);render();};}(i);
+row.appendChild(xb);
+}
+card.appendChild(row);
+});
+
+if(S.players.length<5){
+var addBtn=document.createElement(‘button’);
+addBtn.style.cssText=‘width:100%;height:40px;background:transparent;border:1.5px dashed var(–bdm);border-radius:var(–r1);color:var(–bl);font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;’;
+var ordinals=[’’,‘1st’,‘2nd’,‘3rd’,‘4th’,‘5th’];
+var nextNum=S.players.length+1;
+addBtn.textContent=’+ Add ‘+(ordinals[nextNum]||String(nextNum)+‘th’)+’ player’;
+addBtn.onclick=function(){var ni=S.players.length;S.players.push({name:’’,id:String(Date.now()),color:PCOLS[ni%PCOLS.length],photo:null,phone:’’});render();};
+card.appendChild(addBtn);
+}
+sec.appendChild(card);app.appendChild(sec);
+
+// Saved roster quick-add
+if(roster.length){
+var rs=document.createElement(‘div’);
+var rLbl=document.createElement(‘p’);rLbl.className=‘section-title’;rLbl.style.marginTop=‘4px’;rLbl.textContent=‘Saved players’;
+rs.appendChild(rLbl);
+var rc=document.createElement(‘div’);rc.className=‘card-flush’;
+roster.forEach(function(name){
+var inUse=S.players.some(function(p){return p.name===name;});
+var rr=document.createElement(‘div’);rr.style.cssText=‘display:flex;align-items:center;padding:9px 12px;border-bottom:0.5px solid var(–bdr);gap:8px;’;
+var ns=document.createElement(‘span’);ns.style.cssText=‘flex:1;font-size:14px;font-weight:700;color:’+(inUse?‘var(–tx2)’:‘var(–tx0)’)+’;’;ns.textContent=name;
+var eb=document.createElement(‘button’);
+eb.style.cssText=‘height:28px;padding:0 10px;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;background:’+(inUse?‘var(–bg2)’:‘var(–bl)’)+’;color:’+(inUse?‘var(–tx2)’:’#fff’)+’;’;
+eb.textContent=inUse?‘Remove’:’+ Add’;
+if(inUse){eb.onclick=function(n2){return function(){var idx=S.players.findIndex(function(p){return p.name===n2;});if(idx>=0){if(S.players.length>1)S.players.splice(idx,1);else{S.players[0].name=’’;S.players[0].photo=null;}}render();};}(name);}
+if(!inUse){
+eb.onclick=function(){
+var blank=S.players.findIndex(function(p){return !p.name.trim();});
+if(blank>=0){
+S.players[blank].name=name;
+var prof=loadProfiles()[name];
+if(prof){if(prof.color)S.players[blank].color=prof.color;if(prof.photo)S.players[blank].photo=prof.photo;if(prof.phone)S.players[blank].phone=prof.phone;}
+} else if(S.players.length<5){
+var ni2=S.players.length;
+var newP={name:name,id:String(Date.now()),color:PCOLS[ni2%PCOLS.length],photo:null,phone:’’};
+var prof2=loadProfiles()[name];
+if(prof2){if(prof2.color)newP.color=prof2.color;if(prof2.photo)newP.photo=prof2.photo;if(prof2.phone)newP.phone=prof2.phone;}
+S.players.push(newP);
+}
+saveRoster(roster);render();
+};
+}
+var db=document.createElement(‘button’);db.style.cssText=‘background:none;border:none;color:var(–rd3);font-size:16px;cursor:pointer;font-weight:700;padding:0 2px;’;db.textContent=’\u00D7’;
+db.onclick=function(){removeFromRoster(name);render();};
+rr.appendChild(ns);rr.appendChild(eb);rr.appendChild(db);rc.appendChild(rr);
+});
+rs.appendChild(rc);app.appendChild(rs);
+}
+
+// Course section
+var crsLbl=document.createElement(‘p’);crsLbl.className=‘section-title’;crsLbl.style.marginTop=‘4px’;crsLbl.textContent=‘Course’;app.appendChild(crsLbl);
+var crsCard=document.createElement(‘div’);crsCard.className=‘card’;
+
+// Current course display
+var crsDisplay=document.createElement(‘div’);crsDisplay.style.cssText=‘display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;’;
+var crsInfo=document.createElement(‘div’);
+crsInfo.innerHTML=’<div style="font-size:15px;font-weight:700;">’+(S.course?S.course.name:‘Los Lagos’)+’</div><div style="font-size:12px;color:var(--tx2);margin-top:2px;">’+(S.course?S.course.city:‘Costa Mesa, CA’)+’</div>’;
+var chgBtn=document.createElement(‘button’);chgBtn.style.cssText=‘height:30px;padding:0 12px;border:0.5px solid var(–bdm);border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(–bl);flex-shrink:0;’;chgBtn.textContent=‘Change’;
+crsDisplay.appendChild(crsInfo);crsDisplay.appendChild(chgBtn);crsCard.appendChild(crsDisplay);
+
+// Front / Back / All 18 selector
+var nineLbl=document.createElement(‘p’);nineLbl.style.cssText=‘font-size:11px;font-weight:700;color:var(–tx2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;’;nineLbl.textContent=‘Which 9 holes?’;
+crsCard.appendChild(nineLbl);
+var ninePills=document.createElement(‘div’);ninePills.style.cssText=‘display:flex;gap:0;background:var(–bg1);border-radius:10px;padding:3px;margin-bottom:0;’;
+var nine=S.course?S.course.nine||‘back’:‘back’;
+[[‘front’,‘Front 9 (1-9)’],[‘back’,‘Back 9 (10-18)’],[‘all’,‘All 18’]].forEach(function(pair){
+var pb=document.createElement(‘button’);
+pb.style.cssText=‘flex:1;height:34px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;background:’+(nine===pair[0]?‘var(–bg0)’:‘transparent’)+’;color:’+(nine===pair[0]?‘var(–tx0)’:‘var(–tx1)’)+’;box-shadow:’+(nine===pair[0]?‘0 1px 4px rgba(0,0,0,0.12)’:‘none’)+’;’;
+pb.textContent=pair[1];
+pb.onclick=function(nv){return function(){
+if(!S.course)S.course={name:‘Los Lagos’,city:‘Costa Mesa, CA’,pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5},nine:‘back’};
+S.course.nine=nv;syncCourse();render();
+};}(pair[0]);
+ninePills.appendChild(pb);
+});
+crsCard.appendChild(ninePills);
+
+// Search box (hidden by default)
+var crsSearchWrap=document.createElement(‘div’);crsSearchWrap.id=‘crs-search-wrap’;crsSearchWrap.style.display=‘none’;
+var crsInpRow=document.createElement(‘div’);crsInpRow.style.cssText=‘display:flex;gap:8px;margin-bottom:8px;’;
+var crsInp=document.createElement(‘input’);crsInp.type=‘text’;crsInp.placeholder=‘Search course name, city…’;
+crsInp.style.cssText=‘flex:1;height:40px;padding:0 12px;border:0.5px solid var(–bdm);border-radius:var(–r1);font-size:14px;font-weight:700;background:var(–bg1);color:var(–tx0);outline:none;’;
+var crsSearchBtn=document.createElement(‘button’);
+crsSearchBtn.style.cssText=‘height:40px;padding:0 14px;background:var(–bl);color:#fff;border:none;border-radius:var(–r1);font-size:14px;font-weight:700;cursor:pointer;’;
+crsSearchBtn.textContent=‘Search’;
+crsInpRow.appendChild(crsInp);crsInpRow.appendChild(crsSearchBtn);
+var crsResults=document.createElement(‘div’);crsResults.id=‘crs-results’;
+var crsStatus=document.createElement(‘p’);crsStatus.id=‘crs-status’;crsStatus.style.cssText=‘font-size:13px;color:var(–tx2);margin-top:6px;’;
+crsSearchWrap.appendChild(crsInpRow);crsSearchWrap.appendChild(crsResults);crsSearchWrap.appendChild(crsStatus);
+crsCard.appendChild(crsSearchWrap);
+
+chgBtn.onclick=function(){
+crsSearchWrap.style.display=crsSearchWrap.style.display===‘none’?‘block’:‘none’;
+if(crsSearchWrap.style.display!==‘none’)crsInp.focus();
+};
+
+var COURSE_DB=[
+{name:‘Pebble Beach Golf Links’,city:‘Pebble Beach, CA’,pars:{1:4,2:5,3:4,4:4,5:3,6:5,7:3,8:4,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:4,17:3,18:5}},
+{name:‘Torrey Pines South’,city:‘La Jolla, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:4,8:3,9:5,10:4,11:5,12:3,13:4,14:4,15:4,16:3,17:5,18:4}},
+{name:‘Torrey Pines North’,city:‘La Jolla, CA’,pars:{1:4,2:4,3:3,4:4,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:5}},
+{name:‘Augusta National Golf Club’,city:‘Augusta, GA’,pars:{1:4,2:5,3:4,4:3,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:5,14:4,15:5,16:3,17:4,18:4}},
+{name:‘Bethpage Black’,city:‘Farmingdale, NY’,pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:5,8:3,9:4,10:4,11:4,12:4,13:5,14:3,15:4,16:4,17:3,18:4}},
+{name:‘TPC Sawgrass (Stadium)’,city:‘Ponte Vedra Beach, FL’,pars:{1:4,2:5,3:3,4:4,5:4,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:4,15:5,16:5,17:3,18:4}},
+{name:‘Whistling Straits’,city:‘Sheboygan, WI’,pars:{1:4,2:5,3:3,4:4,5:5,6:3,7:4,8:4,9:4,10:4,11:3,12:4,13:5,14:4,15:3,16:4,17:4,18:5}},
+{name:‘Pinehurst No. 2’,city:‘Pinehurst, NC’,pars:{1:4,2:4,3:4,4:4,5:4,6:3,7:5,8:4,9:3,10:5,11:4,12:4,13:4,14:4,15:3,16:4,17:3,18:4}},
+{name:‘Oakmont Country Club’,city:‘Oakmont, PA’,pars:{1:4,2:4,3:4,4:5,5:4,6:3,7:4,8:3,9:5,10:4,11:4,12:5,13:3,14:4,15:4,16:3,17:4,18:4}},
+{name:‘Shinnecock Hills Golf Club’,city:‘Southampton, NY’,pars:{1:4,2:4,3:4,4:3,5:4,6:4,7:4,8:3,9:4,10:4,11:3,12:4,13:4,14:4,15:4,16:4,17:3,18:4}},
+{name:‘Merion Golf Club (East)’,city:‘Ardmore, PA’,pars:{1:4,2:5,3:4,4:4,5:4,6:3,7:4,8:3,9:4,10:4,11:4,12:4,13:3,14:4,15:4,16:4,17:3,18:4}},
+{name:‘Winged Foot Golf Club (West)’,city:‘Mamaroneck, NY’,pars:{1:4,2:4,3:3,4:5,5:3,6:4,7:4,8:4,9:4,10:3,11:4,12:4,13:5,14:4,15:4,16:4,17:3,18:4}},
+{name:‘Riviera Country Club’,city:‘Pacific Palisades, CA’,pars:{1:5,2:4,3:4,4:3,5:4,6:4,7:4,8:4,9:4,10:4,11:4,12:4,13:3,14:4,15:4,16:3,17:5,18:4}},
+{name:‘Los Angeles Country Club (North)’,city:‘Los Angeles, CA’,pars:{1:4,2:3,3:5,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:4,14:4,15:5,16:4,17:3,18:4}},
+{name:‘Spyglass Hill Golf Course’,city:‘Pebble Beach, CA’,pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:5}},
+{name:‘Poppy Hills Golf Course’,city:‘Pebble Beach, CA’,pars:{1:4,2:5,3:4,4:3,5:4,6:4,7:3,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Chambers Bay’,city:‘University Place, WA’,pars:{1:4,2:4,3:5,4:3,5:4,6:4,7:4,8:5,9:3,10:4,11:4,12:3,13:4,14:5,15:4,16:4,17:3,18:5}},
+{name:‘Olympic Club (Lake)’,city:‘San Francisco, CA’,pars:{1:5,2:4,3:3,4:4,5:4,6:4,7:4,8:4,9:3,10:4,11:4,12:3,13:4,14:3,15:5,16:4,17:4,18:4}},
+{name:‘Cypress Point Club’,city:‘Pebble Beach, CA’,pars:{1:4,2:5,3:4,4:4,5:3,6:5,7:4,8:3,9:4,10:4,11:4,12:3,13:4,14:4,15:3,16:5,17:3,18:4}},
+{name:‘National Golf Links of America’,city:‘Southampton, NY’,pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:4,8:3,9:4,10:4,11:3,12:5,13:4,14:4,15:4,16:4,17:3,18:4}},
+{name:‘Pacific Dunes’,city:‘Bandon, OR’,pars:{1:4,2:5,3:4,4:4,5:3,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:4,15:5,16:3,17:4,18:4}},
+{name:‘Bandon Dunes Golf Course’,city:‘Bandon, OR’,pars:{1:4,2:4,3:4,4:5,5:4,6:3,7:5,8:3,9:4,10:4,11:3,12:4,13:4,14:4,15:5,16:4,17:3,18:4}},
+{name:‘Bandon Trails’,city:‘Bandon, OR’,pars:{1:4,2:3,3:5,4:4,5:3,6:4,7:4,8:5,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Sand Hills Golf Club’,city:‘Mullen, NE’,pars:{1:4,2:3,3:4,4:4,5:5,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:4,15:5,16:3,17:4,18:4}},
+{name:‘Prairie Dunes Country Club’,city:‘Hutchinson, KS’,pars:{1:4,2:3,3:4,4:4,5:5,6:3,7:5,8:4,9:4,10:4,11:3,12:4,13:4,14:4,15:3,16:5,17:4,18:4}},
+{name:‘Seminole Golf Club’,city:‘Juno Beach, FL’,pars:{1:4,2:4,3:4,4:4,5:3,6:5,7:4,8:4,9:3,10:4,11:4,12:4,13:3,14:5,15:4,16:4,17:3,18:4}},
+{name:‘Crystal Downs Country Club’,city:‘Frankfort, MI’,pars:{1:4,2:4,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:5,12:3,13:4,14:4,15:4,16:3,17:4,18:4}},
+{name:‘TPC Scottsdale (Stadium)’,city:‘Scottsdale, AZ’,pars:{1:4,2:4,3:5,4:3,5:5,6:4,7:4,8:3,9:4,10:4,11:4,12:3,13:4,14:4,15:3,16:5,17:3,18:5}},
+{name:‘Troon North (Monument)’,city:‘Scottsdale, AZ’,pars:{1:4,2:3,3:4,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘We-Ko-Pa Golf Club (Cholla)’,city:‘Fort McDowell, AZ’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:4,13:3,14:5,15:4,16:4,17:3,18:4}},
+{name:‘Kiawah Island (Ocean)’,city:‘Kiawah Island, SC’,pars:{1:4,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:4,12:4,13:4,14:3,15:5,16:4,17:3,18:4}},
+{name:‘Harbour Town Golf Links’,city:‘Hilton Head, SC’,pars:{1:4,2:5,3:4,4:4,5:5,6:4,7:3,8:4,9:4,10:4,11:4,12:4,13:4,14:3,15:5,16:4,17:3,18:4}},
+{name:‘Sea Island Golf Club (Seaside)’,city:‘Sea Island, GA’,pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:4,8:3,9:4,10:4,11:3,12:4,13:5,14:4,15:4,16:3,17:4,18:4}},
+{name:‘Streamsong Blue’,city:‘Streamsong, FL’,pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:3,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Streamsong Red’,city:‘Streamsong, FL’,pars:{1:4,2:3,3:5,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Trump National Doral (Blue Monster)’,city:‘Doral, FL’,pars:{1:4,2:4,3:4,4:5,5:3,6:4,7:4,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:4,16:3,17:5,18:4}},
+{name:‘Muirfield Village Golf Club’,city:‘Dublin, OH’,pars:{1:4,2:5,3:4,4:3,5:4,6:4,7:5,8:3,9:4,10:4,11:4,12:3,13:4,14:3,15:5,16:4,17:4,18:4}},
+{name:‘Valhalla Golf Club’,city:‘Louisville, KY’,pars:{1:4,2:5,3:4,4:4,5:3,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:5}},
+{name:‘Hazeltine National Golf Club’,city:‘Chaska, MN’,pars:{1:4,2:4,3:4,4:5,5:3,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:5,14:4,15:4,16:3,17:5,18:4}},
+{name:‘East Lake Golf Club’,city:‘Atlanta, GA’,pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:3,8:4,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:5}},
+{name:‘Southern Hills Country Club’,city:‘Tulsa, OK’,pars:{1:4,2:4,3:3,4:4,5:4,6:4,7:4,8:4,9:3,10:4,11:3,12:4,13:5,14:4,15:4,16:5,17:3,18:4}},
+{name:‘Colonial Country Club’,city:‘Fort Worth, TX’,pars:{1:4,2:4,3:3,4:4,5:5,6:4,7:4,8:4,9:3,10:4,11:5,12:4,13:3,14:4,15:4,16:3,17:4,18:4}},
+{name:‘Plainfield Country Club’,city:‘Plainfield, NJ’,pars:{1:4,2:4,3:4,4:5,5:3,6:4,7:4,8:4,9:3,10:4,11:5,12:4,13:3,14:4,15:4,16:4,17:3,18:4}},
+{name:‘Baltusrol Golf Club (Lower)’,city:‘Springfield, NJ’,pars:{1:4,2:4,3:3,4:4,5:5,6:4,7:4,8:4,9:3,10:4,11:4,12:3,13:4,14:4,15:5,16:4,17:3,18:5}},
+{name:‘Medinah Country Club (No. 3)’,city:‘Medinah, IL’,pars:{1:4,2:5,3:4,4:4,5:3,6:4,7:3,8:4,9:5,10:4,11:4,12:3,13:4,14:4,15:5,16:4,17:3,18:4}},
+{name:‘Congressional Country Club (Blue)’,city:‘Bethesda, MD’,pars:{1:4,2:4,3:3,4:4,5:5,6:4,7:4,8:3,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Riviera Country Club’,city:‘Pacific Palisades, CA’,pars:{1:5,2:4,3:4,4:3,5:4,6:4,7:4,8:4,9:4,10:4,11:4,12:4,13:3,14:4,15:4,16:3,17:5,18:4}},
+{name:‘Bel-Air Country Club’,city:‘Los Angeles, CA’,pars:{1:4,2:4,3:4,4:4,5:3,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:4,15:4,16:3,17:5,18:4}},
+{name:‘Los Lagos Golf Course’,city:‘Costa Mesa, CA’,pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5}},
+{name:‘Pelican Hill Golf Club (Ocean North)’,city:‘Newport Coast, CA’,pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:3,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:4,16:4,17:3,18:4}},
+{name:‘Pelican Hill Golf Club (Ocean South)’,city:‘Newport Coast, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:3,8:4,9:4,10:4,11:4,12:4,13:3,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Newport Beach Country Club’,city:‘Newport Beach, CA’,pars:{1:5,2:3,3:4,4:4,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Coyote Hills Golf Course’,city:‘Fullerton, CA’,pars:{1:4,2:3,3:5,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Tustin Ranch Golf Club’,city:‘Tustin, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Monarch Beach Golf Links’,city:‘Dana Point, CA’,pars:{1:4,2:3,3:4,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Arroyo Trabuco Golf Club’,city:‘Mission Viejo, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘Strawberry Farms Golf Club’,city:‘Irvine, CA’,pars:{1:4,2:3,3:5,4:4,5:3,6:4,7:5,8:4,9:4,10:4,11:3,12:4,13:5,14:4,15:3,17:4,16:4,18:4}},
+{name:‘Aliso Viejo Golf Club’,city:‘Aliso Viejo, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Talega Golf Club’,city:‘San Clemente, CA’,pars:{1:4,2:4,3:5,4:3,5:4,6:4,7:3,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘San Juan Hills Golf Club’,city:‘San Juan Capistrano, CA’,pars:{1:4,2:3,3:5,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:‘Tijeras Creek Golf Club’,city:‘Rancho Santa Margarita, CA’,pars:{1:5,2:4,3:3,4:4,5:4,6:4,7:3,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:4,17:3,16:4,18:4}},
+{name:‘Coto de Caza Golf & Racquet Club (South)’,city:‘Coto de Caza, CA’,pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:5,9:4,10:4,11:3,12:4,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Coto de Caza Golf & Racquet Club (North)’,city:‘Coto de Caza, CA’,pars:{1:5,2:4,3:5,4:3,5:4,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:5,18:4}},
+{name:‘Dove Canyon Golf Club’,city:‘Rancho Santa Margarita, CA’,pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:5}},
+{name:‘Robinson Ranch Golf Club (Mountain)’,city:‘Santa Clarita, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Calabasas Golf & Country Club’,city:‘Calabasas, CA’,pars:{1:4,2:4,3:5,4:3,5:4,6:4,7:3,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘Industry Hills Golf Club (Eisenhower)’,city:‘City of Industry, CA’,pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:5,14:4,15:4,16:3,17:4,18:4}},
+{name:‘San Dimas Canyon Golf Course’,city:‘San Dimas, CA’,pars:{1:4,2:3,3:5,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:4,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘Victoria Club’,city:‘Riverside, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:5,11:4,12:3,13:4,14:4,15:4,16:3,17:4,18:5}},
+{name:‘Morongo Golf Club at Tukwet Canyon’,city:‘Beaumont, CA’,pars:{1:4,2:4,3:5,4:3,5:4,6:4,7:3,8:5,9:4,10:4,11:3,12:4,13:5,14:4,15:3,16:4,17:4,18:5}},
+{name:‘Desert Willow Golf Resort (Firecliff)’,city:‘Palm Desert, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:3,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Shadow Ridge Golf Club’,city:‘Palm Desert, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘PGA West (Stadium)’,city:‘La Quinta, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘PGA West (Greg Norman)’,city:‘La Quinta, CA’,pars:{1:4,2:3,3:4,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘La Quinta Country Club’,city:‘La Quinta, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘Aviara Golf Club’,city:‘Carlsbad, CA’,pars:{1:4,2:4,3:3,4:4,5:5,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Omni La Costa Resort & Spa (Champions)’,city:‘Carlsbad, CA’,pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:3,8:4,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:5}},
+{name:‘Torrey Pines Golf Course’,city:‘La Jolla, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:4,8:3,9:5,10:4,11:5,12:3,13:4,14:4,15:4,16:3,17:5,18:4}},
+{name:‘Balboa Park Golf Course’,city:‘San Diego, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:4,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘Rancho Bernardo Inn Golf Resort’,city:‘San Diego, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Maderas Golf Club’,city:‘Poway, CA’,pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:5,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘Shadowridge Golf Club’,city:‘Vista, CA’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:5}},
+{name:‘Addison Reserve Country Club’,city:‘Delray Beach, FL’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘TPC Tampa Bay’,city:‘Lutz, FL’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Bay Hill Club & Lodge’,city:‘Orlando, FL’,pars:{1:4,2:5,3:4,4:4,5:4,6:3,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:‘Doral Golf Resort (Blue Monster)’,city:‘Miami, FL’,pars:{1:4,2:4,3:4,4:5,5:3,6:4,7:4,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:4,16:3,17:5,18:4}},
+{name:‘TPC Deere Run’,city:‘Silvis, IL’,pars:{1:4,2:4,3:3,4:4,5:5,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:‘Erin Hills Golf Course’,city:‘Erin, WI’,pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:5}},
+{name:‘Kohler Whistling Straits (Straits)’,city:‘Kohler, WI’,pars:{1:4,2:5,3:3,4:4,5:5,6:3,7:4,8:4,9:4,10:4,11:3,12:4,13:5,14:4,15:3,16:4,17:4,18:5}},
+{name:‘Cog Hill Golf & Country Club (No. 4)’,city:‘Lemont, IL’,pars:{1:4,2:5,3:4,4:3,5:4,6:4,7:3,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:‘Blackwolf Run (River)’,city:‘Kohler, WI’,pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+
+```
+// ── BANDON DUNES RESORT (all courses) ────────────────────────────────────
+{name:'Old Macdonald',city:'Bandon, OR',pars:{1:4,2:5,3:4,4:4,5:3,6:4,7:5,8:3,9:4,10:4,11:5,12:3,13:4,14:4,15:4,16:3,17:5,18:4}},
+{name:'Sheep Ranch',city:'Bandon, OR',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — NORTHERN ────────────────────────────────────────────────
+{name:'TPC Harding Park',city:'San Francisco, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:4,15:5,16:4,17:3,18:4}},
+{name:'Pasatiempo Golf Club',city:'Santa Cruz, CA',pars:{1:4,2:4,3:3,4:5,5:3,6:4,7:4,8:4,9:5,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Silverado Resort (North)',city:'Napa, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:5,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Silverado Resort (South)',city:'Napa, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Sonoma Golf Club',city:'Sonoma, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Edgewood Tahoe Golf Course',city:'Stateline, NV',pars:{1:5,2:4,3:4,4:4,5:3,6:4,7:5,8:3,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:5}},
+
+// ── CALIFORNIA — LOS ANGELES ──────────────────────────────────────────────
+{name:'Wilshire Country Club',city:'Los Angeles, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:5}},
+{name:'Hillcrest Country Club',city:'Los Angeles, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Rancho Park Golf Course',city:'Los Angeles, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Sherwood Country Club',city:'Thousand Oaks, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'North Ranch Country Club',city:'Westlake Village, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Trump National Los Angeles',city:'Rancho Palos Verdes, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Palos Verdes Golf Club',city:'Palos Verdes Estates, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Annandale Golf Club',city:'Pasadena, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Lakewood Country Club',city:'Lakewood, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Robinson Ranch Golf Club (Mountain)',city:'Santa Clarita, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — ORANGE COUNTY (additional) ───────────────────────────────
+{name:'Yorba Linda Country Club',city:'Yorba Linda, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Black Gold Golf Club',city:'Yorba Linda, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Meadowlark Golf Course',city:'Huntington Beach, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Mile Square Golf Course',city:'Fountain Valley, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'El Niguel Country Club',city:'Laguna Niguel, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Los Coyotes Country Club',city:'Buena Park, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Marbella Country Club',city:'San Juan Capistrano, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Anaheim Hills Golf Course',city:'Anaheim, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — SAN DIEGO (additional) ───────────────────────────────────
+{name:'La Jolla Country Club',city:'La Jolla, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Barona Creek Golf Club',city:'Lakeside, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Encinitas Ranch Golf Course',city:'Encinitas, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Rancho Santa Fe Golf Club',city:'Rancho Santa Fe, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:5,11:4,12:3,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Four Seasons Aviara Golf Club',city:'Carlsbad, CA',pars:{1:4,2:4,3:3,4:4,5:5,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Twin Oaks Golf Course',city:'San Marcos, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — INLAND EMPIRE ─────────────────────────────────────────────
+{name:'Oak Quarry Golf Club',city:'Jurupa Valley, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Redhawk Golf Club',city:'Temecula, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Bear Creek Golf Club',city:'Murrieta, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Temecula Creek Inn Golf Course',city:'Temecula, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — DESERT ────────────────────────────────────────────────────
+{name:'Desert Willow Firecliff',city:'Palm Desert, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:3,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:'Indian Wells Celebrity Course',city:'Indian Wells, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'La Quinta Resort Mountain Course',city:'La Quinta, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Mission Hills Country Club',city:'Rancho Mirage, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Bighorn Golf Club',city:'Palm Desert, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Tahquitz Creek Golf Course',city:'Palm Springs, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Desert Dunes Golf Club',city:'Desert Hot Springs, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Shadow Ridge Golf Club',city:'Palm Desert, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — CENTRAL COAST (Santa Barbara, SLO, Ventura) ─────────────
+{name:'Sandpiper Golf Course',city:'Santa Barbara, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:5,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:5}},
+{name:'Morro Bay Golf Course',city:'Morro Bay, CA',pars:{1:4,2:3,3:4,4:4,5:5,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:4}},
+{name:'Rancho San Marcos Golf Course',city:'Santa Barbara, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'La Purisima Golf Course',city:'Lompoc, CA',pars:{1:4,2:5,3:4,4:3,5:5,6:3,7:4,8:4,9:4,10:4,11:4,12:4,13:3,14:5,15:4,16:3,17:4,18:5}},
+{name:'Alisal Ranch Golf Course',city:'Solvang, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Hunter Ranch Golf Course',city:'Paso Robles, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'La Purisima Golf Course',city:'Lompoc, CA',pars:{1:4,2:5,3:4,4:3,5:5,6:3,7:4,8:4,9:4,10:4,11:4,12:4,13:3,14:5,15:4,16:3,17:4,18:5}},
+{name:'Cypress Ridge Golf Course',city:'Arroyo Grande, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Avila Beach Resort Golf Course',city:'Avila Beach, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:4}},
+{name:'Dairy Creek Golf Course',city:'San Luis Obispo, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Monarch Dunes Golf Club',city:'Nipomo, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Ojai Valley Inn Golf Course',city:'Ojai, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Buenaventura Golf Course',city:'Ventura, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Olivas Park Golf Course',city:'Ventura, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Sterling Hills Golf Club',city:'Camarillo, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'River Ridge Golf Club',city:'Oxnard, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — MONTEREY / CARMEL / BIG SUR ────────────────────────────
+{name:'Pebble Beach Golf Links',city:'Pebble Beach, CA',pars:{1:4,2:5,3:4,4:4,5:3,6:5,7:3,8:4,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:4,17:3,18:5}},
+{name:'Spyglass Hill Golf Course',city:'Pebble Beach, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:5}},
+{name:'Cypress Point Club',city:'Pebble Beach, CA',pars:{1:4,2:5,3:4,4:4,5:3,6:5,7:4,8:3,9:4,10:4,11:4,12:3,13:4,14:4,15:3,16:5,17:3,18:4}},
+{name:'Poppy Hills Golf Course',city:'Pebble Beach, CA',pars:{1:4,2:5,3:4,4:3,5:4,6:4,7:3,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:'Poppy Ridge Golf Course',city:'Livermore, CA',pars:{1:4,2:3,3:5,4:4,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Carmel Valley Ranch Golf',city:'Carmel, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Quail Lodge Golf Club',city:'Carmel Valley, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Bayonet Golf Course',city:'Seaside, CA',pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Black Horse Golf Course',city:'Seaside, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Rancho Canada Golf Club (East)',city:'Carmel Valley, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:5,9:4,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Rancho Canada Golf Club (West)',city:'Carmel Valley, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Monterey Peninsula Country Club (Dunes)',city:'Pebble Beach, CA',pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:3,8:4,9:5,10:4,11:3,12:4,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Monterey Peninsula Country Club (Shore)',city:'Pebble Beach, CA',pars:{1:4,2:5,3:4,4:3,5:4,6:4,7:3,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Del Monte Golf Course',city:'Monterey, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:5,11:4,12:3,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Laguna Seca Golf Ranch',city:'Monterey, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Pacific Grove Golf Links',city:'Pacific Grove, CA',pars:{1:4,2:3,3:4,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:4,13:4,14:4,15:3,16:4,17:4,18:4}},
+{name:'Pasatiempo Golf Club',city:'Santa Cruz, CA',pars:{1:4,2:4,3:3,4:5,5:3,6:4,7:4,8:4,9:5,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Seascape Golf Club',city:'Aptos, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'DeLaveaga Golf Course',city:'Santa Cruz, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Pajaro Valley Golf Club',city:'Watsonville, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — SAN FRANCISCO BAY AREA ───────────────────────────────────
+{name:'Olympic Club Lake Course',city:'San Francisco, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:4,7:4,8:4,9:3,10:4,11:4,12:3,13:4,14:3,15:5,16:4,17:4,18:4}},
+{name:'Olympic Club Ocean Course',city:'San Francisco, CA',pars:{1:4,2:4,3:3,4:4,5:4,6:4,7:5,8:3,9:4,10:4,11:3,12:4,13:5,14:4,15:4,16:3,17:4,18:4}},
+{name:'TPC Harding Park',city:'San Francisco, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:4,15:5,16:4,17:3,18:4}},
+{name:'San Francisco Golf Club',city:'San Francisco, CA',pars:{1:4,2:4,3:4,4:3,5:5,6:3,7:5,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'California Golf Club of San Francisco',city:'South San Francisco, CA',pars:{1:4,2:4,3:4,4:3,5:5,6:4,7:3,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:'Harding Park Golf Course',city:'San Francisco, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:4,7:4,8:3,9:5,10:4,11:4,12:3,13:4,14:4,15:5,16:4,17:3,18:4}},
+{name:'Lincoln Park Golf Course',city:'San Francisco, CA',pars:{1:4,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:4,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Sharp Park Golf Course',city:'Pacifica, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Crystal Springs Golf Course',city:'Burlingame, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Skywest Golf Course',city:'Hayward, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Chuck Corica Golf Complex (Mif Albright)',city:'Alameda, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Metropolitan Golf Links',city:'Oakland, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Sequoyah Country Club',city:'Oakland, CA',pars:{1:5,2:4,3:4,4:3,5:4,6:4,7:3,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:'Claremont Country Club',city:'Oakland, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:3,15:4,16:4,17:4,18:5}},
+{name:'Meadow Club',city:'Fairfax, CA',pars:{1:4,2:4,3:3,4:4,5:5,6:3,7:4,8:4,9:4,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Marin Country Club',city:'Novato, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Peacock Gap Golf Club',city:'San Rafael, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Indian Valley Golf Club',city:'Novato, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'McInnis Park Golf Center',city:'San Rafael, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Rooster Run Golf Club',city:'Petaluma, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Adobe Creek Golf Course',city:'Petaluma, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Fountaingrove Golf Club',city:'Santa Rosa, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Oakmont Golf Club (West)',city:'Oakmont, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Windsor Golf Club',city:'Windsor, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:5,11:4,12:3,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Bodega Harbour Golf Links',city:'Bodega Bay, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:4}},
+{name:'Sonoma Golf Club',city:'Sonoma, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Silverado Resort North',city:'Napa, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:5,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Silverado Resort South',city:'Napa, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Meadowood Napa Valley',city:'St. Helena, CA',pars:{1:4,2:3,3:4,4:4,5:5,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:4}},
+{name:'Chardonnay Golf Club',city:'Napa, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Napa Golf Course at Kennedy Park',city:'Napa, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Hiddenbrooke Golf Club',city:'Vallejo, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Blue Rock Springs Golf Club',city:'Vallejo, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Boundary Oak Golf Course',city:'Walnut Creek, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Diablo Country Club',city:'Diablo, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Round Hill Country Club',city:'Alamo, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Blackhawk Country Club (Lakeside)',city:'Blackhawk, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Crow Canyon Country Club',city:'Danville, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Bridges Golf Club',city:'San Ramon, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Canyon Lakes Golf Course',city:'San Ramon, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Dublin Ranch Golf Course',city:'Dublin, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Ruby Hill Golf Club',city:'Pleasanton, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Castlewood Country Club',city:'Pleasanton, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Callippe Preserve Golf Course',city:'Pleasanton, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Stanford Golf Course',city:'Stanford, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:4,16:3,17:4,18:4}},
+{name:'Sharon Heights Golf & Country Club',city:'Menlo Park, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Peninsula Golf & Country Club',city:'San Mateo, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Coyote Creek Golf Club (Valley)',city:'San Jose, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Coyote Creek Golf Club (Tournament)',city:'San Jose, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'San Jose Country Club',city:'San Jose, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Almaden Golf & Country Club',city:'San Jose, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Los Lagos Golf Course',city:'San Jose, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Cinnabar Hills Golf Club (Mountain/Canyon)',city:'San Jose, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Santa Teresa Golf Club',city:'San Jose, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Pruneridge Golf Club',city:'Santa Clara, CA',pars:{1:4,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:4,13:4,14:4,15:3,16:4,17:4,18:4}},
+{name:'Sunnyvale Golf Course',city:'Sunnyvale, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Gilroy Golf Course',city:'Gilroy, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'CordeValle Golf Club',city:'San Martin, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — GOLD COUNTRY / FOOTHILLS / SACRAMENTO ───────────────────
+{name:'Serrano Country Club',city:'El Dorado Hills, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Granite Bay Golf Club',city:'Granite Bay, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Grays Crossing Golf Club',city:'Truckee, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Tahoe Donner Golf Course',city:'Truckee, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Coyote Moon Golf Course',city:'Truckee, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Old Greenwood Golf Course',city:'Truckee, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Incline Village Championship Course',city:'Incline Village, NV',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Northstar Golf Course',city:'Truckee, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Auburn Valley Country Club',city:'Auburn, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Gold Hill Golf Club',city:'Auburn, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Darkhorse Golf Course',city:'Auburn, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'The Ridge Golf Club',city:'Auburn, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Lincoln Hills Golf Club (Orchard)',city:'Lincoln, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Twelve Bridges Golf Club',city:'Lincoln, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Whitney Oaks Golf Club',city:'Rocklin, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Rocklin Golf Course',city:'Rocklin, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'TPC Elk Grove',city:'Elk Grove, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Wildhawk Golf Club',city:'Sacramento, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Haggin Oaks Golf Complex (Mackenzie)',city:'Sacramento, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Ancil Hoffman Golf Course',city:'Carmichael, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Bing Maloney Golf Course',city:'Sacramento, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Rancho Murieta Country Club (North)',city:'Rancho Murieta, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Rancho Murieta Country Club (South)',city:'Rancho Murieta, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Gold Rush Ranch & Golf Resort',city:'Sutter Creek, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Mace Meadow Golf & Country Club',city:'Pioneer, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Stockton Golf & Country Club',city:'Stockton, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Brookside Country Club',city:'Stockton, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Van Buskirk Golf Course',city:'Stockton, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Swenson Park Golf Course',city:'Stockton, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Modesto Golf & Country Club',city:'Modesto, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Dryden Park Golf Course',city:'Modesto, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Turlock Golf & Country Club',city:'Turlock, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Fresno West Golf & Country Club',city:'Fresno, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'San Joaquin Country Club',city:'Fresno, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Riverside Golf Course at Fresno',city:'Fresno, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Airways Golf Course',city:'Fresno, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Valley Oaks Golf Course',city:'Visalia, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Visalia Country Club',city:'Visalia, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Yokohl Valley Golf & Country Club',city:'Porterville, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Bakersfield Country Club',city:'Bakersfield, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Seven Oaks Country Club',city:'Bakersfield, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Riverlakes Ranch Golf Course',city:'Bakersfield, CA',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Tejon Ranch Golf Club',city:'Lebec, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── CALIFORNIA — NORTH COAST / REDWOOD ───────────────────────────────────
+{name:'Heron Lakes Golf Course',city:'Portland, OR',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Eureka Golf Course',city:'Eureka, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Beau Pre Golf Club',city:'McKinleyville, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Redwood Empire Golf & Country Club',city:'Fortuna, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Lake Shastina Golf Resort',city:'Weed, CA',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Mt. Shasta Resort Golf Course',city:'Mount Shasta, CA',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── NEVADA ─────────────────────────────────────────────────────────────────
+{name:'Shadow Creek Golf Course',city:'North Las Vegas, NV',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Cascata Golf Club',city:'Boulder City, NV',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Wolf Creek Golf Club',city:'Mesquite, NV',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'TPC Las Vegas',city:'Las Vegas, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Wynn Golf Course',city:'Las Vegas, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'DragonRidge Country Club',city:'Henderson, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Bali Hai Golf Club',city:'Las Vegas, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Bears Best Las Vegas',city:'Las Vegas, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Las Vegas Paiute Snow Mountain',city:'Las Vegas, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Las Vegas Paiute Sun Mountain',city:'Las Vegas, NV',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Las Vegas Paiute Wolf Course',city:'Las Vegas, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Red Rock Country Club',city:'Las Vegas, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Royal Links Golf Club',city:'Las Vegas, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Montreux Golf & Country Club',city:'Reno, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Primm Valley Desert Course',city:'Primm, NV',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── ARIZONA ────────────────────────────────────────────────────────────────
+{name:'TPC Scottsdale Stadium',city:'Scottsdale, AZ',pars:{1:4,2:4,3:5,4:3,5:5,6:4,7:4,8:3,9:4,10:4,11:4,12:3,13:4,14:4,15:3,16:5,17:3,18:5}},
+{name:'Troon North Monument',city:'Scottsdale, AZ',pars:{1:4,2:3,3:4,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Troon North Pinnacle',city:'Scottsdale, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'We-Ko-Pa Cholla',city:'Fort McDowell, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:4,13:3,14:5,15:4,16:4,17:3,18:4}},
+{name:'We-Ko-Pa Saguaro',city:'Fort McDowell, AZ',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Whisper Rock Upper',city:'Scottsdale, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Desert Mountain Geronimo',city:'Scottsdale, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Desert Mountain Cochise',city:'Scottsdale, AZ',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Grayhawk Raptor',city:'Scottsdale, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:5,14:4,15:3,16:4,17:4,18:4}},
+{name:'Grayhawk Talon',city:'Scottsdale, AZ',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'The Boulders North',city:'Carefree, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'The Boulders South',city:'Carefree, AZ',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Quintero Golf Club',city:'Peoria, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Silverleaf Club',city:'Scottsdale, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Estancia Club',city:'Scottsdale, AZ',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Papago Golf Course',city:'Phoenix, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Wigwam Gold Course',city:'Litchfield Park, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Gold Canyon Sidewinder',city:'Gold Canyon, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Las Sendas Golf Club',city:'Mesa, AZ',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Sedona Golf Resort',city:'Sedona, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Tucson National Catalina',city:'Tucson, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Ventana Canyon Mountain',city:'Tucson, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Starr Pass Golf Club',city:'Tucson, AZ',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'The Gallery South',city:'Marana, AZ',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+
+// ── UTAH ───────────────────────────────────────────────────────────────────
+{name:'Thanksgiving Point Golf Club',city:'Lehi, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Soldier Hollow Gold Course',city:'Midway, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Sand Hollow Resort Championship',city:'Hurricane, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Entrada at Snow Canyon',city:'St. George, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Red Ledges Golf Club',city:'Heber City, UT',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Wolf Creek Golf Resort',city:'Eden, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Wasatch Mountain Golf (Mountain)',city:'Midway, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Mountain Dell Canyon Course',city:'Salt Lake City, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Sunbrook Golf Club',city:'St. George, UT',pars:{1:5,2:4,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Green Spring Golf Course',city:'Washington, UT',pars:{1:4,2:5,3:3,4:4,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Sleepy Ridge Golf Course',city:'Orem, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Bonneville Golf Course',city:'Salt Lake City, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:4,10:4,11:3,12:5,13:4,14:4,15:3,16:4,17:4,18:5}},
+{name:'Spanish Oaks Golf Club',city:'Spanish Fork, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}},
+{name:'Moab Golf Club',city:'Moab, UT',pars:{1:4,2:4,3:3,4:5,5:4,6:3,7:4,8:4,9:5,10:4,11:4,12:3,13:4,14:5,15:3,16:4,17:4,18:4}}
+```
+
+];
+
+// Shared render function for course result items
+function renderCourseItem(crs,container){
+var item=document.createElement(‘div’);
+item.style.cssText=‘padding:12px 14px;border:0.5px solid var(–bdr);border-radius:var(–r2);margin-bottom:8px;cursor:pointer;background:var(–bg1);’;
+var sortedKeys=Object.keys(crs.pars).map(Number).sort(function(a,b){return a-b;});
+var frontKeys=sortedKeys.filter(function(h){return h<=9;});
+var backKeys=sortedKeys.filter(function(h){return h>=10;});
+function parsRow(keys,label){
+if(!keys.length)return ‘’;
+var nums=keys.map(function(h){return ‘<span style="display:inline-block;min-width:20px;text-align:center;color:var(--tx2);font-size:10px;">’+h+’</span>’;}).join(’’);
+var cells=keys.map(function(h){return ‘<span style="display:inline-block;min-width:20px;text-align:center;font-size:10px;">’+crs.pars[h]+’</span>’;}).join(’’);
+var total=keys.reduce(function(s,h){return s+(parseInt(crs.pars[h])||0);},0);
+return ‘<div style="margin-top:5px;line-height:1.9;font-family:monospace;">’
++’<span style="color:var(--tx2);font-size:10px;min-width:36px;display:inline-block;">’+label+’</span>’+nums
++’<br><span style="min-width:36px;display:inline-block;"></span>’+cells
++’ <span style="color:var(--tx2);font-size:10px;">(’+total+’)</span></div>’;
+}
+var liveTag=crs.live?’<span style="font-size:10px;background:var(--gr2);color:var(--gr);border:0.5px solid var(--gr);border-radius:8px;padding:1px 6px;margin-left:6px;font-weight:700;">live</span>’:’’;
+item.innerHTML=’<div style="font-size:15px;font-weight:700;">’+crs.name+liveTag+’</div>’
++’<div style="font-size:12px;color:var(--tx2);margin-top:1px;">’+crs.city+’</div>’
++parsRow(frontKeys,‘Front’)
++parsRow(backKeys,‘Back ‘);
+item.onclick=function(snap){return function(){
+var numPars={};Object.keys(snap.pars).forEach(function(k){numPars[parseInt(k)]=parseInt(snap.pars[k]);});
+var prevNine=(S.course&&S.course.nine)||‘back’;
+S.course={name:snap.name,city:snap.city,pars:numPars,nine:prevNine};
+syncCourse();
+showToast(’\u2713 ‘+snap.name+’ loaded’);
+crsSearchWrap.style.display=‘none’;
+render();
+};}(crs);
+container.appendChild(item);
+}
+
+function doCourseLookup(){
+var q=crsInp.value.trim();if(!q)return;
+var ql=q.toLowerCase();
+crsResults.innerHTML=’’;crsStatus.textContent=’’;
+
+```
+// 1. Local fuzzy search first (instant)
+var tokens=ql.split(/\s+/).filter(Boolean);
+var localScored=COURSE_DB.map(function(crs){
+  var haystack=(crs.name+' '+crs.city).toLowerCase();
+  var score=0;
+  if(haystack.indexOf(ql)>=0)score+=100;
+  tokens.forEach(function(tok){
+    if(haystack.indexOf(tok)>=0)score+=20;
+    if(tok.length>=3){
+      haystack.split(/\s+/).forEach(function(w){if(w.indexOf(tok)===0)score+=10;});
+    }
+  });
+  return{crs:crs,score:score};
+}).filter(function(x){return x.score>0;})
+  .sort(function(a,b){return b.score-a.score;})
+  .slice(0,4).map(function(x){return x.crs;});
+
+if(localScored.length){
+  crsStatus.textContent='Built-in results — also searching live data...';
+  localScored.forEach(function(crs){renderCourseItem(crs,crsResults);});
+} else {
+  crsStatus.textContent='Searching live course database...';
+}
+
+// 2. Live search via golfcourseapi.com (free, CORS-enabled)
+var apiUrl='https://api.golfcourseapi.com/v1/search?search_query='+encodeURIComponent(q)+'&limit=10';
+fetch(apiUrl,{
+  headers:{
+    'Authorization':'Key 6BWLK6IDTZHMMUT2S4USCGIBXM',
+    'x-api-key':'6BWLK6IDTZHMMUT2S4USCGIBXM'
+  }
+})
+  .then(function(res){
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    return res.json();
+  })
+  .then(function(data){
+    var courses=data.courses||data.data||data.results||[];
+    if(!courses.length){
+      if(!localScored.length)crsStatus.textContent='No results found. Try a different search.';
+      else crsStatus.textContent=localScored.length+' local result'+(localScored.length!==1?'s':'')+' found';
+      return;
+    }
+    // Clear and show combined results — live results first, then local
+    crsResults.innerHTML='';
+    var liveConverted=[];
+    courses.forEach(function(c2){
+      var holes=c2.holes||[];
+      if(holes.length<9)return;
+      var pars={};
+      holes.forEach(function(h){if(h.number&&h.par)pars[h.number]=parseInt(h.par);});
+      if(Object.keys(pars).length<9)return;
+      var city=(c2.location&&c2.location.city?c2.location.city:'')+(c2.location&&c2.location.state?', '+c2.location.state:'');
+      liveConverted.push({name:c2.course_name||c2.name,city:city,pars:pars,live:true});
+    });
+    // Deduplicate against local results
+    var localNames=localScored.map(function(c2){return c2.name.toLowerCase();});
+    var deduped=liveConverted.filter(function(c2){
+      return !localNames.some(function(n){return n.indexOf(c2.name.toLowerCase().slice(0,10))>=0;});
+    });
+    var all=deduped.concat(localScored);
+    all.forEach(function(crs){renderCourseItem(crs,crsResults);});
+    crsStatus.textContent=all.length+' course'+(all.length!==1?'s':'')+' found'+(deduped.length?' ('+deduped.length+' live)':'');
+  })
+  .catch(function(err){
+    if(localScored.length){
+      crsStatus.textContent=localScored.length+' local result'+(localScored.length!==1?'s':'')+' (live search unavailable)';
+    } else {
+      crsStatus.textContent='No results found in local database. Live search unavailable: '+String(err);
+    }
+  });
+```
+
+}
+
+crsSearchBtn.onclick=doCourseLookup;
+crsInp.addEventListener(‘keydown’,function(e){if(e.key===‘Enter’)doCourseLookup();});
+crsInp.addEventListener(‘input’,function(){if(crsInp.value.trim().length>=3)doCourseLookup();});
+app.appendChild(crsCard);
+
+var startBtn=document.createElement(‘button’);startBtn.className=‘btn-primary’;startBtn.id=‘start-btn’;startBtn.textContent=‘Start game’;
+startBtn.disabled=!S.players.every(function(p){return p.name.trim().length>0;});
+startBtn.onclick=function(){
+S.players.forEach(function(p){addToRoster(p.name);});
+saveProfiles();
+S.mulliganUsed={};
+S.players.forEach(function(p){S.mulliganUsed[p.id]=false;});
+S.screen=‘prelim’;S.prelimScores={};S.prelimHoled={};render();
+};
+app.appendChild(startBtn);
+document.addEventListener(‘click’,function(e){if(!e.target.closest(’.player-input-wrap’))closeDropdowns();});
+}
+
+function showCropModal(src,onSave){
+// Full-screen crop overlay
+var overlay=document.createElement(‘div’);
+overlay.style.cssText=‘position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;’;
+
+var title=document.createElement(‘p’);
+title.style.cssText=‘color:#fff;font-family:inherit;font-weight:700;font-size:16px;margin-bottom:12px;’;
+title.textContent=‘Drag to position · Pinch or scroll to zoom’;
+overlay.appendChild(title);
+
+// Crop circle preview container
+var cropSize=280;
+var viewWrap=document.createElement(‘div’);
+viewWrap.style.cssText=‘position:relative;width:’+cropSize+‘px;height:’+cropSize+‘px;border-radius:50%;overflow:hidden;border:3px solid #fff;cursor:grab;flex-shrink:0;’;
+
+var img=new Image();
+img.onload=function(){
+var scale=Math.max(cropSize/img.width,cropSize/img.height);
+var iw=img.width*scale;var ih=img.height*scale;
+var ix=(cropSize-iw)/2;var iy=(cropSize-ih)/2;
+var state={x:ix,y:iy,w:iw,h:ih,scale:scale,minScale:scale,dragging:false,lastX:0,lastY:0};
+
+```
+var canvas=document.createElement('canvas');
+canvas.width=cropSize;canvas.height=cropSize;
+canvas.style.cssText='display:block;width:'+cropSize+'px;height:'+cropSize+'px;';
+
+function draw(){
+  var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,cropSize,cropSize);
+  ctx.drawImage(img,state.x,state.y,state.w,state.h);
+}
+draw();
+viewWrap.appendChild(canvas);
+
+// Mouse/touch drag
+function clamp(){
+  if(state.x>0)state.x=0;
+  if(state.y>0)state.y=0;
+  if(state.x+state.w<cropSize)state.x=cropSize-state.w;
+  if(state.y+state.h<cropSize)state.y=cropSize-state.h;
+}
+
+canvas.addEventListener('mousedown',function(e){state.dragging=true;state.lastX=e.clientX;state.lastY=e.clientY;viewWrap.style.cursor='grabbing';});
+document.addEventListener('mousemove',function(e){
+  if(!state.dragging)return;
+  state.x+=e.clientX-state.lastX;state.y+=e.clientY-state.lastY;
+  state.lastX=e.clientX;state.lastY=e.clientY;clamp();draw();
+});
+document.addEventListener('mouseup',function(){state.dragging=false;viewWrap.style.cursor='grab';});
+
+// Touch drag
+var lastTouch=null;var lastDist=null;
+canvas.addEventListener('touchstart',function(e){
+  e.preventDefault();
+  if(e.touches.length===1){lastTouch={x:e.touches[0].clientX,y:e.touches[0].clientY};}
+  if(e.touches.length===2){
+    var dx=e.touches[0].clientX-e.touches[1].clientX;
+    var dy=e.touches[0].clientY-e.touches[1].clientY;
+    lastDist=Math.sqrt(dx*dx+dy*dy);
+  }
+},{passive:false});
+canvas.addEventListener('touchmove',function(e){
+  e.preventDefault();
+  if(e.touches.length===1&&lastTouch){
+    var dx=e.touches[0].clientX-lastTouch.x;var dy=e.touches[0].clientY-lastTouch.y;
+    state.x+=dx;state.y+=dy;lastTouch={x:e.touches[0].clientX,y:e.touches[0].clientY};clamp();draw();
+  }
+  if(e.touches.length===2&&lastDist){
+    var dx2=e.touches[0].clientX-e.touches[1].clientX;
+    var dy2=e.touches[0].clientY-e.touches[1].clientY;
+    var dist=Math.sqrt(dx2*dx2+dy2*dy2);
+    var ratio=dist/lastDist;
+    var newScale=state.scale*ratio;
+    if(newScale<state.minScale)newScale=state.minScale;
+    if(newScale>state.minScale*4)newScale=state.minScale*4;
+    var cx=cropSize/2;var cy=cropSize/2;
+    state.x=cx-(cx-state.x)*(newScale/state.scale);
+    state.y=cy-(cy-state.y)*(newScale/state.scale);
+    state.w=img.width*newScale;state.h=img.height*newScale;
+    state.scale=newScale;
+    lastDist=dist;clamp();draw();
+  }
+},{passive:false});
+canvas.addEventListener('touchend',function(){lastTouch=null;lastDist=null;});
+
+// Scroll to zoom on desktop
+canvas.addEventListener('wheel',function(e){
+  e.preventDefault();
+  var delta=e.deltaY>0?0.9:1.1;
+  var newScale=state.scale*delta;
+  if(newScale<state.minScale)newScale=state.minScale;
+  if(newScale>state.minScale*4)newScale=state.minScale*4;
+  var cx=cropSize/2;var cy=cropSize/2;
+  state.x=cx-(cx-state.x)*(newScale/state.scale);
+  state.y=cy-(cy-state.y)*(newScale/state.scale);
+  state.w=img.width*newScale;state.h=img.height*newScale;
+  state.scale=newScale;clamp();draw();
+},{passive:false});
+
+// Buttons
+var btnRow=document.createElement('div');
+btnRow.style.cssText='display:flex;gap:12px;margin-top:20px;';
+
+var cancelBtn=document.createElement('button');
+cancelBtn.style.cssText='height:48px;padding:0 28px;border-radius:24px;border:1.5px solid rgba(255,255,255,0.4);background:transparent;color:#fff;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer;';
+cancelBtn.textContent='Cancel';
+cancelBtn.onclick=function(){document.body.removeChild(overlay);};
+
+var saveBtn=document.createElement('button');
+saveBtn.style.cssText='height:48px;padding:0 28px;border-radius:24px;border:none;background:#2d5e0a;color:#fff;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer;';
+saveBtn.textContent='Use photo';
+saveBtn.onclick=function(){
+  // Render final 200x200 crop to a new canvas
+  var out=document.createElement('canvas');out.width=200;out.height=200;
+  var octx=out.getContext('2d');
+  var sc=200/cropSize;
+  octx.drawImage(img,state.x*sc,state.y*sc,state.w*sc,state.h*sc);
+  // Clip to circle for output
+  document.body.removeChild(overlay);
+  onSave(out.toDataURL('image/jpeg',0.85));
+};
+
+btnRow.appendChild(cancelBtn);btnRow.appendChild(saveBtn);
+overlay.appendChild(viewWrap);overlay.appendChild(btnRow);
+```
+
+};
+img.src=src;
+document.body.appendChild(overlay);
+}
+
+function showColorPanel(i,av,container){
+var existing=document.getElementById(‘color-panel-’+i);
+if(existing){existing.remove();return;}
+document.querySelectorAll(’[id^=“color-panel-”]’).forEach(function(el){el.remove();});
+var panel=document.createElement(‘div’);
+panel.id=‘color-panel-’+i;
+panel.style.cssText=‘background:var(–bg0);border:0.5px solid var(–bl);border-radius:var(–r2);padding:12px;margin-top:8px;’;
+var panelTitle=document.createElement(‘p’);panelTitle.className=‘section-title’;panelTitle.style.marginBottom=‘10px’;
+panelTitle.textContent=‘Edit ‘+(S.players[i].name||‘Player ‘+(i+1));
+panel.appendChild(panelTitle);
+var presets=[’#1354A0’,’#2d5e0a’,’#8f1f1f’,’#7a3d00’,’#2e2880’,’#0f6e56’,’#993556’,’#444440’,’#c04000’,’#006080’];
+var colorLbl=document.createElement(‘p’);colorLbl.style.cssText=‘font-size:11px;font-weight:700;color:var(–tx2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;’;colorLbl.textContent=‘Color’;panel.appendChild(colorLbl);
+var swatchRow=document.createElement(‘div’);swatchRow.style.cssText=‘display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;’;
+presets.forEach(function(col){
+var sw=document.createElement(‘div’);sw.style.cssText=‘width:28px;height:28px;border-radius:50%;background:’+col+’;cursor:pointer;border:2.5px solid ‘+(S.players[i].color===col?‘var(–tx0)’:‘transparent’)+’;’;
+sw.onclick=function(){S.players[i].color=col;saveProfiles();render();};
+swatchRow.appendChild(sw);
+});
+panel.appendChild(swatchRow);
+var ci=document.createElement(‘input’);ci.type=‘color’;ci.value=S.players[i].color||’#1354A0’;
+ci.style.cssText=‘width:40px;height:32px;border:none;border-radius:6px;cursor:pointer;margin-right:8px;’;
+ci.onchange=function(e){S.players[i].color=e.target.value;saveProfiles();render();};
+panel.appendChild(ci);
+var photoLbl=document.createElement(‘p’);photoLbl.style.cssText=‘font-size:11px;font-weight:700;color:var(–tx2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;margin-top:4px;’;photoLbl.textContent=‘Photo’;panel.appendChild(photoLbl);
+var photoBtn=document.createElement(‘button’);photoBtn.style.cssText=‘height:32px;padding:0 10px;border:0.5px solid var(–bdm);border-radius:var(–r1);font-size:13px;font-weight:700;cursor:pointer;background:var(–bg1);color:var(–tx0);’;
+photoBtn.textContent=‘Upload photo’;
+var fi=document.createElement(‘input’);fi.type=‘file’;fi.accept=‘image/*’;fi.style.display=‘none’;
+fi.onchange=function(ic,pnl){return function(e){
+var f=e.target.files[0];if(!f)return;
+var r=new FileReader();r.onload=function(ev){
+showCropModal(ev.target.result,function(cropped){
+S.players[ic].photo=cropped;saveProfiles();pnl.remove();render();
+});
+};r.readAsDataURL(f);
+};}(i,panel);
+photoBtn.onclick=function(){fi.click();};
+panel.appendChild(fi);panel.appendChild(photoBtn);
+if(S.players[i].photo){
+var clrBtn=document.createElement(‘button’);clrBtn.style.cssText=‘height:32px;padding:0 10px;border:1px solid var(–rd3);border-radius:var(–r1);font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:var(–rd);margin-left:8px;’;
+clrBtn.textContent=‘Remove photo’;clrBtn.onclick=function(){S.players[i].photo=null;saveProfiles();panel.remove();render();};
+panel.appendChild(clrBtn);
+}
+container.appendChild(panel);
+}
+
+// ── PRELIM ────────────────────────────────────────────────────────────────────
+function renderPrelim(app){
+var back=document.createElement(‘button’);back.className=‘btn-back’;back.textContent=’\u2190 Back to setup’;
+back.onclick=function(){S.screen=‘setup’;render();};app.appendChild(back);
+var lbl=document.createElement(‘p’);lbl.className=‘section-title’;lbl.style.marginTop=‘12px’;
+lbl.textContent=‘Hole ‘+FIRST_HOLE+’ score (par ‘+PARS[FIRST_HOLE]+’)’;app.appendChild(lbl);
+var info=document.createElement(‘p’);info.style.cssText=‘font-size:12px;color:var(–tx2);margin-bottom:10px;’;
+info.textContent=‘Lowest score = first Wolf on hole ‘+(FIRST_HOLE+1)+’. Ties will prompt who holed out first.’;
+app.appendChild(info);
+var card=document.createElement(‘div’);card.className=‘card’;
+// Column header row
+var hdrRow=document.createElement(‘div’);
+hdrRow.style.cssText=‘display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:0.5px solid var(–bdr);margin-bottom:4px;’;
+var hdrPlayer=document.createElement(‘span’);hdrPlayer.style.cssText=‘flex:1;font-size:11px;font-weight:700;color:var(–tx2);text-transform:uppercase;letter-spacing:0.7px;’;hdrPlayer.textContent=‘Player’;
+var hdrScore=document.createElement(‘span’);hdrScore.style.cssText=‘width:54px;font-size:11px;font-weight:700;color:var(–tx2);text-transform:uppercase;letter-spacing:0.7px;text-align:center;’;hdrScore.textContent=‘Score’;
+var hdrPar=document.createElement(‘span’);hdrPar.style.cssText=‘min-width:48px;font-size:11px;font-weight:700;color:var(–tx2);text-transform:uppercase;letter-spacing:0.7px;’;hdrPar.textContent=‘Par’;
+hdrRow.appendChild(hdrPlayer);hdrRow.appendChild(hdrScore);hdrRow.appendChild(hdrPar);
+card.appendChild(hdrRow);
+S.players.forEach(function(p,i){
+var row=document.createElement(‘div’);row.className=‘prelim-row’;
+row.appendChild(mkAv(p.name,i,34));
+var ns=document.createElement(‘span’);ns.style.cssText=‘flex:1;font-size:16px;font-weight:700;’;ns.textContent=p.name;
+var scv=S.prelimScores[p.id]||0;
+var inp=document.createElement(‘input’);inp.className=‘score-input prelim-score-input’;inp.type=‘number’;inp.min=1;inp.max=15;
+inp.inputMode=‘numeric’;inp.pattern=’[0-9]*’;inp.value=scv||’’;inp.placeholder=’\u2014’;inp.id=‘prelim-inp-’+i;
+var lbl2=parLabel(scv,FIRST_HOLE);
+var lblEl=document.createElement(‘span’);lblEl.id=‘prelim-lbl-’+i;
+if(lbl2){lblEl.className=lbl2.cls;lblEl.textContent=lbl2.text;}
+lblEl.style.cssText=‘min-width:48px;display:inline-block;’;
+inp.oninput=function(pidC,iC){return function(e){
+var v=parseInt(e.target.value)||0;
+S.prelimScores[pidC]=v;
+delete S.prelimHoled[pidC];
+// Update par label inline
+var le=document.getElementById(‘prelim-lbl-’+iC);
+if(le){var nl=parLabel(v,FIRST_HOLE);le.className=nl?nl.cls:’’;le.textContent=nl?nl.text:’’;}
+// Auto-advance to next input BEFORE any re-render
+if(v>=1&&v<=15){
+var ni=document.getElementById(‘prelim-inp-’+(iC+1));
+if(ni){ni.focus();ni.select();}
+}
+// Only re-render when all scores are entered (to show tie boxes)
+// or when a score is cleared (to hide tie boxes)
+var allDone=S.players.every(function(p2){return (S.prelimScores[p2.id]||0)>0;});
+var sb=document.getElementById(‘prelim-start-btn’);
+if(sb)sb.disabled=!allDone;
+if(allDone)render();
+};}(p.id,i);
+row.appendChild(ns);row.appendChild(inp);row.appendChild(lblEl);
+card.appendChild(row);
+});
+app.appendChild(card);
+
+var allScored=S.players.every(function(p){return (S.prelimScores[p.id]||0)>0;});
+
+if(allScored){
+// Find tie groups
+var scoreGroups={};
+S.players.forEach(function(p){
+var sc=String(S.prelimScores[p.id]);
+if(!scoreGroups[sc])scoreGroups[sc]=[];
+scoreGroups[sc].push(p);
+});
+var hasTies=false;
+var allTiesResolved=true;
+Object.keys(scoreGroups).forEach(function(sc){
+var group=scoreGroups[sc];
+if(group.length<2)return;
+hasTies=true;
+var ranked=group.filter(function(p){return S.prelimHoled[p.id];});
+if(ranked.length<group.length)allTiesResolved=false;
+
+```
+  // Show tie resolution box
+  var tieBox=document.createElement('div');
+  tieBox.style.cssText='background:var(--am2);border:1.5px solid var(--am3);border-radius:var(--r2);padding:12px 14px;margin-bottom:12px;';
+  var tieTitle=document.createElement('p');
+  tieTitle.style.cssText='font-size:13px;font-weight:700;color:var(--am);margin-bottom:10px;';
+  tieTitle.textContent='\u26A0\uFE0F Tied at '+sc+' \u2014 tap in order of who holed out first:';
+  tieBox.appendChild(tieTitle);
+  var btnRow=document.createElement('div');btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;';
+  group.forEach(function(p){
+    var isRanked=!!S.prelimHoled[p.id];
+    var rankPos=Object.keys(S.prelimHoled).sort(function(a,b){return S.prelimHoled[a]-S.prelimHoled[b];}).indexOf(String(p.id));
+    var tb=document.createElement('button');
+    tb.style.cssText='height:38px;padding:0 16px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;'
+      +'border:1.5px solid '+(isRanked?'var(--gr)':'var(--am3)')+';'
+      +'background:'+(isRanked?'var(--gr)':'transparent')+';'
+      +'color:'+(isRanked?'#fff':'var(--am)')+';'
+      +'display:flex;align-items:center;gap:6px;';
+    if(isRanked){
+      tb.innerHTML='<span style="background:rgba(255,255,255,0.3);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;">'+(rankPos+1)+'</span>'+p.name;
+    } else {
+      tb.textContent=p.name;
+    }
+    tb.onclick=function(pid2){return function(){
+      if(S.prelimHoled[pid2]){
+        var myTime=S.prelimHoled[pid2];
+        group.forEach(function(gp){if(S.prelimHoled[gp.id]&&S.prelimHoled[gp.id]>=myTime)delete S.prelimHoled[gp.id];});
+      } else {
+        S.prelimHoled[pid2]=Date.now();
+      }
+      render();
+    };}(p.id);
+    btnRow.appendChild(tb);
+  });
+  tieBox.appendChild(btnRow);
+  if(ranked.length>0){
+    var summary=document.createElement('p');
+    summary.style.cssText='font-size:11px;color:var(--am);margin-top:8px;font-weight:700;';
+    var orderedR=ranked.slice().sort(function(a,b){return S.prelimHoled[a.id]-S.prelimHoled[b.id];});
+    summary.textContent='Holed order: '+orderedR.map(function(p,i){return (i+1)+'. '+p.name;}).join(' \u00B7 ');
+    tieBox.appendChild(summary);
+  }
+  app.appendChild(tieBox);
+});
+
+// Wolf order preview
+var sorted2=[].concat(S.players).sort(function(a,b){
+  var sa=S.prelimScores[a.id]||99,sb2=S.prelimScores[b.id]||99;
+  if(sa!==sb2)return sa-sb2;
+  return(S.prelimHoled[a.id]||99999999)-(S.prelimHoled[b.id]||99999999);
+});
+var orderBox=document.createElement('div');
+orderBox.style.cssText='background:var(--bg0);border:0.5px solid var(--bdr);border-radius:var(--r2);padding:10px 14px;margin-bottom:12px;';
+var orderLbl=document.createElement('p');orderLbl.className='section-title';orderLbl.style.marginBottom='8px';
+orderLbl.textContent='Wolf order (hole '+(FIRST_HOLE+1)+' onwards)';orderBox.appendChild(orderLbl);
+var orderRow=document.createElement('div');orderRow.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap;';
+sorted2.forEach(function(p,idx){
+  var pI=S.players.indexOf(p);
+  var chip=document.createElement('span');chip.style.cssText='display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;';
+  chip.appendChild(mkAv(p.name,pI,22));
+  var nm=document.createElement('span');nm.textContent=p.name;chip.appendChild(nm);
+  orderRow.appendChild(chip);
+  if(idx<sorted2.length-1){var sep=document.createElement('span');sep.style.cssText='color:var(--tx2);font-size:16px;';sep.textContent='\u203A';orderRow.appendChild(sep);}
+});
+orderBox.appendChild(orderRow);app.appendChild(orderBox);
+
+if(hasTies&&!allTiesResolved){
+  var hint=document.createElement('p');
+  hint.style.cssText='font-size:12px;color:var(--am);text-align:center;margin-bottom:8px;font-weight:700;';
+  hint.textContent='Tap tied players above in order of who holed out first';
+  app.appendChild(hint);
+}
+var btn=document.createElement('button');btn.className='btn-confirm';btn.id='prelim-start-btn';
+btn.textContent='Set wolf order & start';
+btn.disabled=hasTies&&!allTiesResolved;
+btn.onclick=function(){
+  S.wolfOrder=sorted2.map(function(p){return p.id;});
+  S.holes[FIRST_HOLE]={scores:Object.assign({},S.prelimScores),mode:'prelim'};
+  S.currentHole=FIRST_HOLE+1;S.screen='game';render();
+};
+app.appendChild(btn);
+```
+
+} else {
+var btn2=document.createElement(‘button’);btn2.className=‘btn-confirm’;btn2.id=‘prelim-start-btn’;
+btn2.textContent=‘Set wolf order & start’;btn2.disabled=true;app.appendChild(btn2);
+}
+renderFooter(app);
+}
+
+// ── GAME ──────────────────────────────────────────────────────────────────────
+function renderGame(app){
+recalcHoleResult(S.currentHole);
+var wolfId=wolfFor(S.currentHole);
+var wolfP=pById(wolfId);
+var hole=S.holes[S.currentHole]||{};
+var is5=S.players.length===5;
+var dp=derivePoints();var pts=dp.pts;var birdies=dp.birdies;
+var forcedDone=deriveForcedWolf();
+var isConfirmed=!!hole.confirmed;
+
+// Nav — in gradient header (appended to shell app, not content div)
+var gameHdrEl=document.createElement(‘div’);gameHdrEl.className=‘hole-nav-hdr’;
+var nav=document.createElement(‘div’);nav.className=‘hole-nav’;
+var prev=document.createElement(‘button’);prev.className=‘btn-nav’;prev.textContent=’\u2039’;
+prev.onclick=function(){if(S.currentHole<=FIRST_HOLE+1){S.screen=‘prelim’;render();}else{S.currentHole–;render();}};
+var tDiv=document.createElement(‘div’);tDiv.className=‘hole-title’;
+var confSpan=isConfirmed?’ \u00B7 <span style="color:rgba(255,255,255,0.7);font-size:11px">\u2713 done</span>’:’’;
+tDiv.innerHTML=’<h2>Hole ‘+S.currentHole+’</h2><p>Par ‘+PARS[S.currentHole]+’ \u00B7 ‘+(S.course?S.course.name:‘Los Lagos’)+confSpan+’</p>’;
+var maxConf=Math.max.apply(null,[FIRST_HOLE].concat(Object.keys(S.holes).filter(function(h){return S.holes[h].confirmed;}).map(Number)));
+var nxt=document.createElement(‘button’);nxt.className=‘btn-nav’;nxt.textContent=’\u203A’;
+nxt.disabled=S.currentHole>=LAST_HOLE||(S.currentHole>maxConf&&!isConfirmed);
+nxt.onclick=function(){S.currentHole++;render();};
+nav.appendChild(prev);nav.appendChild(tDiv);nav.appendChild(nxt);
+gameHdrEl.appendChild(nav);
+var shell=document.getElementById(‘app’);
+var appContentEl=shell.querySelector(’.app-content’);
+if(appContentEl){shell.insertBefore(gameHdrEl,appContentEl);}else{shell.appendChild(gameHdrEl);}
+
+// Wolf pill card
+if(wolfP){
+var wr=document.createElement(‘div’);wr.className=‘wolf-pill’;
+// Avatar
+var pI2=pIdx(wolfId);
+var wAv=mkAv(wolfP.name,pI2,36);wAv.style.flexShrink=‘0’;wr.appendChild(wAv);
+// Info
+var wInfo=document.createElement(‘div’);wInfo.className=‘wolf-pill-info’;
+var wLbl=document.createElement(‘div’);wLbl.className=‘wolf-pill-label’;wLbl.textContent=’\uD83D\uDC3A Wolf’;
+var wName=document.createElement(‘div’);wName.className=‘wolf-pill-name’;
+var wb=document.createElement(‘span’);wb.textContent=wolfP.name;
+var mb=document.createElement(‘button’);
+mb.className=‘btn-mulligan’+(S.mulliganUsed[wolfId]?’ used’:’’);
+mb.textContent=S.mulliganUsed[wolfId]?‘Mulligan used’:‘Use mulligan’;
+mb.onclick=function(){if(!S.mulliganUsed[wolfId]){S.mulliganUsed[wolfId]=true;render();}};
+var wChg=document.createElement(‘button’);
+wChg.style.cssText=‘background:none;border:none;color:var(–tx2);font-size:11px;font-weight:700;cursor:pointer;padding:2px 6px;text-decoration:underline;margin-left:6px;’;
+wChg.textContent=‘change’;
+wChg.onclick=function(){
+var ex=document.getElementById(‘wcp’);if(ex){ex.remove();return;}
+var pnl=document.createElement(‘div’);pnl.id=‘wcp’;
+pnl.style.cssText=‘position:absolute;top:36px;left:0;background:var(–bg0);border:0.5px solid var(–bdm);border-radius:var(–r2);padding:8px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.18);min-width:170px;’;
+var pLbl=document.createElement(‘div’);
+pLbl.style.cssText=‘font-size:10px;color:var(–tx2);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 6px 6px;’;
+pLbl.textContent=‘Wolf \u2014 Hole ‘+S.currentHole;
+pnl.appendChild(pLbl);
+var hasOvr=!!(S.holes[S.currentHole]&&S.holes[S.currentHole].wolfOverride);
+if(hasOvr){
+var oLbl=document.createElement(‘div’);
+oLbl.style.cssText=‘font-size:10px;color:var(–am3);padding:0 6px 6px;font-weight:700;’;
+oLbl.textContent=’\u26A0 Manually set’;
+pnl.appendChild(oLbl);
+}
+S.players.forEach(function(p,pi){
+var isCur=sid(p.id)===sid(wolfId);
+var btn=document.createElement(‘button’);
+btn.style.cssText=‘display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;border:none;background:’+(isCur?‘var(–bl2)’:‘transparent’)+’;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;font-size:14px;color:’+(isCur?‘var(–bl)’:‘var(–tx0)’)+’;’;
+btn.appendChild(mkAv(p.name,pi,24));
+var nm=document.createElement(‘span’);nm.textContent=p.name+(isCur?’ \u2713’:’’);
+btn.appendChild(nm);
+btn.onclick=function(pid,pnm){return function(){
+if(!S.holes[S.currentHole])S.holes[S.currentHole]={};
+S.holes[S.currentHole].wolfOverride=pid;
+recalcHoleResult(S.currentHole);
+pnl.remove();
+showToast(’\uD83D\uDC3A Wolf \u2192 ‘+pnm);
+render();
+};}(p.id,p.name);
+pnl.appendChild(btn);
+});
+if(hasOvr){
+var clrBtn=document.createElement(‘button’);
+clrBtn.style.cssText=‘width:100%;padding:7px 10px;border:none;border-top:0.5px solid var(–bdr);background:transparent;cursor:pointer;font-family:inherit;font-weight:700;font-size:12px;color:var(–tx2);text-align:left;margin-top:4px;’;
+clrBtn.textContent=’\u21BA Reset to automatic’;
+clrBtn.onclick=function(){
+if(S.holes[S.currentHole])delete S.holes[S.currentHole].wolfOverride;
+pnl.remove();render();
+};
+pnl.appendChild(clrBtn);
+}
+wName.style.position=‘relative’;
+wName.appendChild(pnl);
+};
+wName.appendChild(wb);wName.appendChild(wChg);
+wInfo.appendChild(wLbl);wInfo.appendChild(wName);
+wr.appendChild(wInfo);wr.appendChild(mb);app.appendChild(wr);
+}
+
+// Wolf decision
+if(wolfP){
+var forced=!is5&&mustBeForced(S.currentHole);
+if(forced&&hole.mode!==‘forced’&&!hole.confirmed){
+if(!S.holes[S.currentHole])S.holes[S.currentHole]={};
+S.holes[S.currentHole].mode=‘forced’;
+delete S.holes[S.currentHole].partner;
+hole=S.holes[S.currentHole];
+}
+var holeMode=hole.mode||’’;
+var needsDecision=!holeMode;
+
+```
+var decWrap=document.createElement('div');
+if(needsDecision){
+  decWrap.style.cssText='border:2px solid var(--bl);border-radius:14px;padding:12px;margin-bottom:12px;background:var(--bl2);';
+} else {
+  decWrap.style.cssText='margin-bottom:0;';
+}
+
+var stepRow=document.createElement('div');stepRow.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:8px;';
+var badge=document.createElement('div');
+badge.style.cssText='width:22px;height:22px;border-radius:50%;background:'+(needsDecision?'var(--bl)':'var(--tx2)')+';color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;';
+badge.textContent='1';
+var decLbl=document.createElement('p');decLbl.className='section-title';decLbl.style.margin='0';
+if(forced){
+  decLbl.innerHTML='Wolf decision <span style="font-size:10px;background:#d4860e;color:#fff;padding:2px 8px;border-radius:10px;margin-left:4px;font-weight:700;">Forced Wolf required</span>';
+} else if(needsDecision){
+  decLbl.innerHTML='Wolf decision <span style="font-size:10px;color:var(--bl);font-weight:700;margin-left:4px;">\u2190 make your choice</span>';
+} else {
+  decLbl.textContent='Wolf decision';
+}
+stepRow.appendChild(badge);stepRow.appendChild(decLbl);
+decWrap.appendChild(stepRow);
+
+var pills=document.createElement('div');pills.className='mode-pills';
+var modes=is5?['partner','lone']:['partner','lone','forced'];
+var modeLabels={partner:'Choose partner',lone:'Lone Wolf',forced:'Forced Wolf'};
+modes.forEach(function(m){
+  var btn=document.createElement('button');btn.className='mode-pill'+(holeMode===m?' active':'');
+  btn.textContent=modeLabels[m];
+  if(forced&&m!=='forced'){btn.disabled=true;btn.style.opacity='0.35';btn.style.cursor='not-allowed';}
+  else {
+    btn.onclick=function(){
+      if(!S.holes[S.currentHole])S.holes[S.currentHole]={};
+      S.holes[S.currentHole].mode=m;
+      S.holes[S.currentHole].confirmed=false;
+      S.holes[S.currentHole].manualOverride=false;
+      S.holes[S.currentHole].winner=null;
+      if(m!=='partner')delete S.holes[S.currentHole].partner;
+      render();
+    };
+  }
+  pills.appendChild(btn);
+});
+decWrap.appendChild(pills);
+app.appendChild(decWrap);
+
+if(hole.mode==='partner'){
+  var pl=document.createElement('p');pl.className='section-title';pl.textContent='Select partner';app.appendChild(pl);
+  var grid=document.createElement('div');grid.className='partner-grid';
+  S.players.forEach(function(p){
+    if(sid(p.id)===sid(wolfId))return;
+    var pb=document.createElement('button');pb.className='btn-partner'+(sid(hole.partner)===sid(p.id)?' selected':'');
+    pb.textContent=p.name;
+    pb.onclick=function(){
+      S.holes[S.currentHole].partner=p.id;
+      S.holes[S.currentHole].confirmed=false;
+      S.holes[S.currentHole].manualOverride=false;
+      S.holes[S.currentHole].winner=null;
+      render();
+    };
+    grid.appendChild(pb);
+  });
+  app.appendChild(grid);
+}
+```
+
+}
+
+// Score card
+var sl=document.createElement(‘p’);sl.className=‘section-title’;sl.style.marginTop=‘4px’;sl.textContent=‘Hole score (par ‘+PARS[S.currentHole]+’)’;app.appendChild(sl);
+var sc=document.createElement(‘div’);sc.className=‘card’;
+
+// Header row
+var hdrRow=document.createElement(‘div’);
+hdrRow.style.cssText=‘display:flex;align-items:center;padding:0 0 8px;border-bottom:0.5px solid var(–bdr);margin-bottom:8px;gap:6px;’;
+function colHdr(txt,w){var s=document.createElement(‘span’);s.style.cssText=‘font-size:11px;font-weight:700;color:var(–tx2);text-transform:uppercase;letter-spacing:0.7px;’+(w?‘width:’+w+‘px;text-align:center;’:‘flex:1;’);s.textContent=txt;return s;}
+hdrRow.appendChild(colHdr(‘Player’,’’));
+hdrRow.appendChild(colHdr(‘Score’,54));
+hdrRow.appendChild(colHdr(‘Par’,54));
+hdrRow.appendChild(colHdr(‘Result’,68));
+sc.appendChild(hdrRow);
+
+// Read hole state again after recalc
+hole=S.holes[S.currentHole]||{};
+
+S.players.forEach(function(p,i){
+var row=document.createElement(‘div’);row.style.cssText=‘display:flex;align-items:center;gap:6px;margin-bottom:’+(i===S.players.length-1?‘0’:‘10px’)+’;’;
+var chip=document.createElement(‘div’);chip.style.cssText=‘display:flex;align-items:center;gap:8px;flex:1;min-width:0;’;
+chip.appendChild(mkAv(p.name,i,30));
+var nameCol=document.createElement(‘div’);nameCol.style.cssText=‘display:flex;flex-direction:column;gap:2px;min-width:0;’;
+var nameTagRow=document.createElement(‘div’);nameTagRow.style.cssText=‘display:flex;align-items:center;gap:4px;flex-wrap:wrap;’;
+var ns=document.createElement(‘span’);ns.style.cssText=‘font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;’;ns.textContent=p.name;
+nameTagRow.appendChild(ns);
+if(sid(p.id)===sid(wolfId)){var t=document.createElement(‘span’);t.className=‘role-tag role-wolf’;t.textContent=‘Wolf’;nameTagRow.appendChild(t);}
+else if(hole.mode===‘partner’&&sid(p.id)===sid(hole.partner)){var t2=document.createElement(‘span’);t2.className=‘role-tag role-cowolf’;t2.textContent=‘Co-Wolf’;nameTagRow.appendChild(t2);}
+nameCol.appendChild(nameTagRow);
+if(S.mulliganUsed&&S.mulliganUsed[p.id]){
+var mulRow=document.createElement(‘div’);
+mulRow.innerHTML=’<span style="font-size:10px;background:var(--rd2);border:1px solid var(--rd3);color:var(--rd);padding:1px 6px;border-radius:8px;font-weight:700;"><span style="text-decoration:line-through;">M</span> Mulligan used</span>’;
+nameCol.appendChild(mulRow);
+}
+chip.appendChild(nameCol);
+
+```
+var scv=(hole.scores||{})[p.id]||0;
+var inp=document.createElement('input');inp.className='score-input';inp.type='number';inp.min=1;inp.max=15;
+inp.inputMode='numeric';inp.pattern='[0-9]*';inp.value=scv||'';inp.placeholder='\u2014';
+inp.id='score-inp-'+i;
+inp.oninput=function(e){
+  var val=parseInt(e.target.value)||0;
+  if(!S.holes[S.currentHole])S.holes[S.currentHole]={};
+  if(!S.holes[S.currentHole].scores)S.holes[S.currentHole].scores={};
+  S.holes[S.currentHole].scores[p.id]=val;
+  S.holes[S.currentHole].confirmed=false;
+  S.holes[S.currentHole].manualOverride=false;
+  S.holes[S.currentHole].winner=null;
+  recalcHoleResult(S.currentHole);
+  var hNow2=S.holes[S.currentHole]||{};
+  // Update par label
+  var lblEl2=document.getElementById('score-lbl-'+i);
+  if(lblEl2){var nl=parLabel(val,S.currentHole);lblEl2.innerHTML=nl?'<span class="'+nl.cls+'">'+nl.text+'</span>':'';}
+  // Update all result badges
+  S.players.forEach(function(p2,i2){
+    var re=document.getElementById('hole-res-'+i2);
+    if(!re)return;re.innerHTML='';
+    var pr=playerHoleResultFor(p2.id,S.currentHole);
+    if(pr){var rb=document.createElement('span');rb.style.cssText=badgeStyle(pr.cls);rb.textContent=pr.text;re.appendChild(rb);}
+  });
+  // Update confirm btn
+  var cb=document.getElementById('confirm-btn');
+  if(cb){var hh=S.holes[S.currentHole]||{};cb.disabled=!(hh.mode&&(hh.winner==='tie'||hh.winner)&&(hh.mode!=='partner'||hh.partner));}
+  // Auto advance
+  if(val>=1&&val<=15){var ni=document.getElementById('score-inp-'+(i+1));if(ni){ni.focus();ni.select();}}
+};
+
+var lblWrap=document.createElement('div');lblWrap.id='score-lbl-'+i;lblWrap.style.cssText='width:54px;display:flex;align-items:center;justify-content:center;';
+var lbl3=parLabel(scv,S.currentHole);
+if(lbl3){var lt=document.createElement('span');lt.className=lbl3.cls;lt.textContent=lbl3.text;lblWrap.appendChild(lt);}
+if(S.currentHole===LAST_HOLE&&isBirdie(scv,LAST_HOLE)&&birdies[p.id]){var bb=document.createElement('span');bb.className='birdie-tag';bb.textContent='Bonus!';lblWrap.appendChild(bb);}
+
+var resWrap=document.createElement('div');resWrap.id='hole-res-'+i;resWrap.style.cssText='width:68px;display:flex;align-items:center;justify-content:center;';
+var pr2=playerHoleResultFor(p.id,S.currentHole);
+if(pr2){var rb2=document.createElement('span');rb2.style.cssText=badgeStyle(pr2.cls);rb2.textContent=pr2.text;resWrap.appendChild(rb2);}
+
+row.appendChild(chip);row.appendChild(inp);row.appendChild(lblWrap);row.appendChild(resWrap);
+sc.appendChild(row);
+```
+
+});
+app.appendChild(sc);
+
+// Override pills
+hole=S.holes[S.currentHole]||{};
+if(hole.mode){
+var ovRow=document.createElement(‘div’);ovRow.style.cssText=‘display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap;’;
+var ovLbl=document.createElement(‘span’);ovLbl.style.cssText=‘font-size:11px;font-weight:700;color:var(–tx2);text-transform:uppercase;letter-spacing:0.7px;margin-right:2px;’;ovLbl.textContent=‘Override:’;
+ovRow.appendChild(ovLbl);
+var overrides=[];
+if(hole.mode===‘partner’&&hole.partner){
+overrides.push({label:‘Team Wolf’,val:‘wolf_team’});
+overrides.push({label:‘Other Guys’,val:‘others’});
+} else if(hole.mode===‘lone’||hole.mode===‘forced’){
+overrides.push({label:‘Team Wolf’,val:‘wolf’});
+overrides.push({label:‘Other Guys’,val:‘others’});
+}
+overrides.push({label:‘Tie / No Blood’,val:‘tie’});
+overrides.forEach(function(o){
+var ob=document.createElement(‘button’);
+ob.dataset.overrideVal=o.val;
+var isActive=hole.winner===o.val;
+ob.style.cssText=‘height:30px;padding:0 10px;border-radius:20px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;border:1.5px solid ‘+(isActive?‘var(–bl)’:‘var(–bdm)’)+’;background:’+(isActive?‘var(–bl)’:‘transparent’)+’;color:’+(isActive?’#fff’:‘var(–tx1)’)+’;’;
+ob.textContent=o.label;
+ob.onclick=function(){
+S.holes[S.currentHole].winner=o.val;
+S.holes[S.currentHole].manualOverride=true;
+S.holes[S.currentHole].overrideScoreHash=JSON.stringify(S.holes[S.currentHole].scores||{});
+S.holes[S.currentHole].confirmed=false;
+render();
+};
+ovRow.appendChild(ob);
+});
+app.appendChild(ovRow);
+}
+
+// Confirm button
+hole=S.holes[S.currentHole]||{};
+var canConfirm=hole.mode&&(hole.winner===‘tie’||hole.winner)&&(hole.mode!==‘partner’||hole.partner);
+var cb2=document.createElement(‘button’);cb2.className=‘btn-confirm’;cb2.id=‘confirm-btn’;
+if(hole.confirmed){cb2.textContent=S.currentHole===LAST_HOLE?’\u2713 Done \u2014 view results’:’\u2713 Confirmed \u2014 next hole \u203A’;cb2.style.background=‘var(–gr)’;}
+else{cb2.textContent=S.currentHole===LAST_HOLE?‘Finish game’:‘Confirm hole’;}
+cb2.disabled=!canConfirm;
+cb2.onclick=function(){haptic(‘success’);
+S.holes[S.currentHole].confirmed=true;
+if(S.currentHole===LAST_HOLE){
+var dp2=derivePoints();
+saveRound({date:new Date().toISOString(),players:S.players.map(function(p){return{name:p.name,color:p.color,id:String(p.id)};}),pts:Object.assign({},dp2.pts),holes:JSON.parse(JSON.stringify(S.holes)),wolfOrder:[].concat(S.wolfOrder),course:(S.course?S.course.name:’’),firstHole:FIRST_HOLE,lastHole:LAST_HOLE});
+S.screen=‘results’;
+} else {S.currentHole++;}
+render();
+};
+app.appendChild(cb2);
+renderScoreboard(app,pts,forcedDone);
+renderFooter(app);
+}
+
+// ── SCOREBOARD ────────────────────────────────────────────────────────────────
+function renderScoreboard(app,pts,forcedDone){
+if(!pts){var dp3=derivePoints();pts=dp3.pts;forcedDone=deriveForcedWolf();}
+var lbl=document.createElement(‘p’);lbl.className=‘section-title’;lbl.textContent=‘Scoreboard’;app.appendChild(lbl);
+var card=document.createElement(‘div’);card.className=‘card-flush’;
+var tbl=document.createElement(‘table’);tbl.className=‘sb-table’;
+tbl.innerHTML=’<thead><tr><th style="width:36px">#</th><th>Player</th><th style="width:60px;text-align:right">Pts</th></tr></thead>’;
+var tbody=document.createElement(‘tbody’);
+var sorted=[].concat(S.players).sort(function(a,b){return (pts[b.id]||0)-(pts[a.id]||0);});
+var topPts=pts[sorted[0].id]||0;
+sorted.forEach(function(p,rank){
+var idx=pIdx(p.id);
+var tr=document.createElement(‘tr’);
+if(rank===0&&topPts>0)tr.style.background=‘var(–gr2)’;
+var avHtml=’<div style="width:26px;height:26px;border-radius:50%;background:'+p.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">’+(p.name||’’).charAt(0).toUpperCase()+’</div>’;
+var nf=S.players.length===4&&!forcedDone[p.id]&&S.screen===‘game’;
+var forcedTag=nf?’<span style="font-size:10px;background:var(--am3);color:#fff;padding:2px 6px;border-radius:10px;margin-left:4px;font-weight:700;">Forced pending</span>’:’’;
+tr.innerHTML=’<td style="font-weight:700;color:var(--tx1)">’+(rank+1)+’</td><td><div style="display:flex;align-items:center;gap:8px">’+avHtml+’<div>’+p.name+forcedTag+’</div></div></td><td class="sb-pts">’+(pts[p.id]||0)+’</td>’;
+tbody.appendChild(tr);
+});
+tbl.appendChild(tbody);card.appendChild(tbl);app.appendChild(card);
+}
+
+// ── RESULTS ───────────────────────────────────────────────────────────────────
+function renderResults(app){
+var dp4=derivePoints();var pts=dp4.pts;var birdies=dp4.birdies;
+var sorted=[].concat(S.players).sort(function(a,b){return (pts[b.id]||0)-(pts[a.id]||0);});
+var winner=sorted[0];
+var topPts=pts[winner.id]||0;
+
+var backRow=document.createElement(‘div’);backRow.style.cssText=‘margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;’;
+var backBtn=document.createElement(‘button’);backBtn.className=‘btn-back’;backBtn.textContent=’\u2190 Edit holes’;
+backBtn.onclick=function(){S.screen=‘game’;S.currentHole=LAST_HOLE;render();};
+var scBtn=document.createElement(‘button’);
+scBtn.style.cssText=‘background:var(–bl2);color:var(–bl);border:1.5px solid var(–bl);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;’;
+scBtn.textContent=’\uD83D\uDCCB Scorecard’;
+scBtn.onclick=function(){renderLandscapeScorecard(true);};
+backRow.appendChild(backBtn);backRow.appendChild(scBtn);app.appendChild(backRow);
+
+var fin=document.createElement(‘div’);fin.className=‘final-block’;
+fin.innerHTML=’<div style="font-size:44px;margin-bottom:10px">\uD83C\uDFC6</div><h2>’+winner.name+’ wins!</h2><p>’+topPts+’ points</p>’;
+app.appendChild(fin);
+renderScoreboard(app,pts,deriveForcedWolf());
+
+// Birdie bonus
+var bp=S.players.filter(function(p){return birdies[p.id]&&isBirdie((S.holes[LAST_HOLE]&&S.holes[LAST_HOLE].scores&&S.holes[LAST_HOLE].scores[p.id])||0,LAST_HOLE);});
+if(bp.length>0){
+var bi=document.createElement(‘div’);bi.className=‘info-box’;
+bi.innerHTML=’<strong>Birdie bonus!</strong><br>’+bp.map(function(p){return p.name;}).join(’, ‘)+’ earned the pre-determined bonus \u2014 birdied a prior hole AND hole 18!’;
+app.appendChild(bi);
+}
+
+// Stroke totals
+var totalPar=Object.values(PARS).reduce(function(a,b){return a+b;},0);
+var strLbl=document.createElement(‘p’);strLbl.className=‘section-title’;strLbl.textContent=‘Stroke totals’;app.appendChild(strLbl);
+var strCard=document.createElement(‘div’);strCard.className=‘card-flush’;
+var strTbl=document.createElement(‘table’);strTbl.className=‘sb-table’;
+strTbl.innerHTML=’<thead><tr><th>Player</th><th style="text-align:right;width:60px">Strokes</th><th style="text-align:right;width:60px">vs Par</th></tr></thead>’;
+var strBody=document.createElement(‘tbody’);
+var strokeRows=[].concat(S.players).map(function(p){
+var total=0;
+for(var h=FIRST_HOLE;h<=LAST_HOLE;h++)total+=(S.holes[h]&&S.holes[h].scores&&S.holes[h].scores[p.id])||0;
+return{p:p,total:total};
+}).sort(function(a,b){return a.total-b.total;});
+strokeRows.forEach(function(item,rank){
+var p=item.p;var total=item.total;
+var vsPar=total?total-totalPar:null;
+var vsStr=vsPar===null?’\u2014’:vsPar===0?‘E’:vsPar>0?’+’+vsPar:String(vsPar);
+var vsColor=vsPar===null?‘var(–tx2)’:vsPar<0?‘var(–gr)’:vsPar>0?‘var(–rd)’:‘var(–tx1)’;
+var tr=document.createElement(‘tr’);
+if(rank===0)tr.style.background=‘var(–gr2)’;
+var avHtml=’<div style="width:26px;height:26px;border-radius:50%;background:'+p.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">’+(p.name||’’).charAt(0).toUpperCase()+’</div>’;
+tr.innerHTML=’<td><div style="display:flex;align-items:center;gap:8px;">’+avHtml+’<span>’+p.name+’</span></div></td><td style="text-align:right;font-weight:700;font-size:16px;">’+(total||’\u2014’)+’</td><td style="text-align:right;font-weight:700;font-size:15px;color:'+vsColor+';">’+(total?vsStr:’\u2014’)+’</td>’;
+strBody.appendChild(tr);
+});
+strTbl.appendChild(strBody);strCard.appendChild(strTbl);app.appendChild(strCard);
+
+// Hole history
+var hlLbl=document.createElement(‘p’);hlLbl.className=‘section-title’;hlLbl.textContent=‘Hole history’;app.appendChild(hlLbl);
+var hc=document.createElement(‘div’);hc.className=‘card-flush’;
+for(var h=FIRST_HOLE+1;h<=LAST_HOLE;h++){
+var holeH=S.holes[h];if(!holeH)continue;
+var wId3=wolfFor(h);var wP2=pById(wId3);
+var modeStr=holeH.mode===‘partner’?(‘Partner: ‘+(pById(holeH.partner)&&pById(holeH.partner).name||’?’)):holeH.mode===‘lone’?‘Lone Wolf’:‘Forced Wolf’;
+var wlStr=holeH.winner===‘wolf_team’?‘Wolf team won (+1)’:holeH.winner===‘wolf’?‘Wolf won (+3)’:holeH.winner===‘others’?‘Others won (+1)’:‘Tie / No Blood’;
+var confNote=holeH.confirmed?’’:’<span style="font-size:10px;color:var(--rd);margin-left:4px">unconfirmed</span>’;
+var row=document.createElement(‘div’);row.className=‘history-row’;row.style.cursor=‘pointer’;
+row.innerHTML=’<span style="font-weight:700;color:var(--tx1);width:44px;flex-shrink:0;">H’+h+’</span><span style="flex:1;font-size:13px;">’+(wP2?wP2.name:’’)+’ \u2014 ‘+modeStr+confNote+’</span><span style="font-size:12px;color:var(--tx1);">’+wlStr+’ <span style="color:var(--tx2);font-size:10px;">edit</span></span>’;
+row.onclick=function(hh){return function(){S.screen=‘game’;S.currentHole=hh;render();};}(h);
+hc.appendChild(row);
+}
+app.appendChild(hc);
+
+// Settlement
+var payLbl=document.createElement(‘p’);payLbl.className=‘section-title’;payLbl.style.marginTop=‘8px’;payLbl.textContent=‘Settlement ($1 per point)’;app.appendChild(payLbl);
+var payCard=document.createElement(‘div’);payCard.className=‘card’;payCard.style.padding=‘0’;
+var transactions=[];
+for(var a=0;a<S.players.length;a++){
+for(var b=a+1;b<S.players.length;b++){
+var pa=S.players[a];var pb=S.players[b];
+var diff=(pts[pa.id]||0)-(pts[pb.id]||0);
+if(diff>0)transactions.push({from:pb,to:pa,amt:diff});
+else if(diff<0)transactions.push({from:pa,to:pb,amt:-diff});
+}
+}
+transactions.sort(function(a,b){return a.from.name.localeCompare(b.from.name);});
+if(transactions.length===0){
+var evRow=document.createElement(‘div’);evRow.style.cssText=‘padding:14px 16px;font-size:14px;color:var(–tx1);text-align:center;’;evRow.textContent=‘All square \u2014 no money changes hands’;payCard.appendChild(evRow);
+} else {
+transactions.forEach(function(t,ti){
+var tRow=document.createElement(‘div’);
+tRow.style.cssText=‘display:flex;align-items:center;justify-content:space-between;padding:11px 16px;’+(ti<transactions.length-1?‘border-bottom:0.5px solid var(–bdr);’:’’);
+var fromIdx=pIdx(t.from.id);var toIdx=pIdx(t.to.id);
+tRow.innerHTML=’<div style="display:flex;align-items:center;gap:8px;flex:1;"><div style="width:26px;height:26px;border-radius:50%;background:'+t.from.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">’+(t.from.name||’’).charAt(0).toUpperCase()+’</div><div><div style="font-size:13px;font-weight:700;">’+t.from.name+’</div><div style="font-size:11px;color:var(--tx2);">owes ‘+t.to.name+’</div></div></div><div style="font-size:20px;font-weight:700;color:var(--rd);margin:0 8px;">$’+t.amt+’</div><div style="width:26px;height:26px;border-radius:50%;background:'+t.to.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">’+(t.to.name||’’).charAt(0).toUpperCase()+’</div>’;
+payCard.appendChild(tRow);
+});
+}
+app.appendChild(payCard);
+
+// Share button
+var shareBtn=document.createElement(‘button’);
+shareBtn.style.cssText=‘width:100%;height:50px;background:var(–gr);color:#fff;border:none;border-radius:14px;font-size:17px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:16px;margin-bottom:8px;’;
+shareBtn.textContent=‘Share Results’;
+shareBtn.onclick=function(){
+var date=new Date().toLocaleDateString(‘en-US’,{weekday:‘long’,year:‘numeric’,month:‘long’,day:‘numeric’});
+var sortedPts=[].concat(S.players).sort(function(a,b){return (pts[b.id]||0)-(pts[a.id]||0);});
+var top=pts[sortedPts[0].id]||0;
+var winners=sortedPts.filter(function(p){return (pts[p.id]||0)===top;}).map(function(w){return w.name;}).join(’ & ‘);
+var rows=[].concat(S.players).map(function(p){return{name:p.name,id:p.id,pts:pts[p.id]||0};}).sort(function(a,b){return b.pts-a.pts;});
+var shareTx=[];
+for(var a2=0;a2<S.players.length;a2++){
+for(var b2=a2+1;b2<S.players.length;b2++){
+var d2=(pts[S.players[a2].id]||0)-(pts[S.players[b2].id]||0);
+if(d2>0)shareTx.push(S.players[b2].name+’ owes ‘+S.players[a2].name+’ $’+d2);
+else if(d2<0)shareTx.push(S.players[a2].name+’ owes ‘+S.players[b2].name+’ $’+(-d2));
+}
+}
+shareTx.sort();
+var text=’\uD83D\uDC3A Back 9 Wolf \u00B7 ‘+(S.course?S.course.name:‘Los Lagos’)+’\n’+date+’\n\n’;
+text+=’\uD83C\uDFC6 ‘+(winners.length>1?‘Winners’:‘Winner’)+’: ‘+winners+’ (’+top+’ pts)\n\n’;
+text+=’\uD83D\uDCCA Scores\n’;
+rows.forEach(function(r,idx){text+=(idx+1)+’. ‘+r.name+’ \u2014 ‘+r.pts+’ pts\n’;});
+text+=’\n\uD83D\uDCB0 Settlement\n’;
+if(shareTx.length){shareTx.forEach(function(l){text+=l+’\n’;});}else{text+=‘All square\n’;}
+text+=’\n\uD83C\uDFCC\uFE0F Back 9 Wolf App’;
+if(navigator.share){navigator.share({title:‘Back 9 Wolf Results’,text:text}).catch(function(){});}
+else{navigator.clipboard?navigator.clipboard.writeText(text).then(function(){shareBtn.textContent=‘Copied!’;setTimeout(function(){shareBtn.textContent=‘Share Results’;},2500);}).catch(function(){alert(text);}):alert(text);}
+};
+app.appendChild(shareBtn);
+
+var viewBtn=document.createElement(‘button’);viewBtn.style.cssText=‘width:100%;height:44px;background:transparent;border:1.5px solid var(–bdm);border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;color:var(–tx1);margin-bottom:8px;’;viewBtn.textContent=‘View in History’;
+viewBtn.onclick=function(){S.screen=‘history’;render();};app.appendChild(viewBtn);
+
+var nb=document.createElement(‘button’);nb.className=‘btn-primary’;nb.style.marginTop=‘0’;nb.textContent=‘New game’;
+nb.onclick=function(){
+clearState();
+S={screen:‘setup’,players:[
+{name:’’,id:‘0’,color:PCOLS[0],photo:null,phone:’’},
+{name:’’,id:‘1’,color:PCOLS[1],photo:null,phone:’’},
+{name:’’,id:‘2’,color:PCOLS[2],photo:null,phone:’’},
+{name:’’,id:‘3’,color:PCOLS[3],photo:null,phone:’’}
+],prelimScores:{},prelimHoled:{},wolfOrder:[],currentHole:FIRST_HOLE,holes:{},mulliganUsed:{},customLogo:loadLogo()};
+render();
+};
+app.appendChild(nb);
+renderFooter(app);
+}
+
+// ── HISTORY ───────────────────────────────────────────────────────────────────
+function renderHistory(app){
+var rounds=loadRounds();
+if(rounds.length===0){
+var empty=document.createElement(‘div’);empty.style.cssText=‘text-align:center;padding:40px 20px;color:var(–tx2);font-size:15px;’;
+empty.textContent=‘No past rounds yet. Finish a game to save it here.’;app.appendChild(empty);return;
+}
+var lbl=document.createElement(‘p’);lbl.className=‘section-title’;lbl.textContent=rounds.length+’ saved round’+(rounds.length!==1?‘s’:’’);app.appendChild(lbl);
+var card=document.createElement(‘div’);card.className=‘card-flush’;
+rounds.forEach(function(round,ri){
+var d=new Date(round.date);
+var dateStr=d.toLocaleDateString(‘en-US’,{weekday:‘short’,month:‘short’,day:‘numeric’,year:‘numeric’});
+var best=round.players[0]&&round.players[0].name;
+var bestPts=0;
+round.players.forEach(function(p,pi){var id=p.id!=null?String(p.id):String(pi);var v=round.pts[id]||0;if(v>bestPts){bestPts=v;best=p.name;}});
+var ptsList=round.players.map(function(p,pi){var id=p.id!=null?String(p.id):String(pi);return p.name+’: ‘+(round.pts[id]||0)+‘pts’;}).join(’ \u00B7 ‘);
+var row=document.createElement(‘div’);row.className=‘round-row’;
+var info=document.createElement(‘div’);info.style.cssText=‘flex:1;min-width:0;’;
+info.innerHTML=’<div style="font-size:15px;font-weight:700;">’+dateStr+’</div><div style="font-size:12px;color:var(--tx2);margin-top:2px;">\uD83C\uDFC6 ‘+best+’ \u00B7 ‘+ptsList+’</div>’;
+row.onclick=function(r2,r2i){return function(){S._historyRound={round:r2,ri:r2i};S.screen=‘roundSummary’;render();};}(round,ri);
+var delBtn=document.createElement(‘button’);delBtn.style.cssText=‘height:32px;padding:0 10px;background:var(–rd2);color:var(–rd);border:1px solid var(–rd3);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;’;delBtn.textContent=’\u00D7’;
+delBtn.onclick=function(e,r2i){return function(e2){e2.stopPropagation();deleteRound(r2i);render();};}(null,ri);
+row.appendChild(info);row.appendChild(delBtn);card.appendChild(row);
+});
+app.appendChild(card);
+}
+
+// ── ROUND SUMMARY ─────────────────────────────────────────────────────────────
+function renderRoundSummary(app){
+if(!S._historyRound){S.screen=‘history’;render();return;}
+var round=S._historyRound.round;var ri=S._historyRound.ri;
+var d=new Date(round.date);
+var dateStr=d.toLocaleDateString(‘en-US’,{weekday:‘long’,month:‘long’,day:‘numeric’,year:‘numeric’});
+
+var backRow=document.createElement(‘div’);backRow.style.marginBottom=‘14px’;
+var backBtn=document.createElement(‘button’);backBtn.className=‘btn-back’;backBtn.textContent=’\u2190 Back to History’;
+backBtn.onclick=function(){S.screen=‘history’;render();};backRow.appendChild(backBtn);app.appendChild(backRow);
+
+var dateDiv=document.createElement(‘div’);dateDiv.style.cssText=‘text-align:center;margin-bottom:16px;’;
+dateDiv.innerHTML=’<div style="font-size:18px;font-weight:700;">’+dateStr+’</div><div style="font-size:13px;color:var(--tx2);margin-top:2px;">’+(round.course||‘Los Lagos’)+’ \u00B7 Back 9 Wolf</div>’;
+app.appendChild(dateDiv);
+
+var playerData=round.players.map(function(p,pi){
+var id=p.id!=null?String(p.id):String(pi);
+return{name:p.name,color:p.color||PCOLS[pi%PCOLS.length],pts:round.pts[id]||0};
+}).sort(function(a,b){return b.pts-a.pts;});
+
+var win2=playerData[0];
+var winBanner=document.createElement(‘div’);winBanner.style.cssText=‘background:var(–gr);color:#fff;border-radius:14px;padding:14px 16px;text-align:center;margin-bottom:14px;’;
+winBanner.innerHTML=’<div style="font-size:28px;margin-bottom:4px;">\uD83C\uDFC6</div><div style="font-size:20px;font-weight:700;">’+win2.name+’ wins!</div><div style="font-size:14px;opacity:0.85;margin-top:2px;">’+win2.pts+’ points</div>’;
+app.appendChild(winBanner);
+
+var sbLbl=document.createElement(‘p’);sbLbl.className=‘section-title’;app.appendChild(sbLbl);sbLbl.textContent=‘Final scores’;
+var sbCard=document.createElement(‘div’);sbCard.className=‘card-flush’;
+var tbl=document.createElement(‘table’);tbl.className=‘sb-table’;
+tbl.innerHTML=’<thead><tr><th style="width:32px">#</th><th>Player</th><th style="text-align:right;width:50px">Pts</th></tr></thead>’;
+var tbody2=document.createElement(‘tbody’);
+playerData.forEach(function(p,rank){
+var tr=document.createElement(‘tr’);
+if(rank===0)tr.style.background=‘var(–gr2)’;
+tr.innerHTML=’<td style="font-weight:700;color:var(--tx1)">’+(rank+1)+’</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:26px;height:26px;border-radius:50%;background:'+p.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">’+(p.name||’’).charAt(0).toUpperCase()+’</div><span>’+p.name+’</span></div></td><td class="sb-pts">’+p.pts+’</td>’;
+tbody2.appendChild(tr);
+});
+tbl.appendChild(tbody2);sbCard.appendChild(tbl);app.appendChild(sbCard);
+
+// Settlement
+var payLbl2=document.createElement(‘p’);payLbl2.className=‘section-title’;app.appendChild(payLbl2);payLbl2.textContent=‘Settlement ($1 per point)’;
+var payCard2=document.createElement(‘div’);payCard2.className=‘card-flush’;
+var txns=[];
+for(var a4=0;a4<playerData.length;a4++){
+for(var b4=a4+1;b4<playerData.length;b4++){
+var df=playerData[a4].pts-playerData[b4].pts;
+if(df>0)txns.push({from:playerData[b4],to:playerData[a4],amt:df});
+else if(df<0)txns.push({from:playerData[a4],to:playerData[b4],amt:-df});
+}
+}
+txns.sort(function(a,b){return a.from.name.localeCompare(b.from.name);});
+if(txns.length===0){
+var ev2=document.createElement(‘div’);ev2.style.cssText=‘padding:14px;text-align:center;font-size:14px;color:var(–tx2);’;ev2.textContent=‘All square’;payCard2.appendChild(ev2);
+} else {
+txns.forEach(function(t,ti){
+var tr2=document.createElement(‘div’);
+tr2.style.cssText=‘display:flex;align-items:center;justify-content:space-between;padding:11px 16px;’+(ti<txns.length-1?‘border-bottom:0.5px solid var(–bdr);’:’’);
+tr2.innerHTML=’<div style="display:flex;align-items:center;gap:8px;flex:1;"><div style="width:26px;height:26px;border-radius:50%;background:'+t.from.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">’+(t.from.name||’’).charAt(0).toUpperCase()+’</div><div><div style="font-size:13px;font-weight:700;">’+t.from.name+’</div><div style="font-size:11px;color:var(--tx2);">owes ‘+t.to.name+’</div></div></div><div style="font-size:20px;font-weight:700;color:var(--rd);margin:0 8px;">$’+t.amt+’</div><div style="width:26px;height:26px;border-radius:50%;background:'+t.to.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">’+(t.to.name||’’).charAt(0).toUpperCase()+’</div>’;
+payCard2.appendChild(tr2);
+});
+}
+app.appendChild(payCard2);
+
+// Hole by hole
+var hlLbl2=document.createElement(‘p’);hlLbl2.className=‘section-title’;app.appendChild(hlLbl2);hlLbl2.textContent=‘Hole by hole’;
+var hlCard=document.createElement(‘div’);hlCard.className=‘card-flush’;
+for(var h2=FIRST_HOLE+1;h2<=LAST_HOLE;h2++){
+var hh=round.holes[h2];if(!hh)continue;
+var wo=round.wolfOrder||[];
+var wId=String(wo[(h2-FIRST_HOLE-1)%wo.length]);
+// wolfOrder stores player IDs — find by matching id, fall back to index
+var wPlayer=round.players.filter(function(p){return String(p.id)===wId;})[0];
+if(!wPlayer){wPlayer=round.players[parseInt(wId)]||null;}
+var wName=wPlayer?wPlayer.name:’?’;
+var ml2=hh.mode===‘partner’?‘w/ partner’:hh.mode===‘lone’?‘Lone Wolf’:‘Forced Wolf’;
+var wl2=hh.winner===‘wolf_team’?‘Wolf team +1’:hh.winner===‘wolf’?‘Wolf +3’:hh.winner===‘others’?‘Others +1’:‘Tie’;
+var wlC=hh.winner===‘wolf_team’||hh.winner===‘wolf’?‘var(–gr)’:hh.winner===‘others’?‘var(–rd)’:‘var(–am)’;
+var rowH=document.createElement(‘div’);
+rowH.style.cssText=‘display:flex;align-items:center;justify-content:space-between;padding:9px 14px;’+(h2<LAST_HOLE?‘border-bottom:0.5px solid var(–bdr);’:’’)+‘font-size:13px;’;
+rowH.innerHTML=’<span style="font-weight:700;color:var(--tx1);width:44px;">H’+h2+’</span><span style="flex:1;">’+wName+’ \u2014 ‘+ml2+’</span><span style="font-weight:700;color:'+wlC+';">’+wl2+’</span>’;
+hlCard.appendChild(rowH);
+}
+app.appendChild(hlCard);
+
+var shareRndBtn=document.createElement(‘button’);
+shareRndBtn.style.cssText=‘width:100%;height:50px;background:var(–gr);color:#fff;border:none;border-radius:14px;font-size:17px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:16px;margin-bottom:8px;’;
+shareRndBtn.textContent=‘Share Results’;
+shareRndBtn.onclick=function(){
+var stx=[];for(var a=0;a<playerData.length;a++){for(var b=a+1;b<playerData.length;b++){var df=playerData[a].pts-playerData[b].pts;if(df>0)stx.push(playerData[b].name+’ owes ‘+playerData[a].name+’ $’+df);else if(df<0)stx.push(playerData[a].name+’ owes ‘+playerData[b].name+’ $’+(-df));}}
+stx.sort();
+var text=’\uD83D\uDC3A Back 9 Wolf \u00B7 ‘+(round.course||‘Los Lagos’)+’\n’+dateStr+’\n\n’;
+text+=’\uD83C\uDFC6 ‘+win2.name+’ wins! (’+win2.pts+’ pts)\n\n\uD83D\uDCCA Scores\n’;
+playerData.forEach(function(p,idx){text+=(idx+1)+’. ‘+p.name+’ \u2014 ‘+p.pts+’ pts\n’;});
+text+=’\n\uD83D\uDCB0 Settlement\n’+(stx.length?stx.join(’\n’):‘All square’)+’\n\n\uD83C\uDFCC\uFE0F Back 9 Wolf App’;
+if(navigator.share)navigator.share({title:‘Back 9 Wolf Results’,text:text}).catch(function(){});
+else if(navigator.clipboard)navigator.clipboard.writeText(text).then(function(){shareRndBtn.textContent=‘Copied!’;setTimeout(function(){shareRndBtn.textContent=‘Share Results’;},2500);}).catch(function(){alert(text);});
+else alert(text);
+};
+app.appendChild(shareRndBtn);
+var scRndBtn=document.createElement(‘button’);
+scRndBtn.style.cssText=‘width:100%;height:46px;background:var(–bl2);color:var(–bl);border:1.5px solid var(–bl);border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;margin-bottom:8px;’;
+scRndBtn.textContent=’\uD83D\uDCCB Scorecard’;
+scRndBtn.onclick=function(){renderLandscapeScorecard(true,round);};
+app.appendChild(scRndBtn);
+var delRow=document.createElement(‘div’);delRow.style.cssText=‘text-align:center;margin-top:16px;’;
+var delBtn2=document.createElement(‘button’);delBtn2.style.cssText=‘background:none;border:none;color:var(–rd);font-size:13px;font-weight:700;cursor:pointer;text-decoration:underline;’;delBtn2.textContent=‘Delete this round’;
+delBtn2.onclick=function(){deleteRound(ri);S.screen=‘history’;S._historyRound=null;render();};
+delRow.appendChild(delBtn2);app.appendChild(delRow);
+}
+
+// ── SETTINGS ──────────────────────────────────────────────────────────────────
+function renderSettings(app){
+if(S._prevScreen&&[‘game’,‘prelim’,‘results’].indexOf(S._prevScreen)>=0){
+var backRow=document.createElement(‘div’);backRow.style.marginBottom=‘14px’;
+var backBtn=document.createElement(‘button’);backBtn.className=‘btn-back’;backBtn.textContent=’\u2190 Back to game’;
+backBtn.onclick=function(){var dest=S._prevScreen||‘game’;S.screen=dest;render();};
+backRow.appendChild(backBtn);app.appendChild(backRow);
+if(S.course&&S.course.name){
+var reloadLbl=document.createElement(‘p’);reloadLbl.className=‘section-title’;reloadLbl.textContent=‘Course’;app.appendChild(reloadLbl);
+var reloadCard=document.createElement(‘div’);reloadCard.className=‘card’;
+var reloadRow=document.createElement(‘div’);reloadRow.style.cssText=‘display:flex;align-items:center;justify-content:space-between;’;
+var reloadInfo=document.createElement(‘div’);
+var reloadName=document.createElement(‘div’);reloadName.style.cssText=‘font-size:15px;font-weight:700;’;reloadName.textContent=S.course.name;
+var reloadSub=document.createElement(‘div’);reloadSub.style.cssText=‘font-size:12px;color:var(–tx2);margin-top:2px;’;reloadSub.textContent=‘Tap to reload pars from database’;
+reloadInfo.appendChild(reloadName);reloadInfo.appendChild(reloadSub);
+var reloadBtn=document.createElement(‘button’);
+reloadBtn.style.cssText=‘height:34px;padding:0 14px;background:var(–bl2);color:var(–bl);border:1.5px solid var(–bl);border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;’;
+reloadBtn.textContent=‘Reload pars’;
+reloadBtn.onclick=function(){
+var match=null;
+var cname=(S.course.name||’’). toLowerCase();
+// Exact match first, then fuzzy
+for(var i=0;i<COURSE_DB.length;i++){
+if(COURSE_DB[i].name===S.course.name){match=COURSE_DB[i];break;}
+}
+if(!match){
+for(var j=0;j<COURSE_DB.length;j++){
+if(COURSE_DB[j].name.toLowerCase().indexOf(cname.slice(0,10))>=0){
+match=COURSE_DB[j];break;
+}
+}
+}
+// Hardcoded Los Lagos fallback
+if(!match&&cname.indexOf(‘los lagos’)>=0){
+match={pars:{1:5,2:5,3:4,4:3,5:4,6:5,7:3,8:4,9:4,10:4,11:3,12:4,13:4,14:5,15:3,16:4,17:3,18:5}};
+}
+if(match){
+S.course.pars=match.pars;
+syncCourse();
+showToast(’\u2713 Pars reloaded from database’);
+S.screen=S._prevScreen||‘game’;
+render();
+} else {
+showToast(‘Course not found — check course name’);
+}
+};
+reloadRow.appendChild(reloadInfo);reloadRow.appendChild(reloadBtn);
+reloadCard.appendChild(reloadRow);app.appendChild(reloadCard);
+}
+}
+
+// Theme
+var thLbl=document.createElement(‘p’);thLbl.className=‘section-title’;thLbl.textContent=‘Appearance’;app.appendChild(thLbl);
+var thCard=document.createElement(‘div’);thCard.className=‘card’;
+var thRow=document.createElement(‘div’);thRow.style.cssText=‘display:flex;align-items:center;justify-content:space-between;’;
+var thText=document.createElement(‘span’);thText.style.cssText=‘font-size:15px;font-weight:700;’;thText.textContent=‘Dark mode’;
+var isDark=document.documentElement.getAttribute(‘data-theme’)===‘dark’;
+var thToggle=document.createElement(‘button’);
+thToggle.style.cssText=‘width:52px;height:30px;border-radius:15px;border:none;cursor:pointer;position:relative;background:’+(isDark?‘var(–bl)’:‘var(–bdm)’)+’;’;
+thToggle.innerHTML=’<span style="position:absolute;top:3px;'+(isDark?'right:3px;':'left:3px;')+'width:24px;height:24px;border-radius:50%;background:#fff;"></span>’;
+thToggle.onclick=function(){
+var cur=document.documentElement.getAttribute(‘data-theme’)||‘light’;
+applyTheme(cur===‘dark’?‘light’:‘dark’);
+render();
+};
+thRow.appendChild(thText);thRow.appendChild(thToggle);thCard.appendChild(thRow);app.appendChild(thCard);
+
+// Logo
+var logoLbl=document.createElement(‘p’);logoLbl.className=‘section-title’;logoLbl.textContent=‘Logo’;app.appendChild(logoLbl);
+var logoCard=document.createElement(‘div’);logoCard.className=‘card’;
+var logoRow=document.createElement(‘div’);logoRow.style.cssText=‘display:flex;align-items:center;gap:12px;’;
+if(S.customLogo){var lPrev=document.createElement(‘img’);lPrev.src=S.customLogo;lPrev.style.cssText=‘width:48px;height:48px;border-radius:8px;object-fit:contain;’;logoRow.appendChild(lPrev);}
+var logoFi=document.createElement(‘input’);logoFi.type=‘file’;logoFi.accept=‘image/*’;logoFi.style.display=‘none’;
+logoFi.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){S.customLogo=ev.target.result;saveLogo(S.customLogo);render();};r.readAsDataURL(f);};
+var upBtn=document.createElement(‘button’);upBtn.style.cssText=‘height:36px;padding:0 14px;background:var(–bl);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;’;
+upBtn.textContent=S.customLogo?‘Change logo’:‘Upload logo’;upBtn.onclick=function(){logoFi.click();};
+logoRow.appendChild(logoFi);logoRow.appendChild(upBtn);
+if(S.customLogo){var clrBtn2=document.createElement(‘button’);clrBtn2.style.cssText=‘height:36px;padding:0 12px;background:transparent;border:1px solid var(–rd3);color:var(–rd);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;’;clrBtn2.textContent=‘Remove’;clrBtn2.onclick=function(){S.customLogo=null;saveLogo(null);render();};logoRow.appendChild(clrBtn2);}
+logoCard.appendChild(logoRow);app.appendChild(logoCard);
+
+// Reset round
+var rstLbl=document.createElement(‘p’);rstLbl.className=‘section-title’;rstLbl.textContent=‘Current round’;app.appendChild(rstLbl);
+var rstCard=document.createElement(‘div’);rstCard.className=‘card’;
+var rstRow=document.createElement(‘div’);rstRow.style.cssText=‘display:flex;align-items:center;justify-content:space-between;’;
+var rstText=document.createElement(‘div’);
+rstText.innerHTML=’<div style="font-size:15px;font-weight:700;">Reset round</div><div style="font-size:12px;color:var(--tx2);margin-top:2px;">Clear current game and start over</div>’;
+var rstBtn=document.createElement(‘button’);rstBtn.style.cssText=‘height:36px;padding:0 16px;background:var(–rd);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;’;
+rstBtn.textContent=‘Reset’;rstBtn.onclick=function(){doReset();};
+rstRow.appendChild(rstText);rstRow.appendChild(rstBtn);rstCard.appendChild(rstRow);app.appendChild(rstCard);
+
+// Saved players
+var spLbl=document.createElement(‘p’);spLbl.className=‘section-title’;spLbl.textContent=‘Saved players’;app.appendChild(spLbl);
+var spCard=document.createElement(‘div’);spCard.className=‘card-flush’;
+var rstr=loadRoster();var profiles5=loadProfiles();
+if(rstr.length===0){
+var em=document.createElement(‘div’);em.style.cssText=‘padding:14px;color:var(–tx2);font-size:14px;text-align:center;’;em.textContent=‘No saved players’;spCard.appendChild(em);
+} else {
+rstr.forEach(function(name,ri2){
+var prof5=profiles5[name]||{};
+var r=document.createElement(‘div’);r.style.cssText=‘border-bottom:’+(ri2<rstr.length-1?‘0.5px solid var(–bdr)’:‘none’)+’;’;
+
+```
+  // Top row: avatar + name + edit btn + delete btn
+  var topRow2=document.createElement('div');topRow2.style.cssText='display:flex;align-items:center;padding:10px 14px;gap:10px;';
+
+  // Avatar — shows photo if saved
+  var av2=document.createElement('div');
+  av2.style.cssText='width:38px;height:38px;border-radius:50%;background:'+(prof5.color||PCOLS[ri2%PCOLS.length])+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;overflow:hidden;cursor:pointer;position:relative;';
+  if(prof5.photo){var pImg=document.createElement('img');pImg.src=prof5.photo;pImg.style.cssText='width:100%;height:100%;object-fit:cover;';av2.appendChild(pImg);}
+  else{av2.textContent=(name||'').charAt(0).toUpperCase();}
+
+  var ns2=document.createElement('span');ns2.style.cssText='font-size:15px;font-weight:700;flex:1;';ns2.textContent=name;
+
+  // Chevron indicator
+  var chevron=document.createElement('span');
+  chevron.style.cssText='font-size:14px;color:var(--tx2);transition:transform 0.2s;flex-shrink:0;';
+  chevron.textContent='\u203A';
+
+  var db2=document.createElement('button');db2.style.cssText='background:none;border:none;color:var(--rd3);font-size:18px;cursor:pointer;font-weight:700;padding:0 2px;flex-shrink:0;';db2.textContent='\u00D7';
+  db2.onclick=function(n){return function(e){e.stopPropagation();removeFromRoster(n);render();};}(name);
+
+  topRow2.style.cursor='pointer';
+  topRow2.appendChild(av2);topRow2.appendChild(ns2);topRow2.appendChild(chevron);topRow2.appendChild(db2);
+  r.appendChild(topRow2);
+
+  // Edit panel — color swatches + photo upload
+  var ep2=document.createElement('div');ep2.id='sp-edit-'+ri2;ep2.style.cssText='display:none;flex-direction:column;gap:10px;padding:0 14px 14px;';
+
+  // Name field
+  var nLbl=document.createElement('p');nLbl.style.cssText='font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;';nLbl.textContent='Name';
+  var nRow=document.createElement('div');nRow.style.cssText='display:flex;gap:8px;';
+  var nInp=document.createElement('input');nInp.type='text';nInp.value=name;
+  nInp.style.cssText='flex:1;height:36px;padding:0 10px;border:0.5px solid var(--bdm);border-radius:var(--r1);font-size:15px;font-weight:700;background:var(--bg0);color:var(--tx0);outline:none;';
+  var nSaveBtn=document.createElement('button');
+  nSaveBtn.style.cssText='height:36px;padding:0 14px;background:var(--bl);color:#fff;border:none;border-radius:var(--r1);font-size:13px;font-weight:700;cursor:pointer;';
+  nSaveBtn.textContent='Save';
+  nSaveBtn.onclick=function(oldName,inp2){return function(){
+    var newName=inp2.value.trim();
+    if(!newName||newName===oldName)return;
+    // Rename in roster
+    var idx=roster.indexOf(oldName);
+    if(idx>=0)roster[idx]=newName;
+    saveRoster(roster);
+    // Move profile to new name key
+    var profs=loadProfiles();
+    if(profs[oldName]){profs[newName]=profs[oldName];delete profs[oldName];}
+    try{localStorage.setItem('wolf_profiles',JSON.stringify(profs));}catch(e){}
+    // Update any current players with this name
+    S.players.forEach(function(p){if(p.name===oldName)p.name=newName;});
+    showToast('\u2713 Renamed to '+newName);
+    render();
+  };}(name,nInp);
+  nRow.appendChild(nInp);nRow.appendChild(nSaveBtn);
+  ep2.appendChild(nLbl);ep2.appendChild(nRow);
+
+  // Color presets
+  var cLbl=document.createElement('p');cLbl.style.cssText='font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;margin-top:4px;';cLbl.textContent='Color';
+  var swRow=document.createElement('div');swRow.style.cssText='display:flex;gap:6px;flex-wrap:wrap;';
+  var presets=['#1354A0','#2d5e0a','#8f1f1f','#7a3d00','#2e2880','#0f6e56','#993556','#444440','#c04000','#006080'];
+  presets.forEach(function(col){
+    var sw=document.createElement('div');
+    sw.style.cssText='width:28px;height:28px;border-radius:50%;background:'+col+';cursor:pointer;border:2.5px solid '+((prof5.color===col)?'var(--tx0)':'transparent')+';flex-shrink:0;';
+    sw.onclick=function(c2,n2){return function(){
+      var profs=loadProfiles();if(!profs[n2])profs[n2]={};profs[n2].color=c2;
+      try{localStorage.setItem('wolf_profiles',JSON.stringify(profs));}catch(e){}
+      render();
+    };}(col,name);
+    swRow.appendChild(sw);
+  });
+  // Custom color picker
+  var ci2=document.createElement('input');ci2.type='color';ci2.value=prof5.color||'#1354A0';
+  ci2.style.cssText='width:36px;height:28px;border:none;border-radius:6px;cursor:pointer;';
+  ci2.onchange=function(n2){return function(e){
+    var profs=loadProfiles();if(!profs[n2])profs[n2]={};profs[n2].color=e.target.value;
+    try{localStorage.setItem('wolf_profiles',JSON.stringify(profs));}catch(e2){}
+    render();
+  };}(name);
+  swRow.appendChild(ci2);
+  ep2.appendChild(cLbl);ep2.appendChild(swRow);
+
+  // Photo upload
+  var phLbl=document.createElement('p');phLbl.style.cssText='font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;margin-top:2px;';phLbl.textContent='Photo';
+  var phBtnRow=document.createElement('div');phBtnRow.style.cssText='display:flex;gap:8px;align-items:center;';
+  // Show current photo preview if exists
+  if(prof5.photo){
+    var prevImg=document.createElement('img');prevImg.src=prof5.photo;prevImg.style.cssText='width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--bl);';
+    phBtnRow.appendChild(prevImg);
+  }
+  var phFi=document.createElement('input');phFi.type='file';phFi.accept='image/*';phFi.style.display='none';
+  phFi.onchange=function(n2,avEl){return function(e){
+    var f=e.target.files[0];if(!f)return;
+    var rdr=new FileReader();rdr.onload=function(ev){
+      showCropModal(ev.target.result,function(cropped){
+        var profs=loadProfiles();if(!profs[n2])profs[n2]={};profs[n2].photo=cropped;
+        try{localStorage.setItem('wolf_profiles',JSON.stringify(profs));}catch(e2){}
+        render();
+      });
+    };rdr.readAsDataURL(f);
+  };}(name,av2);
+  var upBtn2=document.createElement('button');upBtn2.style.cssText='height:32px;padding:0 12px;border:0.5px solid var(--bdm);border-radius:var(--r1);font-size:13px;font-weight:700;cursor:pointer;background:var(--bg1);color:var(--tx0);';
+  upBtn2.textContent=prof5.photo?'Change photo':'Upload photo';upBtn2.onclick=function(){phFi.click();};
+  phBtnRow.appendChild(phFi);phBtnRow.appendChild(upBtn2);
+  if(prof5.photo){
+    var rmPhBtn=document.createElement('button');rmPhBtn.style.cssText='height:32px;padding:0 10px;border:1px solid var(--rd3);border-radius:var(--r1);font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:var(--rd);';
+    rmPhBtn.textContent='Remove';rmPhBtn.onclick=function(n2){return function(){
+      var profs=loadProfiles();if(profs[n2])profs[n2].photo=null;
+      try{localStorage.setItem('wolf_profiles',JSON.stringify(profs));}catch(e2){}
+      render();
+    };}(name);
+    phBtnRow.appendChild(rmPhBtn);
+  }
+  ep2.appendChild(phLbl);ep2.appendChild(phBtnRow);
+  r.appendChild(ep2);
+
+  // Toggle edit panel
+  function toggleEdit(){
+    var isOpen=ep2.style.display!=='none';
+    document.querySelectorAll('[id^="sp-edit-"]').forEach(function(el){el.style.display='none';});
+    document.querySelectorAll('.sp-chevron').forEach(function(el){el.style.transform='';});
+    if(!isOpen){
+      ep2.style.display='flex';
+      chevron.style.transform='rotate(90deg)';
+    }
+  }
+  topRow2.onclick=toggleEdit;
+  chevron.className='sp-chevron';
+
+  spCard.appendChild(r);
+});
+```
+
+}
+app.appendChild(spCard);
+
+// Add new player manually
+var addPlLbl=document.createElement(‘p’);addPlLbl.className=‘section-title’;addPlLbl.style.marginTop=‘4px’;addPlLbl.textContent=‘Add player’;app.appendChild(addPlLbl);
+var addPlCard=document.createElement(‘div’);addPlCard.className=‘card’;
+var addNameRow=document.createElement(‘div’);addNameRow.style.cssText=‘display:flex;gap:8px;margin-bottom:8px;’;
+var addNameInp=document.createElement(‘input’);addNameInp.type=‘text’;addNameInp.placeholder=‘Player name’;
+addNameInp.style.cssText=‘flex:1;height:40px;padding:0 12px;border:0.5px solid var(–bdm);border-radius:var(–r1);font-size:15px;font-weight:700;background:var(–bg1);color:var(–tx0);outline:none;’;
+addNameRow.appendChild(addNameInp);
+addPlCard.appendChild(addNameRow);
+var addPlBtn=document.createElement(‘button’);
+addPlBtn.style.cssText=‘width:100%;height:40px;background:var(–bl);color:#fff;border:none;border-radius:var(–r1);font-size:15px;font-weight:700;cursor:pointer;’;
+addPlBtn.textContent=’+ Save player’;
+addPlBtn.onclick=function(){
+var n=addNameInp.value.trim();
+if(!n){addNameInp.style.borderColor=‘var(–rd3)’;return;}
+addToRoster(n);
+showToast(’\u2713 ‘+n+’ saved’);
+addNameInp.value=’’;
+render();
+};
+addPlCard.appendChild(addPlBtn);
+app.appendChild(addPlCard);
+
+// Version
+var verRow=document.createElement(‘div’);
+verRow.style.cssText=‘display:flex;align-items:center;justify-content:center;padding:16px 0 4px;gap:8px;’;
+var verBadge=document.createElement(‘span’);
+verBadge.style.cssText=‘font-size:12px;font-weight:700;background:var(–bg2);color:var(–tx2);padding:3px 10px;border-radius:10px;’;
+verBadge.textContent=‘v2.7.7 · Apr 2026’;
+verRow.appendChild(verBadge);
+app.appendChild(verRow);
+}
+
+function generateIcon(){
+try{
+var canvas=document.createElement(‘canvas’);
+canvas.width=180;canvas.height=180;
+var ctx=canvas.getContext(‘2d’);
+ctx.fillStyle=’#1354A0’;
+ctx.beginPath();
+if(ctx.roundRect)ctx.roundRect(0,0,180,180,36);
+else ctx.rect(0,0,180,180);
+ctx.fill();
+ctx.font=‘100px serif’;ctx.textAlign=‘center’;ctx.textBaseline=‘middle’;
+ctx.fillText(’\uD83D\uDC3A’,90,95);
+var url=canvas.toDataURL(‘image/png’);
+var a=document.getElementById(‘ati’);var f=document.getElementById(‘fav’);
+if(a)a.href=url;if(f)f.href=url;
+if(S.customLogo){
+var img2=new Image();
+img2.onload=function(){
+ctx.clearRect(0,0,180,180);
+ctx.fillStyle=’#1354A0’;ctx.beginPath();
+if(ctx.roundRect)ctx.roundRect(0,0,180,180,36);else ctx.rect(0,0,180,180);
+ctx.fill();ctx.drawImage(img2,20,20,140,140);
+var url2=canvas.toDataURL(‘image/png’);
+if(a)a.href=url2;if(f)f.href=url2;
+};img2.src=S.customLogo;
+}
+}catch(e){}
+}
+render();
+generateIcon();
+</script>
+
+</body>
+</html>
